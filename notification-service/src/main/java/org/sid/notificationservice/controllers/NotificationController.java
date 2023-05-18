@@ -1,4 +1,4 @@
-package org.sid.notificationservice.controllers;
+package org.sid.notificationservice.controllers;// NotificationController in package org.sid.notificationservice.controllers
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -31,6 +31,16 @@ public class NotificationController {
         Optional<Notification> notificationOptional = notificationRepository.findById(id);
         if (notificationOptional.isPresent()) {
             return new ResponseEntity<>(notificationOptional.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/byusers/{id}")
+    public ResponseEntity<List<Notification>> getNotificationsByUserId(@PathVariable("id") Long userId) {
+        List<Notification> notifications = notificationRepository.getNotificationsByUserId(userId);
+        if (!notifications.isEmpty()) {
+            return new ResponseEntity<>(notifications, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
