@@ -19,8 +19,8 @@ public class Role {
     private Long id;
     private String name;
 
-    @ManyToMany
-    private List<User> users;
+    /*@ManyToMany
+    private List<User> users;*/
 
     @ManyToMany
     private List<Permission> permissions;
