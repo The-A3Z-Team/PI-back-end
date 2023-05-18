@@ -83,7 +83,7 @@ public class UserController {
 
     @GetMapping("/{id}/notifications")
     public ResponseEntity<List<Notification>> getNotificationsByUserId(@PathVariable("id") Long userId) {
-        String url = "http://localhost:8093/api/notifications/byusers/" + userId;
+        String url = "http://localhost:8093/api/notifications/user/" + userId;
         ResponseEntity<List<Notification>> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Notification>>() {});
         if (response.getStatusCode() == HttpStatus.OK) {
             List<Notification> notifications = response.getBody();

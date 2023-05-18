@@ -23,6 +23,7 @@ public class NotificationServiceApplication {
 			notification.setDate(new Date());
 			notification.setMessage("hello world");
 			notification.setIsRead(false);
+			notification.setUserId(Long.valueOf(3));
 			notificationController.createNotification(notification);
 		};
 	}

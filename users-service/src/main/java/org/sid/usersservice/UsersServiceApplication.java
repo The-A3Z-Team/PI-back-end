@@ -46,6 +46,7 @@ public class UsersServiceApplication {
             u.setFirstName("iouheruf");
             u.setLastName("iuhuf");
 
+
             List<Role> roles = new ArrayList<>();
             roles.add(role);
             u.setRoles(roles);

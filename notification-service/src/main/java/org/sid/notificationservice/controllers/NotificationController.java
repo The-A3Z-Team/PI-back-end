@@ -36,8 +36,8 @@ public class NotificationController {
         }
     }
 
-    @GetMapping("/byusers/{id}")
-    public ResponseEntity<List<Notification>> getNotificationsByUserId(@PathVariable("id") Long userId) {
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Notification>> getNotificationsByUser(@PathVariable("id") Long userId) {
         List<Notification> notifications = notificationRepository.getNotificationsByUserId(userId);
         if (!notifications.isEmpty()) {
             return new ResponseEntity<>(notifications, HttpStatus.OK);
