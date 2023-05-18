@@ -30,6 +30,7 @@ class RestTemplateConfig {
 @RequestMapping("/api/users")
 @AllArgsConstructor
 @NoArgsConstructor
+@CrossOrigin("*")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
