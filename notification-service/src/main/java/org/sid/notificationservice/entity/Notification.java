@@ -24,4 +24,5 @@ public class Notification {
     private String message;
     private String objet;
     private Boolean isRead;
+    private String userId;
 }
