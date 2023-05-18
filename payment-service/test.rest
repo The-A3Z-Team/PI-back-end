@@ -1,0 +1,43 @@
+###
+
+GET http://localhost:8094/api/payments/
+
+
+###
+
+POST   http://localhost:8090/api/users/
+Content-Type: application/json
+
+{   
+  "firstName": "iouheruf",
+  "lastName": "iuhuf",
+  "dateNaissance": null,
+  "gender": null,
+  "imageProfile": null,
+  "email": null,
+  "phone": null,
+  "address": "poejfio",
+  "nationality": null,
+  "cne": "oirefjirf",
+  "login": "oiuzjef",
+  "password": "oizjfiozfj",
+  "roles": []
+}
+
+###
+
+PUT http://localhost:8090/api/users/1
+Content-Type: application/json
+
+{
+"firstName": "NewFirstName",
+"lastName": "NewLastName",
+"address": "NewAddress",
+"cne": "NewCNE",
+"login": "NewLogin",
+"password": "NewPassword"
+}
+
+###
+
+DELETE http://localhost:8090/api/users/1
