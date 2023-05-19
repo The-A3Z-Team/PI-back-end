@@ -13,10 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 @DiscriminatorValue("USER")
 public class User extends Person {
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String login;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
     @ManyToMany

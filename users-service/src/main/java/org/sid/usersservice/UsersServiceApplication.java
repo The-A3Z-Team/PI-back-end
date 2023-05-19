@@ -1,5 +1,6 @@
 package org.sid.usersservice;
 
+import org.sid.usersservice.dtos.UserDTO;
 import org.sid.usersservice.entities.Permission;
 import org.sid.usersservice.entities.Role;
 import org.sid.usersservice.entities.User;
@@ -7,6 +8,7 @@ import org.sid.usersservice.enums.Gender;
 import org.sid.usersservice.repositories.PermissionRepository;
 import org.sid.usersservice.repositories.RoleRepository;
 import org.sid.usersservice.repositories.UserRepository;
+import org.sid.usersservice.services.UserServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,10 +25,9 @@ public class UsersServiceApplication {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(UserRepository userRepository, RoleRepository roleRepository
-    , PermissionRepository permissionRepository) {
+    public CommandLineRunner commandLineRunner(UserServiceImpl userService) {
         return args -> {
-            Permission permission=new Permission();
+            /*Permission permission=new Permission();
             permission.setName("add");
             permissionRepository.save(permission);
 
@@ -36,24 +37,15 @@ public class UsersServiceApplication {
             Role role = new Role();
             role.setPermissions(permissions);
             role.setName("student");
-            roleRepository.save(role);
+            roleRepository.save(role);*/
 
 
-            User u = new User();
-            u.setLogin("oiuzjef");
-            u.setPassword("oizjfiozfj");
-            u.setCne("oirefjirf");
-            u.setAddress("poejfio");
-            u.setFirstName("iouheruf");
-            u.setLastName("iuhuf");
-            u.setGender(Gender.valueOf("male"));
+            UserDTO u = new UserDTO();
+            u.setFirstName("wac");
+            u.setLastName("rca");
 
 
-            List<Role> roles = new ArrayList<>();
-            roles.add(role);
-            u.setRoles(roles);
-
-            userRepository.save(u);
+            userService.saveUser(u);
         };
     }
 }
