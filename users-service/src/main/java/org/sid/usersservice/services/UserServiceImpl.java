@@ -83,7 +83,6 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Failed to retrieve notifications for user with ID: " + id);
         }
     }
-
 }
 
 @Configuration

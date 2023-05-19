@@ -1,23 +1,29 @@
-package org.sid.educationservice.entity;
+package org.sid.educationservice.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+import java.util.List;
+
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Element {
+public class Module {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
-    private Long nbrHours;
+
+    @OneToMany
+    private List<Element> elements;
+
+    @OneToMany
+    private List<Semester> semesters;
 }

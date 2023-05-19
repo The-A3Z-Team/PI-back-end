@@ -1,29 +1,19 @@
-package org.sid.educationservice.entity;
+package org.sid.educationservice.dtos;
 
-
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sid.educationservice.entities.Element;
+import org.sid.educationservice.entities.Semester;
 
 import java.util.List;
 
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Module {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ModuleDTO {
     private Long id;
-
     private String name;
-
-    @OneToMany
     private List<Element> elements;
-
-    @OneToMany
     private List<Semester> semesters;
 }

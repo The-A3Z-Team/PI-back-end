@@ -1,7 +1,7 @@
 package org.sid.educationservice;
 
-import org.sid.educationservice.controllers.ContinuingEducationController;
-import org.sid.educationservice.entity.Continuing;
+import org.sid.educationservice.web.ContinuingEducationController;
+import org.sid.educationservice.entities.ContinuingEducation;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +17,7 @@ public class EducationServiceApplication {
     @Bean
     public CommandLineRunner commandLineRunner(ContinuingEducationController continuingEducationController) {
         return args -> {
-            Continuing continuing=new Continuing();
+            ContinuingEducation continuing=new ContinuingEducation();
             continuing.setDescription("iuzehfiuzehfiuj");
             continuing.setDiplome("iouzhfiuhziuefhu");
             continuing.setDuree(897);

@@ -1,25 +1,18 @@
-package org.sid.educationservice.entity;
+package org.sid.educationservice.dtos;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sid.educationservice.entities.Major;
 
 import java.util.List;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Departement {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DepartementDTO {
     private Long id;
     private String name;
     private String intitule;
-
-    @OneToMany
     private List<Major> majors;
 }

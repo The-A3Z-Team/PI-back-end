@@ -1,4 +1,4 @@
-package org.sid.educationservice.entity;
+package org.sid.educationservice.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,12 +14,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Semester {
+public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String intitule;
+    private Date start_date;
+    private int duree;
+    private String description;
+    private String diplome;
 
     @OneToMany
-    private List<Module> modules;
+    private List<Major> majors;
+
+    @OneToMany
+    private List<Semester> semesters;
 }

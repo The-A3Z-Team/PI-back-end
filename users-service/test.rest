@@ -1,6 +1,6 @@
 ###
 
-GET http://localhost:8090/api/users/
+GET http://localhost:8090/api/users
 
 
 ###
@@ -44,7 +44,11 @@ DELETE http://localhost:8090/api/users/1
 
 ###
 
-GET http://localhost:8093/api/notifications/5
+GET http://localhost:8093/api/notifications/
+
+###
+
+GET http://localhost:8093/api/notifications/user/4
 
 ###
 
@@ -59,10 +63,10 @@ Content-Type: application/json
 ###
 
 
-PUT http://localhost:8093/api/notifications/15
+PUT http://localhost:8093/api/notifications/0
 Content-Type: application/json
 
 {
   "objet" : "peofoezkf",
-  "message" : "hzdad hhh hhazoidf bb"
+  "message" : "hzdad zskkisjhhh hhazoidf bb"
 }

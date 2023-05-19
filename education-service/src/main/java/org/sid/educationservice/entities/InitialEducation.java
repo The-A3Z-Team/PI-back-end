@@ -1,8 +1,7 @@
-package org.sid.educationservice.entity;
+package org.sid.educationservice.entities;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Continuing extends Education{
-    private Boolean isContinue;
+public class InitialEducation extends Education{
+    private Boolean isInitial;
 }

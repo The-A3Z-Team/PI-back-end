@@ -21,8 +21,4 @@ public class User extends Person {
 
     @ManyToMany
     private List<Role> roles;
-
-    public void addRole(Role r){
-        roles.add(r);
-    }
 }
