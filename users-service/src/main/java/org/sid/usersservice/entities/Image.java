@@ -1,4 +1,4 @@
-package org.sid.usersservice.entity;
+package org.sid.usersservice.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,22 +6,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Entity
 @Data
-@NoArgsConstructor
+@Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class Role {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
-    /*@ManyToMany
-    private List<User> users;*/
+    private String type;
 
-    @ManyToMany
-    private List<Permission> permissions;
+    private byte[] fileData;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Person person;
 }

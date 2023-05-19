@@ -1,11 +1,12 @@
 package org.sid.usersservice;
 
-import org.sid.usersservice.entity.Permission;
-import org.sid.usersservice.entity.Role;
-import org.sid.usersservice.entity.User;
-import org.sid.usersservice.repositorys.PermissionRepository;
-import org.sid.usersservice.repositorys.RoleRepository;
-import org.sid.usersservice.repositorys.UserRepository;
+import org.sid.usersservice.entities.Permission;
+import org.sid.usersservice.entities.Role;
+import org.sid.usersservice.entities.User;
+import org.sid.usersservice.enums.Gender;
+import org.sid.usersservice.repositories.PermissionRepository;
+import org.sid.usersservice.repositories.RoleRepository;
+import org.sid.usersservice.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -45,6 +46,7 @@ public class UsersServiceApplication {
             u.setAddress("poejfio");
             u.setFirstName("iouheruf");
             u.setLastName("iuhuf");
+            u.setGender(Gender.valueOf("male"));
 
 
             List<Role> roles = new ArrayList<>();

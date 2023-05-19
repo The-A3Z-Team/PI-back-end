@@ -1,4 +1,4 @@
-package org.sid.usersservice.enumeration;
+package org.sid.usersservice.enums;
 
 public enum Gender {
     male,

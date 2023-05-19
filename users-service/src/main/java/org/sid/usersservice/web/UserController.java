@@ -1,10 +1,10 @@
-package org.sid.usersservice.controllers;// UserController in package org.sid.usersservice.controllers
+package org.sid.usersservice.web;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.sid.usersservice.entity.Notification;
-import org.sid.usersservice.entity.User;
-import org.sid.usersservice.repositorys.UserRepository;
+import org.sid.usersservice.entities.Notification;
+import org.sid.usersservice.entities.User;
+import org.sid.usersservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +35,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private RestTemplate restTemplate; // Used for making HTTP calls to the Notification service
+    private RestTemplate restTemplate;
 
     @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers() {

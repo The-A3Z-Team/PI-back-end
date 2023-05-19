@@ -16,6 +16,7 @@ import java.util.Optional;
 @RequestMapping("/api/notifications")
 @AllArgsConstructor
 @NoArgsConstructor
+@CrossOrigin("*")
 public class NotificationController {
     @Autowired
     private NotificationRepository notificationRepository;

@@ -1,4 +1,4 @@
-package org.sid.usersservice.entity;
+package org.sid.usersservice.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,17 +10,15 @@ import java.util.List;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class Permission {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String path;
-    private String method;
 
     @ManyToMany
-    private List<Role> roles;
+    private List<Permission> permissions;
 }
