@@ -9,6 +9,6 @@ public interface UserService {
     User saveUser(User user);
     User updateUser(User user) throws UserNotFoundException;
     List<User> getUsers();
-    User getUserById(Long id);
-    void deleteUser(Long id);
+    User getUserById(Long id) throws UserNotFoundException;
+    void deleteUser(Long id) throws UserNotFoundException;
 }

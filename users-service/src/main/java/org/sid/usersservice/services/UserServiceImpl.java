@@ -27,11 +27,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(User user) throws UserNotFoundException {
         log.info("Update User");
-        User existedUser=userRepository.findById((user.getId())).orElse(null);
-        if(existedUser == null)
+        User existedUser = userRepository.findById(user.getId()).orElse(null);
+        if (existedUser == null)
             throw new UserNotFoundException("User not found");
 
-        User updatedUser = userRepository.save(user);
+        existedUser.setEmail(user.getEmail());
+        existedUser.setPassword(user.getPassword());
+        existedUser.setLogin(user.getLogin());
+        existedUser.setCne(user.getCne());
+        existedUser.setDateNaissance(user.getDateNaissance());
+
+        User updatedUser = userRepository.save(existedUser);
         return updatedUser;
     }
 
@@ -42,14 +48,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public User getUserById(Long id) throws UserNotFoundException {
         log.info("Get User by ID: {}", id);
-        return userRepository.findById(id).orElse(null);
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null)
+            throw new UserNotFoundException("User not found");
+
+        return user;
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(Long id) throws UserNotFoundException {
         log.info("Delete User with ID: {}", id);
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null)
+            throw new UserNotFoundException("User not found");
+
         userRepository.deleteById(id);
     }
 }
