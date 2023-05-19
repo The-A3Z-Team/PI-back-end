@@ -11,6 +11,7 @@ import org.sid.notificationservice.repositories.NotificationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -28,26 +29,24 @@ public class NotificationServiceImpl implements NotificationService{
         return notificationMapper.fromNotification(savedNotification);
     }
 
-    public NotificationDTO updateNotification(NotificationDTO notificationDTO) throws NotificationNotFoundException {
+    public NotificationDTO updateNotification(Long id, NotificationDTO notificationDTO) throws NotificationNotFoundException {
         log.info("Updating notification");
-        if (notificationDTO.getId() == null) {
-            throw new IllegalArgumentException("ID must not be null");
+
+        Optional<Notification> optionalNotification = notificationRepository.findById(id);
+        if (optionalNotification.isEmpty()) {
+            throw new NotificationNotFoundException("Notification not found");
         }
 
-        // Retrieve the existing notification from the repository
-        Notification existingNotification = notificationRepository.findById(notificationDTO.getId())
-                .orElseThrow(() -> new NotificationNotFoundException("Notification not found"));
+        Notification existingNotification = optionalNotification.get();
 
-        // Update the existing notification with the new data
         existingNotification.setObjet(notificationDTO.getObjet());
         existingNotification.setMessage(notificationDTO.getMessage());
 
-        // Save the updated notification
         Notification updatedNotification = notificationRepository.save(existingNotification);
 
-        // Map the updated notification to DTO and return
         return notificationMapper.fromNotification(updatedNotification);
     }
+
 
 
     @Override
@@ -63,6 +62,13 @@ public class NotificationServiceImpl implements NotificationService{
         Notification notification = notificationRepository.findById(id)
                 .orElseThrow(() -> new NotificationNotFoundException("User not found with ID: " + id));
         return notificationMapper.fromNotification(notification);
+    }
+
+    @Override
+    public List<NotificationDTO> getNotificationsByUserId(Long id){
+        log.info("Fetching User with ID: {}", id);
+        List<Notification> notifications = notificationRepository.getNotificationsByUserId(id);
+        return notificationMapper.toNotificationDTOs(notifications);
     }
 
     @Override
