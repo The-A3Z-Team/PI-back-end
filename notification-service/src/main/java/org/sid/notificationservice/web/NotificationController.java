@@ -26,8 +26,8 @@ public class NotificationController {
     }
 
     @GetMapping("/user/{id}")
-    public NotificationDTO getNotificationsByUser(@PathVariable("id") Long userId) {
-        return null;
+    public NotificationDTO getNotificationsByUser(@PathVariable("id") Long id) throws NotificationNotFoundException {
+        return notificationService.getNotificationById(id);
     }
 
     @PostMapping("/")
@@ -36,7 +36,7 @@ public class NotificationController {
     }
 
     @PutMapping("/{id}")
-    public NotificationDTO updateNotification(@PathVariable("id") Long id, @RequestBody NotificationDTO notification) {
+    public NotificationDTO updateNotification(@PathVariable("id") Long id, @RequestBody NotificationDTO notification) throws NotificationNotFoundException {
         return notificationService.updateNotification(notification);
     }
 

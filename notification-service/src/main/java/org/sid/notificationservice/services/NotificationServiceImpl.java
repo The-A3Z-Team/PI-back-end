@@ -28,10 +28,27 @@ public class NotificationServiceImpl implements NotificationService{
         return notificationMapper.fromNotification(savedNotification);
     }
 
-    @Override
-    public NotificationDTO updateNotification(NotificationDTO notificationDTO) {
-        return null;
+    public NotificationDTO updateNotification(NotificationDTO notificationDTO) throws NotificationNotFoundException {
+        log.info("Updating notification");
+        if (notificationDTO.getId() == null) {
+            throw new IllegalArgumentException("ID must not be null");
+        }
+
+        // Retrieve the existing notification from the repository
+        Notification existingNotification = notificationRepository.findById(notificationDTO.getId())
+                .orElseThrow(() -> new NotificationNotFoundException("Notification not found"));
+
+        // Update the existing notification with the new data
+        existingNotification.setObjet(notificationDTO.getObjet());
+        existingNotification.setMessage(notificationDTO.getMessage());
+
+        // Save the updated notification
+        Notification updatedNotification = notificationRepository.save(existingNotification);
+
+        // Map the updated notification to DTO and return
+        return notificationMapper.fromNotification(updatedNotification);
     }
+
 
     @Override
     public List<NotificationDTO> getNotifications() {

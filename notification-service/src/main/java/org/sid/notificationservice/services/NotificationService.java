@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface NotificationService {
     NotificationDTO saveNotification(NotificationDTO notificationDTO);
-    NotificationDTO updateNotification(NotificationDTO notificationDTO);
+    NotificationDTO updateNotification(NotificationDTO notificationDTO) throws NotificationNotFoundException;
     List<NotificationDTO> getNotifications();
     NotificationDTO getNotificationById(Long id) throws NotificationNotFoundException;
     void deleteNotification(Long id) throws NotificationNotFoundException;

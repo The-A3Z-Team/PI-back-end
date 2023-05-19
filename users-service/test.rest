@@ -41,3 +41,28 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:8090/api/users/1
+
+###
+
+GET http://localhost:8093/api/notifications/5
+
+###
+
+POST   http://localhost:8093/api/notifications/
+Content-Type: application/json
+
+{
+  "objet" : "wac",
+  "message" : "help me"
+}
+
+###
+
+
+PUT http://localhost:8093/api/notifications/15
+Content-Type: application/json
+
+{
+  "objet" : "peofoezkf",
+  "message" : "hzdad hhh hhazoidf bb"
+}
