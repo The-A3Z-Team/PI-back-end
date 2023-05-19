@@ -1,4 +1,4 @@
-package org.sid.notificationservice.entity;
+package org.sid.notificationservice.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -27,5 +27,4 @@ public class UserMapperImpl {
                 .map(this::fromUser)
                 .collect(Collectors.toList());
     }
-
 }

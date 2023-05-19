@@ -5,7 +5,7 @@ GET http://localhost:8095/api/negociations/1
 
 ###
 
-POST   http://localhost:8090/api/users/
+POST   http://localhost:8090/api/users/1
 Content-Type: application/json
 
 {   
@@ -40,4 +40,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:8090/api/users/1
+DELETE http://localhost:8090/api/users/2

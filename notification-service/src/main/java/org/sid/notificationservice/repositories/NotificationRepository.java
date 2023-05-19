@@ -1,6 +1,6 @@
-package org.sid.notificationservice.repositorys;
+package org.sid.notificationservice.repositories;
 
-import org.sid.notificationservice.entity.Notification;
+import org.sid.notificationservice.entities.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
