@@ -1,4 +1,4 @@
-package org.sid.paymentservice.controllers;
+package org.sid.paymentservice.web;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

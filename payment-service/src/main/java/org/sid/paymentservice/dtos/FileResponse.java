@@ -1,4 +1,4 @@
-package org.sid.paymentservice.playload;
+package org.sid.paymentservice.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
