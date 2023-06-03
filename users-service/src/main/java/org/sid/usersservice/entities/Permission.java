@@ -20,7 +20,4 @@ public class Permission {
     private String name;
     private String path;
     private String method;
-
-    @ManyToMany
-    private List<Role> roles;
 }

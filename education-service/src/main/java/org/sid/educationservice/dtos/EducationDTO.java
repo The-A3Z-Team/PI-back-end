@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EducationDto {
+public class EducationDTO {
     private Long id;
     private Date start_date;
     private int duree;

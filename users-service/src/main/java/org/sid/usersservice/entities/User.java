@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -20,5 +20,5 @@ public class User extends Person {
     private String password;
 
     @ManyToMany
-    private List<Role> roles;
+    private Collection<Role> roles;
 }
