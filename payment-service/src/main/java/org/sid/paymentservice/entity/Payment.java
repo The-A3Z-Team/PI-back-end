@@ -1,15 +1,13 @@
 package org.sid.paymentservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,4 +21,7 @@ public class Payment {
     private Date date;
     private float montant;
     private Boolean isValid;
+
+    @OneToMany
+    private List<Traite> traites;
 }
