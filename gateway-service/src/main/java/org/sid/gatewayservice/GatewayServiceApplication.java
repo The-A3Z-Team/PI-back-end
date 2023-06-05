@@ -24,6 +24,9 @@ public class GatewayServiceApplication {
 				.route("negociation-service", r -> r.path("/negociations/**")
 						.filters(f -> f.stripPrefix(1))
 						.uri("http://localhost:8095"))
+				.route("education-service", r -> r.path("/educations/**")
+						.filters(f -> f.stripPrefix(1))
+						.uri("http://localhost:8096"))
 				.build();
 	}
 }
