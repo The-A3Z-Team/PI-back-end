@@ -1,15 +1,15 @@
 package org.sid.negociationservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.sid.negociationservice.ennumeration.NegociationStatus;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
@@ -23,7 +23,7 @@ public class Negociation {
     private Long id;
     private String objet;
     private String description;
-    private NegociationStatus negociationStatus;
+    private NegociationStatus negociationStatus; // Change the field type
     private Byte[] documentPJ;
     private Date date;
 }
