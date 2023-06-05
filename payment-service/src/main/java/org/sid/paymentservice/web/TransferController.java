@@ -1,5 +1,6 @@
 package org.sid.paymentservice.web;
 
+
 import org.sid.paymentservice.entity.Recue;
 import org.sid.paymentservice.entity.Transfer;
 import org.sid.paymentservice.repositorys.TransferRepository;
@@ -12,12 +13,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/payments/transfer")
+@RequestMapping("/api/transfer")
 @CrossOrigin("*")
 public class TransferController {
     private final TransferRepository transferRepository;
@@ -29,17 +29,17 @@ public class TransferController {
         this.transferService = transferService;
     }
 
-    @GetMapping("/")
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Transfer> getAllTransfers() {
         return transferRepository.findAll();
     }
 
-    @GetMapping("/recues")
+    @GetMapping(value = "/recues", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Recue> getAllRecues() {
         return transferService.readRecues();
     }
 
-    @GetMapping("/recue/{filename}")
+    @GetMapping(value = "/recue/{filename}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Resource> getRecueByName(@PathVariable String filename) {
         Resource resource = transferService.readRecueByName(filename);
 

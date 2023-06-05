@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/payments/cash")
+@RequestMapping("/api/cash")
 @AllArgsConstructor
 @NoArgsConstructor
 public class CashController {

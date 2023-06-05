@@ -1,7 +1,7 @@
 package org.sid.paymentservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

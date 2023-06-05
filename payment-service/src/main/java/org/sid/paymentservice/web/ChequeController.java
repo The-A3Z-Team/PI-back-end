@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/payments/cheque")
+@RequestMapping("/api/cheque")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChequeController {
