@@ -22,9 +22,9 @@ public class TransferController {
     private TransferService transferService;
     private RecueService recueService;
 
-    @GetMapping(value = "/recue/{filename}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Resource> getRecueByName(@PathVariable String filename) {
-        Resource resource = recueService.readRecueByName(filename);
+    @GetMapping("/recue/{transferId}")
+    public ResponseEntity<Resource> getRecueByTransferId(@PathVariable Long transferId) {
+        Resource resource = recueService.readRecueByTransferId(transferId);
 
         if (resource != null && resource.exists()) {
             HttpHeaders headers = new HttpHeaders();
@@ -35,10 +35,10 @@ public class TransferController {
         }
     }
 
-    @PostMapping("/recue")
-    public ResponseEntity<String> uploadRecue(@RequestParam("image") MultipartFile image) {
+    @PostMapping("/recue/{id_transfer}")
+    public ResponseEntity<String> uploadRecue(@PathVariable Long id_transfer, @RequestParam("image") MultipartFile image) {
         try {
-            String filename = recueService.uploadRecue(image);
+            String filename = recueService.uploadRecue(id_transfer, image);
             return ResponseEntity.ok().body(filename);
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class TransferController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Transfer> saveTransfer(@RequestBody Transfer transfer) {
         Transfer savedTransfer = transferService.saveTransfer(transfer);
         return ResponseEntity.ok(savedTransfer);
@@ -58,7 +58,7 @@ public class TransferController {
         return ResponseEntity.ok(updatedTransfer);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Transfer>> getTransfers() {
         List<Transfer> transfers = transferService.getTransfers();
         return ResponseEntity.ok(transfers);
@@ -81,5 +81,4 @@ public class TransferController {
         Transfer validatedTransfer = transferService.validateTransfer(id, isValid);
         return ResponseEntity.ok(validatedTransfer);
     }
-
 }

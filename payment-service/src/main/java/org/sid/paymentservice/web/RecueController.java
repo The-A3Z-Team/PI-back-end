@@ -31,18 +31,17 @@ public class RecueController {
         return new ResponseEntity<>(recues, HttpStatus.OK);
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<FileResponse> uploadRecue(@RequestParam("image") MultipartFile image) {
+    @PostMapping("/recue/{id_transfer}")
+    public ResponseEntity<String> uploadRecue(@PathVariable Long id_transfer, @RequestParam("image") MultipartFile image) {
         try {
-            String filename = recueService.uploadRecue(image);
-            FileResponse response = new FileResponse(filename, "Image is successfully uploaded");
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            String filename = recueService.uploadRecue(id_transfer, image);
+            return ResponseEntity.ok().body(filename);
         } catch (IOException e) {
             e.printStackTrace();
-            FileResponse response = new FileResponse(null, "Image is not uploaded");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Image upload failed");
         }
     }
+
 
     @GetMapping("/read/{filename}")
     public ResponseEntity<Resource> readRecueByName(@PathVariable("filename") String filename) {

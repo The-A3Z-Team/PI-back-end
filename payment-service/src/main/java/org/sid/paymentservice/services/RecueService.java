@@ -11,7 +11,8 @@ import java.util.List;
 @Service
 public interface RecueService {
     Resource readRecueByName(String filename);
-    String uploadRecue(MultipartFile image) throws IOException;
+    String uploadRecue(Long id_transfer,MultipartFile image) throws IOException;
     List<Recue> readRecues();
     Resource readRecueById(Long id);
+    public Resource readRecueByTransferId(Long transferId);
 }
