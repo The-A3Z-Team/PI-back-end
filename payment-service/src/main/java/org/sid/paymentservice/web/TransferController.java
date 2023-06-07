@@ -1,11 +1,9 @@
 package org.sid.paymentservice.web;
 
-
-import org.sid.paymentservice.entity.Recue;
+import lombok.AllArgsConstructor;
 import org.sid.paymentservice.entity.Transfer;
-import org.sid.paymentservice.repositorys.TransferRepository;
+import org.sid.paymentservice.services.RecueService;
 import org.sid.paymentservice.services.TransferService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,31 +15,16 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/transfer")
+@RequestMapping("/transfer")
 @CrossOrigin("*")
+@AllArgsConstructor
 public class TransferController {
-    private final TransferRepository transferRepository;
-    private final TransferService transferService;
-
-    @Autowired
-    public TransferController(TransferRepository transferRepository, TransferService transferService) {
-        this.transferRepository = transferRepository;
-        this.transferService = transferService;
-    }
-
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Transfer> getAllTransfers() {
-        return transferRepository.findAll();
-    }
-
-    @GetMapping(value = "/recues", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Recue> getAllRecues() {
-        return transferService.readRecues();
-    }
+    private TransferService transferService;
+    private RecueService recueService;
 
     @GetMapping(value = "/recue/{filename}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Resource> getRecueByName(@PathVariable String filename) {
-        Resource resource = transferService.readRecueByName(filename);
+        Resource resource = recueService.readRecueByName(filename);
 
         if (resource != null && resource.exists()) {
             HttpHeaders headers = new HttpHeaders();
@@ -55,7 +38,7 @@ public class TransferController {
     @PostMapping("/recue")
     public ResponseEntity<String> uploadRecue(@RequestParam("image") MultipartFile image) {
         try {
-            String filename = transferService.uploadRecue(image);
+            String filename = recueService.uploadRecue(image);
             return ResponseEntity.ok().body(filename);
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,14 +46,40 @@ public class TransferController {
         }
     }
 
-
-    @PutMapping("/recue/{transferId}")
-    public ResponseEntity<Transfer> updateRecue(@PathVariable Long transferId) {
-        Transfer transfer = transferService.updateRecue(transferId);
-        if (transfer != null) {
-            return ResponseEntity.ok().body(transfer);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping("/")
+    public ResponseEntity<Transfer> saveTransfer(@RequestBody Transfer transfer) {
+        Transfer savedTransfer = transferService.saveTransfer(transfer);
+        return ResponseEntity.ok(savedTransfer);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Transfer> updateTransfer(@PathVariable Long id, @RequestBody Transfer transfer) {
+        Transfer updatedTransfer = transferService.updateTransfer(id, transfer);
+        return ResponseEntity.ok(updatedTransfer);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Transfer>> getTransfers() {
+        List<Transfer> transfers = transferService.getTransfers();
+        return ResponseEntity.ok(transfers);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Transfer> getTransferById(@PathVariable Long id) {
+        Transfer transfer = transferService.getTransferById(id);
+        return ResponseEntity.ok(transfer);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTransfer(@PathVariable Long id) {
+        transferService.deleteTransfer(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/validate")
+    public ResponseEntity<Transfer> validateTransfer(@PathVariable Long id, @RequestParam("isValid") Boolean isValid) {
+        Transfer validatedTransfer = transferService.validateTransfer(id, isValid);
+        return ResponseEntity.ok(validatedTransfer);
+    }
+
 }

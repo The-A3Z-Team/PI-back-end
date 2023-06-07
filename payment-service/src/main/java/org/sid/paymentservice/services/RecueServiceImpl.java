@@ -1,6 +1,5 @@
 package org.sid.paymentservice.services;
 
-import org.sid.paymentservice.dtos.FileResponse;
 import org.sid.paymentservice.entity.Recue;
 import org.sid.paymentservice.repositorys.RecueRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,5 +45,12 @@ public class RecueServiceImpl implements RecueService {
     @Override
     public List<Recue> readRecues() {
         return recueRepository.findAll();
+    }
+
+    @Override
+    public Resource readRecueById(Long id){
+        Recue recue=recueRepository.findById(id).get();
+        Path filePath = Paths.get(imagePath + recue.getName());
+        return new FileSystemResource(filePath.toFile());
     }
 }

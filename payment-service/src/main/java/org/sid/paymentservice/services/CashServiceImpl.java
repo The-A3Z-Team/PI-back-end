@@ -4,6 +4,7 @@ import org.sid.paymentservice.entity.Cash;
 import org.sid.paymentservice.repositorys.CashRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +22,9 @@ public class CashServiceImpl implements CashService{
         Optional<Cash> optionalCash = cashRepository.findById(id);
 
         Cash existingCash = optionalCash.get();
+
+        existingCash.setMontant(cash.getMontant());
+        existingCash.setDate(new Date());
 
         existingCash.setMontant(cash.getMontant());
 
@@ -45,4 +49,18 @@ public class CashServiceImpl implements CashService{
         cash.setId(id);
         cashRepository.delete(cash);
     }
+
+    @Override
+    public Cash validateCash(Long id, Boolean isvalide) {
+        Optional<Cash> optionalCash = cashRepository.findById(id);
+
+        Cash existingCash = optionalCash.get();
+
+        existingCash.setIsValid(isvalide);
+
+        Cash updatedCash = cashRepository.save(existingCash);
+
+        return updatedCash;
+    }
+
 }

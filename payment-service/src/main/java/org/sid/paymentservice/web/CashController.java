@@ -3,51 +3,47 @@ package org.sid.paymentservice.web;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.sid.paymentservice.entity.Cash;
-import org.sid.paymentservice.repositorys.CashRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.sid.paymentservice.services.CashService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/cash")
+@RequestMapping("/cash")
 @AllArgsConstructor
 @NoArgsConstructor
 public class CashController {
-    @Autowired
-    private CashRepository cashRepository;
+    private CashService cashService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<Cash>> getAllCashs() {
-        List<Cash> Cashs = cashRepository.findAll();
-        return new ResponseEntity<>(Cashs, HttpStatus.OK);
+        List<Cash> cashs = cashService.getCashs();
+        return ResponseEntity.ok(cashs);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cash> getCashById(@PathVariable Long id) {
-        Optional<Cash> Cash = cashRepository.findById(id);
-        if (Cash.isPresent()) {
-            return new ResponseEntity<>(Cash.get(), HttpStatus.OK);
+        Cash cash = cashService.getCashById(id);
+
+        if (cash != null) {
+            return ResponseEntity.ok(cash);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<Cash> createCash(@RequestBody Cash Cash) {
-        Cash createdCash = cashRepository.save(Cash);
-        return new ResponseEntity<>(createdCash, HttpStatus.CREATED);
+    public ResponseEntity<Cash> createCash(@RequestBody Cash cash) {
+        Cash savedCash = cashService.saveCash(cash);
+        return new ResponseEntity<>(savedCash, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cash> updateCash(@PathVariable Long id, @RequestBody Cash Cash) {
-        Optional<Cash> existingCash = cashRepository.findById(id);
-        if (existingCash.isPresent()) {
-            Cash.setId(id);
-            Cash updatedCash = cashRepository.save(Cash);
+    public ResponseEntity<Cash> updateCash(@PathVariable Long id, @RequestBody Cash cash) {
+        Cash updatedCash = cashService.updateCash(id, cash);
+        if (updatedCash != null) {
             return new ResponseEntity<>(updatedCash, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -56,12 +52,13 @@ public class CashController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCash(@PathVariable Long id) {
-        Optional<Cash> Cash = cashRepository.findById(id);
-        if (Cash.isPresent()) {
-            cashRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        cashService.deleteCash(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/validate/{id}")
+    public ResponseEntity<Cash> validateCash(@PathVariable Long id, @RequestBody Cash cash) {
+        Cash updatedCash = cashService.validateCash(id, cash.getIsValid());
+        return new ResponseEntity<>(updatedCash, HttpStatus.OK);
     }
 }

@@ -1,19 +1,14 @@
 package org.sid.paymentservice.services;
 
-import org.sid.paymentservice.entity.Recue;
 import org.sid.paymentservice.entity.Transfer;
-import org.springframework.core.io.Resource;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface TransferService {
-    Resource readRecueByName(String filename);
-
-    String uploadRecue(MultipartFile image) throws IOException;
-
-    Transfer updateRecue(Long transferId);
-
-    List<Recue> readRecues();
+    Transfer saveTransfer(Transfer transfer);
+    Transfer updateTransfer(Long id,Transfer transfer);
+    List<Transfer> getTransfers();
+    Transfer getTransferById(Long id);
+    void deleteTransfer(Long id);
+    public Transfer validateTransfer(Long id, Boolean isvalide);
 }

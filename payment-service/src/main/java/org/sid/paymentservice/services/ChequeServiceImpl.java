@@ -45,4 +45,17 @@ public class ChequeServiceImpl implements ChequeService{
         cheque.setId(id);
         chequeRepository.delete(cheque);
     }
+
+    @Override
+    public Cheque validateCheque(Long id, Boolean isvalide) {
+        Optional<Cheque> optionalCheque = chequeRepository.findById(id);
+
+        Cheque existingCheque = optionalCheque.get();
+
+        existingCheque.setIsValid(isvalide);
+
+        Cheque updatedCheque = chequeRepository.save(existingCheque);
+
+        return updatedCheque;
+    }
 }

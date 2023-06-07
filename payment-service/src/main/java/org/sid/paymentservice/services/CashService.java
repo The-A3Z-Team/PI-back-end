@@ -12,4 +12,5 @@ public interface CashService {
     List<Cash> getCashs();
     Cash getCashById(Long id);
     void deleteCash(Long id);
+    Cash validateCash(Long id,Boolean isvalide);
 }
