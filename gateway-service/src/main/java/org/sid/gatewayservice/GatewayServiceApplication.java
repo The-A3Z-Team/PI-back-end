@@ -21,12 +21,18 @@ public class GatewayServiceApplication {
 				.route("payment-service", r -> r.path("/payments/**")
 						.filters(f -> f.stripPrefix(1))
 						.uri("http://localhost:8094"))
+
 				.route("negociation-service", r -> r.path("/negociations/**")
 						.filters(f -> f.stripPrefix(1))
 						.uri("http://localhost:8095"))
+
 				.route("education-service", r -> r.path("/educations/**")
 						.filters(f -> f.stripPrefix(1))
 						.uri("http://localhost:8096"))
+
+				.route("authentification-service", r -> r.path("/authentification/**")
+						.filters(f -> f.stripPrefix(1))
+						.uri("http://localhost:8099"))
 				.build();
 	}
 }

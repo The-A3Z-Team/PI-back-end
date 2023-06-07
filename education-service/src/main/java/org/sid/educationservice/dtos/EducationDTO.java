@@ -1,5 +1,6 @@
 package org.sid.educationservice.dtos;
 
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

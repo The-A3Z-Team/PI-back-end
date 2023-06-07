@@ -7,6 +7,7 @@ import org.sid.paymentservice.repositorys.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public class PaymentController {
     @Autowired
     private PaymentRepository paymentRepository;
 
-    @GetMapping("/")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    @GetMapping("")
     public ResponseEntity<List<Payment>> getAllPayments() {
         List<Payment> payments = paymentRepository.findAll();
         return new ResponseEntity<>(payments, HttpStatus.OK);
