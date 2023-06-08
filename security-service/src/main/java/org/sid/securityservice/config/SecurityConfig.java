@@ -56,12 +56,9 @@ public class SecurityConfig {
     public UserDetailsService inMemoryUserDetailsManager(){
         return new InMemoryUserDetailsManager(
                 User.withUsername("student").password(passwordEncoder.encode("1234")).authorities("STUDENT").build(),
-                User.withUsername("financial_officer").password(passwordEncoder.encode("1234")).authorities("FINANCIAL OFFICER").build(),
-                User.withUsername("head_of_departement").password(passwordEncoder.encode("1234")).authorities("HEAD OF DEPARTEMENT").build(),
-                User.withUsername("schooling").password(passwordEncoder.encode("1234")).authorities("SCHOOLING").build(),
-                User.withUsername("deputy_director").password(passwordEncoder.encode("1234")).authorities("DEPUTY_DIRECTOR").build(),
-                User.withUsername("it_manager").password(passwordEncoder.encode("1234")).authorities("IT_MANAGER").build(),
-                User.withUsername("general_director").password(passwordEncoder.encode("1234")).authorities("GENERAL_DIRECTOR").build()
+                User.withUsername("financial_officer").password(passwordEncoder.encode("1234")).authorities("USER").build(),
+                User.withUsername("head_of_departement").password(passwordEncoder.encode("1234")).authorities("USER","ADMIN").build(),
+                User.withUsername("schooling").password(passwordEncoder.encode("1234")).authorities("USER","ADMIN").build()
         );
     }
     @Bean

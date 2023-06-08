@@ -38,7 +38,6 @@ public class AuthController {
     public String getWalo(){
         return "walo";
     }
-
     @PostMapping("/token")
     public ResponseEntity<Map<String, String>> jwtToken(
             String grantType,
