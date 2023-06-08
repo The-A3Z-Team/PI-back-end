@@ -21,13 +21,14 @@ public class PaymentController {
     @Autowired
     private PaymentRepository paymentRepository;
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @GetMapping("")
     public ResponseEntity<List<Payment>> getAllPayments() {
         List<Payment> payments = paymentRepository.findAll();
         return new ResponseEntity<>(payments, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @GetMapping("/{id}")
     public ResponseEntity<Payment> getPaymentById(@PathVariable Long id) {
         Optional<Payment> payment = paymentRepository.findById(id);
@@ -38,12 +39,14 @@ public class PaymentController {
         }
     }
 
+    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @PostMapping("/")
     public ResponseEntity<Payment> createPayment(@RequestBody Payment payment) {
         Payment createdPayment = paymentRepository.save(payment);
         return new ResponseEntity<>(createdPayment, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @PutMapping("/{id}")
     public ResponseEntity<Payment> updatePayment(@PathVariable Long id, @RequestBody Payment payment) {
         Optional<Payment> existingPayment = paymentRepository.findById(id);
@@ -56,6 +59,7 @@ public class PaymentController {
         }
     }
 
+    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deletePayment(@PathVariable Long id) {
         Optional<Payment> payment = paymentRepository.findById(id);
