@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/cheque")
 @AllArgsConstructor
-@NoArgsConstructor
 public class ChequeController {
     private ChequeService chequeService;
 

@@ -29,6 +29,7 @@ public class TransferServiceImpl implements TransferService {
 
         existingTransfer.setMontant(transfer.getMontant());
         existingTransfer.setDate(new Date());
+        existingTransfer.setPaymentProcess(transfer.getPaymentProcess());
         existingTransfer.setStudentEmail(transfer.getStudentEmail());
 
         existingTransfer.setMontant(transfer.getMontant());

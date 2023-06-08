@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/cash")
 @AllArgsConstructor
-@NoArgsConstructor
 public class CashController {
     private CashService cashService;
 

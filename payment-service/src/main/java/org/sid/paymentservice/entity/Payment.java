@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sid.paymentservice.ennumeration.PaymentProcess;
 
 import java.util.Date;
 import java.util.List;
@@ -21,9 +22,12 @@ public class Payment {
     private Long id;
     private Date date;
     private float montant;
-    private Boolean isValid;
     private String studentEmail;
 
-    @OneToMany
-    private List<Traite> traites;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(20) DEFAULT 'NORMAL'")
+    private PaymentProcess paymentProcess;
+
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isValid=false;
 }

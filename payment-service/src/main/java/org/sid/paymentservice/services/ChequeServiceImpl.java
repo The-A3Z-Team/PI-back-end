@@ -27,6 +27,7 @@ public class ChequeServiceImpl implements ChequeService{
 
         existingcheque.setMontant(cheque.getMontant());
         existingcheque.setDate(new Date());
+        existingcheque.setPaymentProcess(cheque.getPaymentProcess());
         existingcheque.setStudentEmail(cheque.getStudentEmail());
 
 
