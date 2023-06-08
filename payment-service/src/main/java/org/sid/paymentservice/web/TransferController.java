@@ -63,7 +63,7 @@ public class TransferController {
         return ResponseEntity.ok(updatedTransfer);
     }
 
-    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
+    //@PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @GetMapping("")
     public ResponseEntity<List<Transfer>> getTransfers() {
         List<Transfer> transfers = transferService.getTransfers();

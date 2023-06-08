@@ -34,10 +34,6 @@ public class AuthController {
         this.userDetailsService = userDetailsService;
     }
 
-    @GetMapping("/students")
-    public String getWalo(){
-        return "walo";
-    }
     @PostMapping("/token")
     public ResponseEntity<Map<String, String>> jwtToken(
             String grantType,

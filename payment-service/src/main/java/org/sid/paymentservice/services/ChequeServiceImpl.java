@@ -3,9 +3,9 @@ package org.sid.paymentservice.services;
 import lombok.AllArgsConstructor;
 import org.sid.paymentservice.entity.Cheque;
 import org.sid.paymentservice.repositorys.ChequeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +26,9 @@ public class ChequeServiceImpl implements ChequeService{
         Cheque existingcheque = optionalcheque.get();
 
         existingcheque.setMontant(cheque.getMontant());
+        existingcheque.setDate(new Date());
+        existingcheque.setStudentEmail(cheque.getStudentEmail());
+
 
         Cheque updatedCheque = chequeRepository.save(existingcheque);
 

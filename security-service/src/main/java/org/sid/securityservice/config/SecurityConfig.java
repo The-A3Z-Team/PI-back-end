@@ -52,7 +52,7 @@ public class SecurityConfig {
         return new ProviderManager(authProvider);
     }
 
-    @Bean
+    /*@Bean
     public UserDetailsService inMemoryUserDetailsManager(){
         return new InMemoryUserDetailsManager(
                 User.withUsername("student").password(passwordEncoder.encode("1234")).authorities("STUDENT").build(),
@@ -60,7 +60,7 @@ public class SecurityConfig {
                 User.withUsername("head_of_departement").password(passwordEncoder.encode("1234")).authorities("USER","ADMIN").build(),
                 User.withUsername("schooling").password(passwordEncoder.encode("1234")).authorities("USER","ADMIN").build()
         );
-    }
+    }*/
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity

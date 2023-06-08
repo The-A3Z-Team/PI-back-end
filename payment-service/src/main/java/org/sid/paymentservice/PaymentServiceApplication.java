@@ -34,16 +34,19 @@ public class PaymentServiceApplication {
 			Transfer transfer=new Transfer();
 			transfer.setDate(new Date());
 			transfer.setMontant(8945);
+			transfer.setStudentEmail("taffah@gmail.com");
 			transferService.saveTransfer(transfer);
 
 			Cash cash=new Cash();
 			cash.setDate(new Date());
 			cash.setMontant(98745);
+			transfer.setStudentEmail("abir@gmail.com");
 			cashService.saveCash(cash);
 
 			Cheque cheque=new Cheque();
 			cheque.setDate(new Date());
 			cheque.setMontant(8745);
+			transfer.setStudentEmail("salah@gmail.com");
 			chequeService.saveCheque(cheque);
 		};
 	}

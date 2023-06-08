@@ -1,28 +1,43 @@
 package org.sid.securityservice.web;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.sid.securityservice.entities.User;
+import org.sid.securityservice.repositories.UserRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 public class TestRestAPI {
+    private UserRepository userRepository;
+    public TestRestAPI(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @GetMapping("/dataTest")
-    @PreAuthorize("hasAuthority('SCOPE_USER')")
-    public Map<String, Object> dataTest(Authentication authentication){
+    public Map<String, Object> dataTest(Authentication authentication) {
         return Map.of(
-                "message","Data test",
-                "username",authentication.getName(),
-                "authorities",authentication.getAuthorities()
+                "message", "Data test",
+                "username", authentication.getName(),
+                "authorities", authentication.getAuthorities()
         );
     }
+
     @PostMapping("/saveData")
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public Map<String,String> saveData(String data){
-        return Map.of("dataSaved",data);
+    public Map<String, String> saveData(String data) {
+        return Map.of("dataSaved", data);
     }
+
+    @GetMapping("/student")
+    public ResponseEntity<User> getStudentByEmail(@RequestParam String email){
+        User user = this.userRepository.getUserByEmail(email);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

@@ -28,6 +28,7 @@ public class CashServiceImpl implements CashService{
 
         existingCash.setMontant(cash.getMontant());
         existingCash.setDate(new Date());
+        existingCash.setStudentEmail(cash.getStudentEmail());
 
         existingCash.setMontant(cash.getMontant());
 

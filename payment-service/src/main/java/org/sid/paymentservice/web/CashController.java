@@ -18,7 +18,7 @@ import java.util.List;
 public class CashController {
     private CashService cashService;
 
-    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
+    //@PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @GetMapping("")
     public ResponseEntity<List<Cash>> getAllCashs() {
         List<Cash> cashs = cashService.getCashs();

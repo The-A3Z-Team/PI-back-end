@@ -18,14 +18,14 @@ import java.util.List;
 public class ChequeController {
     private ChequeService chequeService;
 
-    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
+    //@PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @GetMapping("")
     public ResponseEntity<List<Cheque>> getAllCheques() {
         List<Cheque> cheques = chequeService.getCheques();
         return ResponseEntity.ok(cheques);
     }
 
-    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
+    //@PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
     @GetMapping("/{id}")
     public ResponseEntity<Cheque> getchequeById(@PathVariable Long id) {
         Cheque cheque = chequeService.getChequeById(id);
@@ -37,14 +37,14 @@ public class ChequeController {
         }
     }
 
-    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
+    //@PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
     @PostMapping("/")
     public ResponseEntity<Cheque> createCheque(@RequestBody Cheque cheque) {
         Cheque savedcheque = chequeService.saveCheque(cheque);
         return new ResponseEntity<>(savedcheque, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
+    //@PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
     @PutMapping("/{id}")
     public ResponseEntity<Cheque> updateCheque(@PathVariable Long id, @RequestBody Cheque cheque) {
         Cheque updatedcheque = chequeService.updateCheque(id, cheque);
@@ -55,14 +55,14 @@ public class ChequeController {
         }
     }
 
-    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
+    //@PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCheque(@PathVariable Long id) {
         chequeService.deleteCheque(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
+    //@PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @PutMapping("/validate/{id}")
     public ResponseEntity<Cheque> validateCheque(@PathVariable Long id, @RequestBody Cheque cheque) {
         Cheque updatedcheque = chequeService.validateCheque(id, cheque.getIsValid());
