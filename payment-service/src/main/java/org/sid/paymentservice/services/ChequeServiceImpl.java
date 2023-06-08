@@ -1,13 +1,16 @@
 package org.sid.paymentservice.services;
 
+import lombok.AllArgsConstructor;
 import org.sid.paymentservice.entity.Cheque;
 import org.sid.paymentservice.repositorys.ChequeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ChequeServiceImpl implements ChequeService{
     private ChequeRepository chequeRepository;
 

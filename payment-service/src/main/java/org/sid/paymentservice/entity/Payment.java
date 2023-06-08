@@ -22,6 +22,7 @@ public class Payment {
     private Date date;
     private float montant;
     private Boolean isValid;
+    private String studentCode;
 
     @OneToMany
     private List<Traite> traites;

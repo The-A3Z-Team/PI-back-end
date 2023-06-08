@@ -20,7 +20,7 @@ public class ChequeController {
 
     @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @GetMapping("")
-    public ResponseEntity<List<Cheque>> getAllcheques() {
+    public ResponseEntity<List<Cheque>> getAllCheques() {
         List<Cheque> cheques = chequeService.getCheques();
         return ResponseEntity.ok(cheques);
     }
@@ -39,14 +39,14 @@ public class ChequeController {
 
     @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
     @PostMapping("/")
-    public ResponseEntity<Cheque> createcheque(@RequestBody Cheque cheque) {
+    public ResponseEntity<Cheque> createCheque(@RequestBody Cheque cheque) {
         Cheque savedcheque = chequeService.saveCheque(cheque);
         return new ResponseEntity<>(savedcheque, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
     @PutMapping("/{id}")
-    public ResponseEntity<Cheque> updatecheque(@PathVariable Long id, @RequestBody Cheque cheque) {
+    public ResponseEntity<Cheque> updateCheque(@PathVariable Long id, @RequestBody Cheque cheque) {
         Cheque updatedcheque = chequeService.updateCheque(id, cheque);
         if (updatedcheque != null) {
             return new ResponseEntity<>(updatedcheque, HttpStatus.OK);
@@ -57,14 +57,14 @@ public class ChequeController {
 
     @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deletecheque(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> deleteCheque(@PathVariable Long id) {
         chequeService.deleteCheque(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE')")
     @PutMapping("/validate/{id}")
-    public ResponseEntity<Cheque> validatecheque(@PathVariable Long id, @RequestBody Cheque cheque) {
+    public ResponseEntity<Cheque> validateCheque(@PathVariable Long id, @RequestBody Cheque cheque) {
         Cheque updatedcheque = chequeService.validateCheque(id, cheque.getIsValid());
         return new ResponseEntity<>(updatedcheque, HttpStatus.OK);
     }
