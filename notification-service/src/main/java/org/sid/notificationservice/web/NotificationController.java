@@ -4,18 +4,20 @@ import lombok.AllArgsConstructor;
 import org.sid.notificationservice.dtos.NotificationDTO;
 import org.sid.notificationservice.exceptions.NotificationNotFoundException;
 import org.sid.notificationservice.services.NotificationService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/notifications")
+@RequestMapping("/notifications")
 @AllArgsConstructor
 @CrossOrigin("*")
 public class NotificationController {
     private NotificationService notificationService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<NotificationDTO> getAllNotifications() {
         return notificationService.getNotifications();
     }
@@ -30,7 +32,7 @@ public class NotificationController {
         return notificationService.getNotificationsByUserId(id);
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public NotificationDTO createNotification(@RequestBody NotificationDTO notification) {
         return notificationService.saveNotification(notification);
     }
@@ -43,5 +45,10 @@ public class NotificationController {
     @DeleteMapping("/{id}")
     public void deleteNotification(@PathVariable("id") Long id) throws NotificationNotFoundException {
        notificationService.deleteNotification(id);
+    }
+
+    @ExceptionHandler(NotificationNotFoundException.class)
+    public ResponseEntity<String> handleNotificationNotFoundException(NotificationNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

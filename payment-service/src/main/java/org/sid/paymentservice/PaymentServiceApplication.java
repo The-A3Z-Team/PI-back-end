@@ -1,8 +1,8 @@
 package org.sid.paymentservice;
 
 import org.sid.paymentservice.config.RsakeysConfig;
-import org.sid.paymentservice.ennumeration.PaymentProcess;
-import org.sid.paymentservice.entity.*;
+import org.sid.paymentservice.ennumerations.PaymentProcess;
+import org.sid.paymentservice.entities.*;
 import org.sid.paymentservice.services.CashService;
 import org.sid.paymentservice.services.ChequeService;
 import org.sid.paymentservice.services.TransferService;
@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 

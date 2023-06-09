@@ -1,4 +1,4 @@
-package org.sid.paymentservice.entity;
+package org.sid.paymentservice.entities;
 
 import javax.persistence.*;
 
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.sid.paymentservice.ennumeration.PaymentProcess;
+import org.sid.paymentservice.ennumerations.PaymentProcess;
 
 import java.util.Date;
 

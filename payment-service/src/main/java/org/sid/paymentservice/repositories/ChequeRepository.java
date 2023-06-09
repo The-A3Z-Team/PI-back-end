@@ -1,6 +1,6 @@
-package org.sid.paymentservice.repositorys;
+package org.sid.paymentservice.repositories;
 
-import org.sid.paymentservice.entity.Cheque;
+import org.sid.paymentservice.entities.Cheque;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChequeRepository extends JpaRepository<Cheque,Long> {

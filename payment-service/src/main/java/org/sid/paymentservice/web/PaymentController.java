@@ -1,7 +1,7 @@
 package org.sid.paymentservice.web;
 
 import lombok.AllArgsConstructor;
-import org.sid.paymentservice.entity.UserResponse;
+import org.sid.paymentservice.entities.UserResponse;
 import org.sid.paymentservice.services.PaymentService;
 import org.springframework.web.bind.annotation.*;
 

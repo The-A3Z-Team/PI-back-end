@@ -1,8 +1,7 @@
 package org.sid.paymentservice.web;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.sid.paymentservice.entity.Cash;
+import org.sid.paymentservice.entities.Cash;
 import org.sid.paymentservice.services.CashService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

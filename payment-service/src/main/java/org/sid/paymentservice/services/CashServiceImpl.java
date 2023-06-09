@@ -1,9 +1,8 @@
 package org.sid.paymentservice.services;
 
 import lombok.AllArgsConstructor;
-import org.sid.paymentservice.entity.Cash;
-import org.sid.paymentservice.repositorys.CashRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.sid.paymentservice.entities.Cash;
+import org.sid.paymentservice.repositories.CashRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

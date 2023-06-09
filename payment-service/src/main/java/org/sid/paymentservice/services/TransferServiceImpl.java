@@ -1,8 +1,8 @@
 package org.sid.paymentservice.services;
 
 import lombok.AllArgsConstructor;
-import org.sid.paymentservice.entity.Transfer;
-import org.sid.paymentservice.repositorys.TransferRepository;
+import org.sid.paymentservice.entities.Transfer;
+import org.sid.paymentservice.repositories.TransferRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

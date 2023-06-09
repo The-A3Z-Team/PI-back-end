@@ -1,4 +1,4 @@
-package org.sid.paymentservice.entity;
+package org.sid.paymentservice.entities;
 
 import lombok.Data;
 

@@ -1,8 +1,8 @@
 package org.sid.paymentservice.services;
 
 import lombok.AllArgsConstructor;
-import org.sid.paymentservice.entity.Cheque;
-import org.sid.paymentservice.repositorys.ChequeRepository;
+import org.sid.paymentservice.entities.Cheque;
+import org.sid.paymentservice.repositories.ChequeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

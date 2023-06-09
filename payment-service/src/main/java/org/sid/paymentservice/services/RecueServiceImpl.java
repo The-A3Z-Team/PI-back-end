@@ -1,10 +1,10 @@
 package org.sid.paymentservice.services;
 
 import org.apache.commons.lang.StringUtils;
-import org.sid.paymentservice.entity.Recue;
-import org.sid.paymentservice.entity.Transfer;
-import org.sid.paymentservice.repositorys.RecueRepository;
-import org.sid.paymentservice.repositorys.TransferRepository;
+import org.sid.paymentservice.entities.Recue;
+import org.sid.paymentservice.entities.Transfer;
+import org.sid.paymentservice.repositories.RecueRepository;
+import org.sid.paymentservice.repositories.TransferRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;

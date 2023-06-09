@@ -1,7 +1,6 @@
 package org.sid.paymentservice.services;
 
-import org.sid.paymentservice.entity.Cash;
-import org.sid.paymentservice.entity.Cheque;
+import org.sid.paymentservice.entities.Cheque;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

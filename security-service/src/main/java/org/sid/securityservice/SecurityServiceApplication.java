@@ -47,7 +47,6 @@ public class SecurityServiceApplication {
             Set<Role> roles = new HashSet<>();
             roles.add(role);
 
-
             User user = new User();
             user.setEmail("taffah@gmail.com");
             user.setUsername("taffah201");

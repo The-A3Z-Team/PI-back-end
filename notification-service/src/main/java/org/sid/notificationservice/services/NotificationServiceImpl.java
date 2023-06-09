@@ -1,6 +1,5 @@
 package org.sid.notificationservice.services;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.sid.notificationservice.dtos.NotificationDTO;
@@ -9,6 +8,7 @@ import org.sid.notificationservice.exceptions.NotificationNotFoundException;
 import org.sid.notificationservice.mappers.NotificationMapperImpl;
 import org.sid.notificationservice.repositories.NotificationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package org.sid.paymentservice.services;
 
-import org.sid.paymentservice.entity.Transfer;
+import org.sid.paymentservice.entities.Transfer;
 
 import java.util.List;
 

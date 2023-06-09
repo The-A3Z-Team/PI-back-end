@@ -1,7 +1,7 @@
 package org.sid.paymentservice.web;
 
 import lombok.AllArgsConstructor;
-import org.sid.paymentservice.entity.Transfer;
+import org.sid.paymentservice.entities.Transfer;
 import org.sid.paymentservice.services.RecueService;
 import org.sid.paymentservice.services.TransferService;
 import org.springframework.core.io.Resource;

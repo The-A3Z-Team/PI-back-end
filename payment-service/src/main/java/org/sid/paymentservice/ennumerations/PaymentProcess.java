@@ -1,4 +1,4 @@
-package org.sid.paymentservice.ennumeration;
+package org.sid.paymentservice.ennumerations;
 
 public enum PaymentProcess {
     TRAITE_YEAR,

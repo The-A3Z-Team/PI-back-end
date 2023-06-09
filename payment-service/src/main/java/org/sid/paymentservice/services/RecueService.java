@@ -1,6 +1,6 @@
 package org.sid.paymentservice.services;
 
-import org.sid.paymentservice.entity.Recue;
+import org.sid.paymentservice.entities.Recue;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,6 +1,6 @@
 package org.sid.paymentservice.services;
 
-import org.sid.paymentservice.entity.UserResponse;
+import org.sid.paymentservice.entities.UserResponse;
 import org.springframework.stereotype.Service;
 
 @Service

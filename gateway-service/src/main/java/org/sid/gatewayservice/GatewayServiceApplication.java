@@ -41,6 +41,10 @@ public class GatewayServiceApplication {
 				.route("authentification-service", r -> r.path("/authentification/**")
 						.filters(f -> f.stripPrefix(1))
 						.uri("http://localhost:8099"))
+
+				.route("notification-service", r -> r.path("/notifications/**")
+						.filters(f -> f.stripPrefix(1))
+						.uri("http://localhost:8100"))
 				.build();
 	}
 }
