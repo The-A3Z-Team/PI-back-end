@@ -1,15 +1,16 @@
-package org.sid.educationservice;
+package org.sid.negociationservice;
 
-import org.sid.educationservice.web.ContinuingEducationController;
-import org.sid.educationservice.entities.ContinuingEducation;
+import org.sid.negociationservice.config.RsakeysConfig;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
 @EnableEurekaClient
 @SpringBootApplication
+@EnableConfigurationProperties(RsakeysConfig.class)
 public class EducationServiceApplication {
 
     public static void main(String[] args) {

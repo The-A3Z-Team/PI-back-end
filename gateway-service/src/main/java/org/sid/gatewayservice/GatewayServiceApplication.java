@@ -30,6 +30,14 @@ public class GatewayServiceApplication {
 						.filters(f -> f.stripPrefix(1))
 						.uri("http://localhost:8096"))
 
+				.route("negociation-service", r -> r.path("/negociations/**")
+						.filters(f -> f.stripPrefix(1))
+						.uri("http://localhost:8097"))
+
+				.route("education-service", r -> r.path("/educations/**")
+						.filters(f -> f.stripPrefix(1))
+						.uri("http://localhost:8098"))
+
 				.route("authentification-service", r -> r.path("/authentification/**")
 						.filters(f -> f.stripPrefix(1))
 						.uri("http://localhost:8099"))
