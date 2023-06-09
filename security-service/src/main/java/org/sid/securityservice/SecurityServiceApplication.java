@@ -2,6 +2,7 @@ package org.sid.securityservice;
 
 import org.sid.securityservice.config.RsakeysConfig;
 
+import org.sid.securityservice.ennumeration.Gender;
 import org.sid.securityservice.entities.ERole;
 import org.sid.securityservice.entities.Role;
 import org.sid.securityservice.entities.User;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,18 +41,26 @@ public class SecurityServiceApplication {
                             UserRepository userRepository){
         return args -> {
             Role role = new Role();
-            role.setName(ERole.ROLE_ADMIN);
+            role.setName(ERole.STUDENT);
             roleRepository.save(role);
 
             Set<Role> roles = new HashSet<>();
             roles.add(role);
 
+
             User user = new User();
             user.setEmail("taffah@gmail.com");
-            user.setUsername("taffah@gmail.com");
+            user.setUsername("taffah201");
             user.setRoles(roles);
+            user.setAdresse("CASABLANCA");
+            user.setCni("BJ473674");
+            user.setGender(Gender.MALE);
+            user.setFirstName("Achraf");
+            user.setLastName("TAFFAH");
+            user.setCne("R130419706");
+            user.setDateNaissance(new Date(2001,9,7));
 
-            String password = "taffah@gmail.com";
+            String password = "1234";
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String encodedPassword = encoder.encode(password);
 

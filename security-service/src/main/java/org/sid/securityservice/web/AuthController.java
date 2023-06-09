@@ -72,7 +72,7 @@ public class AuthController {
         JwtClaimsSet jwtClaimsSet=JwtClaimsSet.builder()
                 .subject(subject)
                 .issuedAt(instant)
-                .expiresAt(instant.plus(withRefreshToken?1:5, ChronoUnit.MINUTES))
+                .expiresAt(instant.plus(withRefreshToken?1:5, ChronoUnit.HOURS))
                 .issuer("security-service")
                 .claim("scope",scope)
                 .build();
@@ -82,7 +82,7 @@ public class AuthController {
             JwtClaimsSet jwtClaimsSetRefresh=JwtClaimsSet.builder()
                     .subject(subject)
                     .issuedAt(instant)
-                    .expiresAt(instant.plus(5, ChronoUnit.MINUTES))
+                    .expiresAt(instant.plus(5, ChronoUnit.HOURS))
                     .issuer("security-service")
                     .build();
             String jwtRefreshToken=jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSetRefresh)).getTokenValue();

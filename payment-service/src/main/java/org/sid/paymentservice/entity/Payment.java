@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.sid.paymentservice.ennumeration.PaymentProcess;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data

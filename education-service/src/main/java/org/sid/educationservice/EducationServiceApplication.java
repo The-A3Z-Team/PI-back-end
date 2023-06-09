@@ -31,7 +31,7 @@ public class EducationServiceApplication {
             continuing.setEducation_price(Long.valueOf(25000));
             continuing.setDescription("BDCC education");
             continuing.setDiploma("BDCC master");
-            continuing.setStart_date(new Date(6534425));
+            continuing.setStart_date(new Date(9534425));
             continuingService.saveContinuing(continuingMapper.fromContinuing(continuing));
         };
     }

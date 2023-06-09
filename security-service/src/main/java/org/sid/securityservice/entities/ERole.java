@@ -1,7 +1,13 @@
 package org.sid.securityservice.entities;
 
 public enum ERole {
-    ROLE_USER,
-    ROLE_MODERATOR,
-    ROLE_ADMIN
+    STUDENT,
+    BRANCHE_MANAGER,
+    FINANCIAL_OFFICIER,
+    HEAD_OF_DEPARTEMENT,
+    SCHOOLING,
+    DEPUTY_MANAGER,
+    IT_MANAGER,
+    GENERAL_DIRECTOR,
+    REVENUE_DIRECTOR
 }

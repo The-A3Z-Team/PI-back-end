@@ -23,7 +23,5 @@ public class Negociation {
     private Long id;
     private String objet;
     private String description;
-    private NegociationStatus negociationStatus; // Change the field type
-    private Byte[] documentPJ;
     private Date date;
 }
