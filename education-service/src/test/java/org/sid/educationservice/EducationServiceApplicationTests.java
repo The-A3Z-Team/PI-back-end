@@ -1,4 +1,4 @@
-package org.sid.negociationservice;
+package org.sid.educationservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

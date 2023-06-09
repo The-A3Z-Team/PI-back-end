@@ -1,4 +1,4 @@
-package org.sid.negociationservice.config;
+package org.sid.educationservice.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
