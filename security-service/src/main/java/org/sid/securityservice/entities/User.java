@@ -3,7 +3,7 @@ package org.sid.securityservice.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.sid.securityservice.config.PasswordEncoding;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +23,7 @@ import javax.persistence.*;
 public class User extends Person{
     private String username;
     private String email;
-    private String password=new DefaultPassword("1234",new BCryptPasswordEncoder()).getEncodedPassword();
+    private String password = new PasswordEncoding().getEncodedPassword("1234");
 
     @ManyToMany()
     @JoinTable(  name = "user_roles",

@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 import org.sid.securityservice.ennumeration.Gender;
 
 import java.util.Date;
+import java.util.Set;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class PersonDTO {
+public class UserResponseDTO {
     private Long id;
     private String firstName;
     private String lastName;
@@ -21,4 +22,7 @@ public class PersonDTO {
     private String nationality;
     private String cne;
     private String cni;
+    private String username;
+    private String email;
+    Set<RoleDTO> roleDTOList;
 }

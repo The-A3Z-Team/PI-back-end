@@ -40,12 +40,22 @@ public class SecurityServiceApplication {
                             RoleRepository roleRepository,
                             UserRepository userRepository){
         return args -> {
-            Role role = new Role();
-            role.setName(ERole.STUDENT);
-            roleRepository.save(role);
+            Role role1 = new Role();
+            Role role2 = new Role();
+            Role role3 = new Role();
+
+            role1.setName(ERole.STUDENT);
+            role2.setName(ERole.BRANCHE_MANAGER);
+            role3.setName(ERole.FINANCIAL_OFFICIER);
+
+            roleRepository.save(role1);
+            roleRepository.save(role2);
+            roleRepository.save(role3);
 
             Set<Role> roles = new HashSet<>();
-            roles.add(role);
+            roles.add(role1);
+            roles.add(role2);
+            roles.add(role3);
 
             User user = new User();
             user.setEmail("taffah@gmail.com");

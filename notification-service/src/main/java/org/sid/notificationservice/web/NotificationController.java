@@ -18,33 +18,47 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping("")
-    public List<NotificationDTO> getAllNotifications() {
-        return notificationService.getNotifications();
+    public ResponseEntity<List<NotificationDTO>> getAllNotifications() {
+        List<NotificationDTO> notificationDTOS =notificationService.getNotifications();
+        return ResponseEntity.ok(notificationDTOS);
     }
 
     @GetMapping("/{id}")
-    public NotificationDTO getNotificationById(@PathVariable("id") Long id) throws NotificationNotFoundException {
-       return notificationService.getNotificationById(id);
+    public ResponseEntity<NotificationDTO> getNotificationById(@PathVariable("id") Long id) throws NotificationNotFoundException {
+        NotificationDTO notificationDTO = notificationService.getNotificationById(id);
+        if(notificationDTO != null){
+            return ResponseEntity.ok(notificationDTO);
+        } else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/user/{id}")
-    public List<NotificationDTO> getNotificationsByUser(@PathVariable("id") Long id){
-        return notificationService.getNotificationsByUserId(id);
+    public ResponseEntity<List<NotificationDTO>> getNotificationsByUser(@PathVariable("id") Long id){
+        List<NotificationDTO> notificationDTOS = notificationService.getNotificationsByUserId(id);
+        return ResponseEntity.ok(notificationDTOS);
     }
 
     @PostMapping("")
-    public NotificationDTO createNotification(@RequestBody NotificationDTO notification) {
-        return notificationService.saveNotification(notification);
+    public ResponseEntity<NotificationDTO> createNotification(@RequestBody NotificationDTO notification) {
+        NotificationDTO notificationDTO = notificationService.saveNotification(notification);
+        return new ResponseEntity<>(notificationDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public NotificationDTO updateNotification(@PathVariable("id") Long id, @RequestBody NotificationDTO notification) throws NotificationNotFoundException {
-        return notificationService.updateNotification(id,notification);
+    public ResponseEntity<NotificationDTO> updateNotification(@PathVariable("id") Long id, @RequestBody NotificationDTO notification) throws NotificationNotFoundException {
+        NotificationDTO updatedNotificationDTO = notificationService.updateNotification(id,notification);
+        if(updatedNotificationDTO != null){
+            return new ResponseEntity<>(updatedNotificationDTO, HttpStatus.OK);
+        } else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteNotification(@PathVariable("id") Long id) throws NotificationNotFoundException {
-       notificationService.deleteNotification(id);
+    public ResponseEntity deleteNotification(@PathVariable("id") Long id) throws NotificationNotFoundException {
+        notificationService.deleteNotification(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(NotificationNotFoundException.class)

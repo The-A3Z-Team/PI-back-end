@@ -1,15 +1,18 @@
 package org.sid.securityservice.services;
 
 import lombok.AllArgsConstructor;
+import org.sid.securityservice.config.PasswordEncoding;
 import org.sid.securityservice.dtos.RoleDTO;
 import org.sid.securityservice.dtos.UserDTO;
+import org.sid.securityservice.dtos.UserResponseDTO;
 import org.sid.securityservice.entities.ERole;
 import org.sid.securityservice.entities.Role;
 import org.sid.securityservice.entities.User;
 import org.sid.securityservice.exceptions.RoleNotFoundException;
 import org.sid.securityservice.exceptions.UserNotFoundException;
-import org.sid.securityservice.mappers.RoleMapperImpl;
-import org.sid.securityservice.mappers.UserMapperImpl;
+import org.sid.securityservice.mappers.RoleMapper;
+import org.sid.securityservice.mappers.UserDTOMapper;
+import org.sid.securityservice.mappers.UserResponseDTOMapperImpl;
 import org.sid.securityservice.repositories.RoleRepository;
 import org.sid.securityservice.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -18,23 +21,25 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements UserService{
-    private UserRepository userRepository;
-    private UserMapperImpl userMapper;
-    private RoleRepository roleRepository;
-    private RoleMapperImpl roleMapper;
+public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserDTOMapper userDTOMapper;
+    private final UserResponseDTOMapperImpl userResponseDTOMapper;
+    private final RoleMapper roleMapper;
 
     @Override
-    public UserDTO saveUser(UserDTO userDTO) {
-        User user=userMapper.fromUserDTO(userDTO);
-        User savedUser=userRepository.save(user);
-        return userMapper.fromUser(savedUser);
+    public UserResponseDTO saveUser(UserDTO userDTO) {
+        userDTO.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
+        User user = userDTOMapper.fromUserDTO(userDTO);
+        User savedUser = userRepository.save(user);
+        return userResponseDTOMapper.fromUser(savedUser);
     }
 
     @Override
-    public UserDTO updateUser(Long id,UserDTO userDTO) throws UserNotFoundException {
+    public UserResponseDTO updateUser(Long id, UserDTO userDTO) throws UserNotFoundException {
         User existingUser = userRepository.findById(id)
-        .orElseThrow(() -> new UserNotFoundException(" User not found with ID: " + id));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
 
         existingUser.setCne(userDTO.getCne());
         existingUser.setAdresse(userDTO.getAdresse());
@@ -47,59 +52,66 @@ public class UserServiceImpl implements UserService{
         existingUser.setEmail(userDTO.getEmail());
         existingUser.setDateNaissance(userDTO.getDateNaissance());
         existingUser.setPhone(userDTO.getPhone());
+        existingUser.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
 
         User updatedUser = userRepository.save(existingUser);
-        return userMapper.fromUser(updatedUser);
+        return userResponseDTOMapper.fromUser(updatedUser);
     }
 
     @Override
-    public List<UserDTO> getUsers() {
+    public List<UserResponseDTO> getUsers() {
         List<User> users = userRepository.findAll();
-        return userMapper.toUserDTOs(users);
+        return userResponseDTOMapper.toUserResponseDTOs(users);
     }
 
     @Override
-    public List<UserDTO> getUserById(Long id) {
-        List<User> users = userRepository.findAll();
-        return userMapper.toUserDTOs(users);
+    public UserResponseDTO getUserById(Long id) throws UserNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
+        return userResponseDTOMapper.fromUser(user);
     }
+
     @Override
-    public UserDTO removeUser(Long idUser) throws UserNotFoundException{
+    public UserResponseDTO removeUser(Long idUser) throws UserNotFoundException {
         User existingUser = userRepository.findById(idUser)
-                .orElseThrow(() -> new UserNotFoundException(" User not found with ID: " + idUser));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + idUser));
         userRepository.delete(existingUser);
-        return userMapper.fromUser(existingUser);
+        return userResponseDTOMapper.fromUser(existingUser);
     }
 
     @Override
-    public UserDTO getUserByUsername(String username) throws UserNotFoundException {
+    public UserResponseDTO getUserByUsername(String username) throws UserNotFoundException {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(" User not found with Username: " + username));
-        return userMapper.fromUser(user);
+                .orElseThrow(() -> new UserNotFoundException("User not found with Username: " + username));
+        return userResponseDTOMapper.fromUser(user);
     }
 
     @Override
-    public List<UserDTO> getUsersByRole(String rolename) throws RoleNotFoundException {
-        Role role=roleRepository.findByName(ERole.valueOf(rolename))
-                .orElseThrow(() -> new RoleNotFoundException(" Role not found with Username: " + rolename));
+    public List<UserResponseDTO> getUsersByRole(String roleName) throws RoleNotFoundException {
+        Role role = roleRepository.findByName(ERole.valueOf(roleName))
+                .orElseThrow(() -> new RoleNotFoundException("Role not found with Name: " + roleName));
 
         List<User> users = userRepository.getUsersByRolesContains(role);
-        return userMapper.toUserDTOs(users);
+        return userResponseDTOMapper.toUserResponseDTOs(users);
     }
 
     @Override
-    public UserDTO addRoleToUser(Long idUser, RoleDTO roleDTO) throws UserNotFoundException {
+    public UserResponseDTO addRoleToUser(Long idUser, RoleDTO roleDTO) throws UserNotFoundException {
         User user = userRepository.findById(idUser)
-                .orElseThrow(() -> new UserNotFoundException(" User not found with Username: " + idUser));
-        user.getRoles().add(roleMapper.fromRoleDTO(roleDTO));
-        return userMapper.fromUser(user);
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + idUser));
+        Role role = roleMapper.fromRoleDTO(roleDTO);
+        user.getRoles().add(role);
+        userRepository.save(user);
+        return userResponseDTOMapper.fromUser(user);
     }
 
     @Override
-    public UserDTO removeRoleFromUser(Long idUser,RoleDTO roleDTO) throws UserNotFoundException {
+    public UserResponseDTO removeRoleFromUser(Long idUser, RoleDTO roleDTO) throws UserNotFoundException {
         User user = userRepository.findById(idUser)
-                .orElseThrow(() -> new UserNotFoundException(" User not found with Username: " + idUser));
-        user.getRoles().remove(roleMapper.fromRoleDTO(roleDTO));
-        return userMapper.fromUser(user);
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + idUser));
+        Role role = roleMapper.fromRoleDTO(roleDTO);
+        user.getRoles().remove(role);
+        userRepository.save(user);
+        return userResponseDTOMapper.fromUser(user);
     }
 }

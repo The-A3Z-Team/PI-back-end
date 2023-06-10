@@ -4,8 +4,14 @@ import org.sid.securityservice.dtos.RoleDTO;
 import org.sid.securityservice.entities.Role;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+
 @Service
 public interface RoleMapper {
-    public RoleDTO fromRole(Role role);
-    public Role fromRoleDTO(RoleDTO roleDTO);
+    RoleDTO fromRole(Role role);
+    Role fromRoleDTO(RoleDTO roleDTO);
+    Set<RoleDTO> toRoleDTOs(Set<Role> roles);
+    Set<Role> toRoles(Set<RoleDTO> roleDTOs);
+
 }
