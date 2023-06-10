@@ -3,6 +3,7 @@ package org.sid.securityservice.services;
 import org.sid.securityservice.dtos.RoleDTO;
 import org.sid.securityservice.dtos.UserDTO;
 import org.sid.securityservice.dtos.UserResponseDTO;
+import org.sid.securityservice.entities.ERole;
 import org.sid.securityservice.exceptions.RoleNotFoundException;
 import org.sid.securityservice.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,6 @@ public interface UserService {
     UserResponseDTO getUserByUsername(String username) throws UserNotFoundException;
     UserResponseDTO removeUser(Long idUser) throws UserNotFoundException;
     List<UserResponseDTO> getUsersByRole(String role) throws RoleNotFoundException;
-    UserResponseDTO addRoleToUser(Long idUser,RoleDTO roleDTO) throws UserNotFoundException;
-    UserResponseDTO removeRoleFromUser(Long idUser,RoleDTO roleDTO) throws UserNotFoundException;
+    UserResponseDTO addRoleToUser(Long idUser, String roleName) throws UserNotFoundException, RoleNotFoundException;
+    UserResponseDTO removeRoleFromUser(Long idUser,RoleDTO roleDTO) throws UserNotFoundException, RoleNotFoundException;
 }

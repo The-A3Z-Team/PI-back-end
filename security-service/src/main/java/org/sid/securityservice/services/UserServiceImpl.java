@@ -8,6 +8,7 @@ import org.sid.securityservice.dtos.UserResponseDTO;
 import org.sid.securityservice.entities.ERole;
 import org.sid.securityservice.entities.Role;
 import org.sid.securityservice.entities.User;
+import org.sid.securityservice.exceptions.RoleAlreadyAssignedException;
 import org.sid.securityservice.exceptions.RoleNotFoundException;
 import org.sid.securityservice.exceptions.UserNotFoundException;
 import org.sid.securityservice.mappers.RoleMapper;
@@ -41,22 +42,44 @@ public class UserServiceImpl implements UserService {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
 
-        existingUser.setCne(userDTO.getCne());
-        existingUser.setAdresse(userDTO.getAdresse());
-        existingUser.setCni(userDTO.getCni());
-        existingUser.setGender(userDTO.getGender());
-        existingUser.setNationality(userDTO.getNationality());
-        existingUser.setAdresse(userDTO.getAdresse());
-        existingUser.setFirstName(userDTO.getFirstName());
-        existingUser.setLastName(userDTO.getLastName());
-        existingUser.setEmail(userDTO.getEmail());
-        existingUser.setDateNaissance(userDTO.getDateNaissance());
-        existingUser.setPhone(userDTO.getPhone());
-        existingUser.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
+        if (userDTO.getCne() != null) {
+            existingUser.setCne(userDTO.getCne());
+        }
+        if (userDTO.getAdresse() != null) {
+            existingUser.setAdresse(userDTO.getAdresse());
+        }
+        if (userDTO.getCni() != null) {
+            existingUser.setCni(userDTO.getCni());
+        }
+        if (userDTO.getGender() != null) {
+            existingUser.setGender(userDTO.getGender());
+        }
+        if (userDTO.getNationality() != null) {
+            existingUser.setNationality(userDTO.getNationality());
+        }
+        if (userDTO.getFirstName() != null) {
+            existingUser.setFirstName(userDTO.getFirstName());
+        }
+        if (userDTO.getLastName() != null) {
+            existingUser.setLastName(userDTO.getLastName());
+        }
+        if (userDTO.getEmail() != null) {
+            existingUser.setEmail(userDTO.getEmail());
+        }
+        if (userDTO.getDateNaissance() != null) {
+            existingUser.setDateNaissance(userDTO.getDateNaissance());
+        }
+        if (userDTO.getPhone() != null) {
+            existingUser.setPhone(userDTO.getPhone());
+        }
+        if (userDTO.getPassword() != null) {
+            existingUser.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
+        }
 
         User updatedUser = userRepository.save(existingUser);
         return userResponseDTOMapper.fromUser(updatedUser);
     }
+
 
     @Override
     public List<UserResponseDTO> getUsers() {
@@ -96,22 +119,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO addRoleToUser(Long idUser, RoleDTO roleDTO) throws UserNotFoundException {
+    public UserResponseDTO addRoleToUser(Long idUser, String roleName) throws UserNotFoundException, RoleNotFoundException {
         User user = userRepository.findById(idUser)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + idUser));
-        Role role = roleMapper.fromRoleDTO(roleDTO);
-        user.getRoles().add(role);
+
+        // Check if the user already has the role
+        if (user.getRoles().stream().anyMatch(existingRole -> existingRole.getName().equals(roleName))) {
+            throw new RoleAlreadyAssignedException("Role already assigned to the user.");
+        }
+
+        Role newRole = roleRepository.findByName(ERole.valueOf(roleName))
+                .orElseThrow(() -> new RoleNotFoundException("Role not found: " + roleName));
+
+        user.getRoles().add(newRole);
         userRepository.save(user);
+
         return userResponseDTOMapper.fromUser(user);
     }
 
+
+
     @Override
-    public UserResponseDTO removeRoleFromUser(Long idUser, RoleDTO roleDTO) throws UserNotFoundException {
+    public UserResponseDTO removeRoleFromUser(Long idUser, RoleDTO roleDTO) throws UserNotFoundException, RoleNotFoundException {
         User user = userRepository.findById(idUser)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + idUser));
-        Role role = roleMapper.fromRoleDTO(roleDTO);
-        user.getRoles().remove(role);
+
+        // Find the role by name
+        Role role = roleRepository.findByName(ERole.valueOf(roleDTO.getName()))
+                .orElseThrow(() -> new RoleNotFoundException("Role not found: " + roleDTO.getName()));
+
+        // Remove the role from the user's roles
+        user.getRoles().removeIf(existingRole -> existingRole.getName().equals(role.getName()));
         userRepository.save(user);
+
         return userResponseDTOMapper.fromUser(user);
     }
+
 }

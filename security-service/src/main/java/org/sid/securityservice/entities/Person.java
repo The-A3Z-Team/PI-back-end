@@ -3,6 +3,7 @@ package org.sid.securityservice.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sid.securityservice.config.PasswordEncoding;
 import org.sid.securityservice.ennumeration.Gender;
 
 import javax.persistence.*;
@@ -25,4 +26,5 @@ public class Person {
     private String nationality;
     private String cne;
     private String cni;
+    private String password = new PasswordEncoding().getEncodedPassword("1234");
 }

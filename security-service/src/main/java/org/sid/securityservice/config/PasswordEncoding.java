@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Data
 @NoArgsConstructor
 public class PasswordEncoding {
-
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     public String getEncodedPassword(String password){
         return encoder.encode(password);
