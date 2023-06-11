@@ -1,4 +1,4 @@
-package org.sid.securityservice.entities;
+package org.sid.securityservice.ennumeration;
 
 public enum ERole {
     STUDENT,

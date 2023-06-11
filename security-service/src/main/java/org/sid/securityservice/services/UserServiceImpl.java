@@ -5,7 +5,7 @@ import org.sid.securityservice.config.PasswordEncoding;
 import org.sid.securityservice.dtos.RoleDTO;
 import org.sid.securityservice.dtos.UserDTO;
 import org.sid.securityservice.dtos.UserResponseDTO;
-import org.sid.securityservice.entities.ERole;
+import org.sid.securityservice.ennumeration.ERole;
 import org.sid.securityservice.entities.Role;
 import org.sid.securityservice.entities.User;
 import org.sid.securityservice.exceptions.RoleAlreadyAssignedException;
@@ -18,7 +18,9 @@ import org.sid.securityservice.repositories.RoleRepository;
 import org.sid.securityservice.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -30,9 +32,14 @@ public class UserServiceImpl implements UserService {
     private final RoleMapper roleMapper;
 
     @Override
-    public UserResponseDTO saveUser(UserDTO userDTO) {
+    public UserResponseDTO saveUser(UserDTO userDTO,String role) {
         userDTO.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
         User user = userDTOMapper.fromUserDTO(userDTO);
+        Role role1=new Role();
+        role1.setName(ERole.valueOf(role));
+        Set<Role> roleSet=new HashSet<>();
+        roleSet.add(role1);
+        user.setRoles(roleSet);
         User savedUser = userRepository.save(user);
         return userResponseDTOMapper.fromUser(savedUser);
     }
@@ -44,36 +51,58 @@ public class UserServiceImpl implements UserService {
 
         if (userDTO.getCne() != null) {
             existingUser.setCne(userDTO.getCne());
+        } else {
+            existingUser.setCne(existingUser.getCne());
         }
         if (userDTO.getAdresse() != null) {
             existingUser.setAdresse(userDTO.getAdresse());
+        } else {
+            existingUser.setAdresse(existingUser.getAdresse());
         }
         if (userDTO.getCni() != null) {
             existingUser.setCni(userDTO.getCni());
+        } else {
+            existingUser.setCni(existingUser.getCni());
         }
         if (userDTO.getGender() != null) {
             existingUser.setGender(userDTO.getGender());
+        } else {
+            existingUser.setGender(existingUser.getGender());
         }
         if (userDTO.getNationality() != null) {
             existingUser.setNationality(userDTO.getNationality());
+        } else {
+            existingUser.setNationality(existingUser.getNationality());
         }
         if (userDTO.getFirstName() != null) {
             existingUser.setFirstName(userDTO.getFirstName());
+        } else {
+            existingUser.setFirstName(existingUser.getFirstName());
         }
         if (userDTO.getLastName() != null) {
             existingUser.setLastName(userDTO.getLastName());
+        } else {
+            existingUser.setLastName(existingUser.getLastName());
         }
         if (userDTO.getEmail() != null) {
             existingUser.setEmail(userDTO.getEmail());
+        } else {
+            existingUser.setEmail(existingUser.getEmail());
         }
         if (userDTO.getDateNaissance() != null) {
             existingUser.setDateNaissance(userDTO.getDateNaissance());
+        } else {
+            existingUser.setDateNaissance(existingUser.getDateNaissance());
         }
         if (userDTO.getPhone() != null) {
             existingUser.setPhone(userDTO.getPhone());
+        } else {
+            existingUser.setPhone(existingUser.getPhone());
         }
         if (userDTO.getPassword() != null) {
             existingUser.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
+        } else {
+            existingUser.setPassword(existingUser.getPassword());
         }
 
         User updatedUser = userRepository.save(existingUser);
@@ -110,13 +139,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserResponseDTO> getUsersByRole(String roleName) throws RoleNotFoundException {
-        Role role = roleRepository.findByName(ERole.valueOf(roleName))
-                .orElseThrow(() -> new RoleNotFoundException("Role not found with Name: " + roleName));
-
-        List<User> users = userRepository.getUsersByRolesContains(role);
+    public List<UserResponseDTO> getUsersByRole(ERole roleName) throws RoleNotFoundException {
+        List<User> users = userRepository.findByRoles_Name(roleName);
         return userResponseDTOMapper.toUserResponseDTOs(users);
     }
+
 
     @Override
     public UserResponseDTO addRoleToUser(Long idUser, String roleName) throws UserNotFoundException, RoleNotFoundException {

@@ -1,5 +1,6 @@
 package org.sid.securityservice.repositories;
 
+import org.sid.securityservice.ennumeration.ERole;
 import org.sid.securityservice.entities.Role;
 import org.sid.securityservice.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Boolean existsByUsername(String username);
   Boolean existsByEmail(String email);
   User getUserByEmail(String email);
-  List<User> getUsersByRolesContains(Role role);
+  List<User> findByRoles_Name(ERole roleName);
 }

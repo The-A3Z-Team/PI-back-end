@@ -3,6 +3,7 @@ package org.sid.securityservice.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sid.securityservice.ennumeration.ERole;
 
 import javax.persistence.*;
 import java.io.Serializable;

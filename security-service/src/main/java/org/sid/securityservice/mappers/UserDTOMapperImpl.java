@@ -1,21 +1,12 @@
 package org.sid.securityservice.mappers;
 
 import org.sid.securityservice.dtos.UserDTO;
-import org.sid.securityservice.dtos.UserResponseDTO;
 import org.sid.securityservice.entities.User;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserDTOMapperImpl implements UserDTOMapper {
-    private final RoleMapper roleMapper;
-
-    public UserDTOMapperImpl(RoleMapper roleMapper) {
-        this.roleMapper = roleMapper;
-    }
-
     @Override
     public UserDTO fromUser(User user) {
         UserDTO userDTO = new UserDTO();
@@ -32,7 +23,6 @@ public class UserDTOMapperImpl implements UserDTOMapper {
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
-        userDTO.setRoleDTOList(roleMapper.toRoleDTOs(user.getRoles()));
         return userDTO;
     }
 
@@ -52,7 +42,6 @@ public class UserDTOMapperImpl implements UserDTOMapper {
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
-        user.setRoles(roleMapper.toRoles(userDTO.getRoleDTOList()));
         return user;
     }
 }

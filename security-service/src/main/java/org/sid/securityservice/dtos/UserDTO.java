@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.sid.securityservice.ennumeration.Gender;
 
 import java.util.Date;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -25,5 +24,5 @@ public class UserDTO {
     private String username;
     private String email;
     private String password;
-    Set<RoleDTO> roleDTOList;
+    private String role;
 }

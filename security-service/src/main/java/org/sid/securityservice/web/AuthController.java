@@ -34,7 +34,6 @@ public class AuthController {
         this.userDetailsService = userDetailsService;
     }
 
-    @PreAuthorize("hasAnyAuthority()")
     @PostMapping("/token")
     public ResponseEntity<Map<String, String>> jwtToken(
             String grantType,

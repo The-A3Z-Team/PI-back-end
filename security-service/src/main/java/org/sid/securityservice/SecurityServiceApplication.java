@@ -3,8 +3,8 @@ package org.sid.securityservice;
 import org.sid.securityservice.config.PasswordEncoding;
 import org.sid.securityservice.config.RsakeysConfig;
 
+import org.sid.securityservice.ennumeration.ERole;
 import org.sid.securityservice.ennumeration.Gender;
-import org.sid.securityservice.entities.ERole;
 import org.sid.securityservice.entities.Role;
 import org.sid.securityservice.entities.User;
 import org.sid.securityservice.repositories.*;
@@ -41,15 +41,15 @@ public class SecurityServiceApplication {
                             RoleRepository roleRepository,
                             UserRepository userRepository){
         return args -> {
-            // La création des roles
+            // La création des roles*/
 
-            Role role1 = new Role(null,ERole.STUDENT);
-            Role role2 = new Role(null,ERole.FINANCIAL_OFFICIER);
-            Role role3 = new Role(null,ERole.HEAD_OF_DEPARTEMENT);
-            Role role4 = new Role(null,ERole.SCHOOLING);
-            Role role5 = new Role(null,ERole.DEPUTY_MANAGER);
-            Role role6 = new Role(null,ERole.IT_MANAGER);
-            Role role7 = new Role(null,ERole.GENERAL_DIRECTOR);
+            Role role1 = new Role(null, ERole.STUDENT);
+            Role role2 = new Role(null, ERole.FINANCIAL_OFFICIER);
+            Role role3 = new Role(null, ERole.HEAD_OF_DEPARTEMENT);
+            Role role4 = new Role(null, ERole.SCHOOLING);
+            Role role5 = new Role(null, ERole.DEPUTY_MANAGER);
+            Role role6 = new Role(null, ERole.IT_MANAGER);
+            Role role7 = new Role(null, ERole.GENERAL_DIRECTOR);
 
             roleRepository.save(role1);
             roleRepository.save(role2);
@@ -73,10 +73,9 @@ public class SecurityServiceApplication {
 
             Set<Role> zakiaRoles = new HashSet<>();
             zakiaRoles.add(role5);
-            zakiaRoles.add(role1);
 
-            Set<Role> directorRoles = new HashSet<>();
-            directorRoles.add(role6);
+            Set<Role> itRoles = new HashSet<>();
+            itRoles.add(role6);
 
             Set<Role> adgdirectorRoles = new HashSet<>();
             adgdirectorRoles.add(role7);
@@ -149,16 +148,16 @@ public class SecurityServiceApplication {
             user5.setPassword(new PasswordEncoding().getEncodedPassword("zakia@@"));
 
             User user6 = new User();
-            user6.setEmail("director@gmail.com");
-            user6.setUsername("director1234");
-            user6.setRoles(directorRoles);
+            user6.setEmail("it@gmail.com");
+            user6.setUsername("it");
+            user6.setRoles(itRoles);
             user6.setAdresse("CASABLANCA");
             user6.setCni("BJ98744");
             user6.setGender(Gender.FEMALE);
-            user6.setFirstName("director");
-            user6.setLastName("director");
+            user6.setFirstName("it");
+            user6.setLastName("it");
             user6.setDateNaissance(new Date(1980,10,7));
-            user6.setPassword(new PasswordEncoding().getEncodedPassword("director@@"));
+            user6.setPassword(new PasswordEncoding().getEncodedPassword("it1234@@"));
 
             User user7 = new User();
             user7.setEmail("adgdirector@gmail.com");

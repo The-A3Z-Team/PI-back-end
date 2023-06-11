@@ -24,5 +24,10 @@ public class UserResponseDTO {
     private String cni;
     private String username;
     private String email;
+    private String error;
     Set<RoleDTO> roleDTOList;
+
+    public UserResponseDTO(String error) {
+        this.error=error;
+    }
 }
