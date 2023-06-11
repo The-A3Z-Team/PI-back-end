@@ -187,11 +187,6 @@ public class UsersController {
                 throw new IllegalArgumentException("Username and password are required fields.");
             }
 
-            // Additional validation for the phone field if it is required
-            if (userDTO.getPhone() == null || userDTO.getPhone().isEmpty()) {
-                throw new IllegalArgumentException("Phone is a required field.");
-            }
-
             UserResponseDTO savedUser = userService.saveUser(userDTO,role.toUpperCase());
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
         } catch (IllegalArgumentException e) {
