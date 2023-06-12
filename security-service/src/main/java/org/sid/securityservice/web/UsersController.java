@@ -82,12 +82,12 @@ public class UsersController {
         }
     }
 
-    /*@PreAuthorize("hasAuthority('HEAD_OF_DEPARTEMENT') " +
+    @PreAuthorize("hasAuthority('HEAD_OF_DEPARTEMENT') " +
            "or hasAnyAuthority('IT_MANAGER') " +
            "or hasAuthority('DEPUTY_MANAGER') " +
            "or hasAuthority('SCHOOLING') " +
            "or hasAuthority('GENERAL_DIRECTOR') " +
-           "or hasAuthority('FINANCIAL_OFFICER')")*/
+           "or hasAuthority('FINANCIAL_OFFICER')")
     @GetMapping("/user/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         try {

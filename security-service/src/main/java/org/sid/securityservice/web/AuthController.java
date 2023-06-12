@@ -10,13 +10,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,60 +37,81 @@ public class AuthController {
         this.userDetailsService = userDetailsService;
     }
 
+    public static class AuthResponse {
+        private String accessToken;
+        private List<String> roles;
+
+        public AuthResponse(String accessToken, List<String> roles) {
+            this.accessToken = accessToken;
+            this.roles = roles;
+        }
+
+        public String getAccessToken() {
+            return accessToken;
+        }
+
+        public void setAccessToken(String accessToken) {
+            this.accessToken = accessToken;
+        }
+
+        public List<String> getRoles() {
+            return roles;
+        }
+
+        public void setRoles(List<String> roles) {
+            this.roles = roles;
+        }
+    }
+
     @PostMapping("/token")
-    public ResponseEntity<Map<String, String>> jwtToken(
+    public ResponseEntity<AuthResponse> jwtToken(
             String grantType,
             String username,
             String password,
             boolean withRefreshToken,
-            String refreshToken){
-        String subject=null;
-        String scope=null;
-        if(grantType.equals("password")){
+            String refreshToken) {
+        String subject = null;
+        List<String> roles = new ArrayList<>();
+
+        if (grantType.equals("password")) {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
-            subject=authentication.getName();
-            scope=authentication.getAuthorities()
-                    .stream().map(aut -> aut.getAuthority())
-                    .collect(Collectors.joining(" "));
+            subject = authentication.getName();
+            roles = authentication.getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
 
-        } else if(grantType.equals("refreshToken")){
-            if(refreshToken==null) {
-                return new ResponseEntity<>(Map.of("errorMessage","Refresh  Token is required"), HttpStatus.UNAUTHORIZED);
+        } else if (grantType.equals("refreshToken")) {
+            if (refreshToken == null) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
             Jwt decodeJWT = null;
             try {
                 decodeJWT = jwtDecoder.decode(refreshToken);
             } catch (JwtException e) {
-                return new ResponseEntity<>(Map.of("errorMessage",e.getMessage()), HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-            subject=decodeJWT.getSubject();
+            subject = decodeJWT.getSubject();
             UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
-            Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-            scope=authorities.stream().map(auth->auth.getAuthority()).collect(Collectors.joining(" "));
+            roles = userDetails.getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
         }
-        Map<String, String> idToken=new HashMap<>();
-        Instant instant=Instant.now();
-        JwtClaimsSet jwtClaimsSet=JwtClaimsSet.builder()
+
+        Instant instant = Instant.now();
+        JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .subject(subject)
                 .issuedAt(instant)
-                .expiresAt(instant.plus(withRefreshToken?1:5, ChronoUnit.HOURS))
+                .expiresAt(instant.plus(withRefreshToken ? 1 : 5, ChronoUnit.HOURS))
                 .issuer("security-service")
-                .claim("scope",scope)
+                .claim("roles", roles) // Include the roles in the JWT claims
                 .build();
-        String jwtAccessToken=jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();
-        idToken.put("accessToken",jwtAccessToken);
-        if(withRefreshToken){
-            JwtClaimsSet jwtClaimsSetRefresh=JwtClaimsSet.builder()
-                    .subject(subject)
-                    .issuedAt(instant)
-                    .expiresAt(instant.plus(5, ChronoUnit.HOURS))
-                    .issuer("security-service")
-                    .build();
-            String jwtRefreshToken=jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSetRefresh)).getTokenValue();
-            idToken.put("refreshToken",jwtRefreshToken);
-        }
-        return new ResponseEntity<>(idToken,HttpStatus.OK);
+        String jwtAccessToken = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();
+
+        AuthResponse authResponse = new AuthResponse(jwtAccessToken, roles);
+        return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 }
