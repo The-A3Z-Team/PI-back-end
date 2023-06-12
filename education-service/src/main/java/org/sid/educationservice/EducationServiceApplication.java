@@ -2,7 +2,10 @@ package org.sid.educationservice;
 
 import org.sid.educationservice.config.RsakeysConfig;
 import org.sid.educationservice.entities.Continuing;
+import org.sid.educationservice.entities.Major;
 import org.sid.educationservice.mappers.ContinuingMapperImpl;
+import org.sid.educationservice.repositories.ContinuingRepository;
+import org.sid.educationservice.repositories.MajorRepository;
 import org.sid.educationservice.services.ContinuingService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,8 +26,8 @@ public class EducationServiceApplication {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(ContinuingService continuingService,
-                                               ContinuingMapperImpl continuingMapper) {
+    public CommandLineRunner commandLineRunner(ContinuingRepository continuingRepository,
+                                               MajorRepository majorRepository) {
         return args -> {
             Continuing continuing=new Continuing();
             continuing.setDuration(2);
@@ -32,7 +35,12 @@ public class EducationServiceApplication {
             continuing.setDescription("BDCC education");
             continuing.setDiploma("BDCC master");
             continuing.setStart_date(new Date(9534425));
-            continuingService.saveContinuing(continuingMapper.fromContinuing(continuing));
+            continuingRepository.save(continuing);
+
+            Major major=new Major();
+            major.setName("GLSID");
+            major.setHeadOfDepartementId(Long.valueOf(3));
+            majorRepository.save(major);
         };
     }
 }

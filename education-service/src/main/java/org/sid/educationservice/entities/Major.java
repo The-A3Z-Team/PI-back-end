@@ -16,8 +16,8 @@ public class Major {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nom;
-    private String intitule;
+    private String name;
+    private Long headOfDepartementId;
 
     @OneToOne
     private Education education;
