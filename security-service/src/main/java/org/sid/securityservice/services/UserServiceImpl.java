@@ -17,6 +17,7 @@ import org.sid.securityservice.mappers.UserResponseDTOMapperImpl;
 import org.sid.securityservice.repositories.RoleRepository;
 import org.sid.securityservice.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.Set;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -32,16 +34,28 @@ public class UserServiceImpl implements UserService {
     private final RoleMapper roleMapper;
 
     @Override
-    public UserResponseDTO saveUser(UserDTO userDTO,String role) {
-        userDTO.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
-        User user = userDTOMapper.fromUserDTO(userDTO);
-        Role role1=new Role();
-        role1.setName(ERole.valueOf(role));
-        Set<Role> roleSet=new HashSet<>();
-        roleSet.add(role1);
-        user.setRoles(roleSet);
-        User savedUser = userRepository.save(user);
-        return userResponseDTOMapper.fromUser(savedUser);
+    public UserResponseDTO saveUser(UserDTO userDTO, String role) {
+        try {
+            if (userDTO.getUsername() == null || userDTO.getPassword() == null || userDTO.getEmail() == null) {
+                throw new IllegalArgumentException("Required fields are missing.");
+            }
+
+            userDTO.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
+            User user = userDTOMapper.fromUserDTO(userDTO);
+
+            Role role1 = new Role();
+            role1.setName(ERole.valueOf(role));
+            Set<Role> roleSet = new HashSet<>();
+            roleSet.add(role1);
+            user.setRoles(roleSet);
+
+            User savedUser = userRepository.save(user);
+            return userResponseDTOMapper.fromUser(savedUser);
+        } catch (IllegalArgumentException e) {
+            throw e; // Rethrow the exception to handle it in the calling method
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while saving user.", e);
+        }
     }
 
     @Override

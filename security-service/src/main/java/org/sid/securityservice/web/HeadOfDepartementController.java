@@ -16,20 +16,21 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class StudentController {
+
+public class HeadOfDepartementController {
     private UserService userService;
-    @GetMapping("/student")
-    public ResponseEntity<List<UserResponseDTO>> getStudents() {
+    @GetMapping("/head_of_departement")
+    public ResponseEntity<List<UserResponseDTO>> getHeadsOfDepartement() {
         try {
-            List<UserResponseDTO> users = userService.getUsersByRole(ERole.STUDENT);
+            List<UserResponseDTO> users = userService.getUsersByRole(ERole.HEAD_OF_DEPARTEMENT);
             return ResponseEntity.ok(users);
         } catch (RoleNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
-    @GetMapping("/student/{id}")
-    public ResponseEntity<UserResponseDTO> getStudentById(@PathVariable Long id) {
+    @GetMapping("/head_of_departement/{id}")
+    public ResponseEntity<UserResponseDTO> getHeadOfDepartementById(@PathVariable Long id) {
         try {
             UserResponseDTO user = userService.getUserById(id);
             return ResponseEntity.ok(user);
@@ -38,33 +39,36 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/student")
-    public ResponseEntity<UserResponseDTO> saveStudent(@RequestBody UserDTO userDTO) {
+    @PostMapping("/head_of_departement")
+    public ResponseEntity<UserResponseDTO> saveHeadOfDepartement(@RequestBody UserDTO userDTO) {
         try {
-            UserResponseDTO savedUser = userService.saveUser(userDTO,"STUDENT");
+            if (userDTO.getUsername() == null || userDTO.getPassword() == null || userDTO.getEmail() == null) {
+                throw new IllegalArgumentException("Required fields are missing.");
+            }
+
+            UserResponseDTO savedUser = userService.saveUser(userDTO,String.valueOf(ERole.HEAD_OF_DEPARTEMENT));
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // Return 400 Bad Request
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Return 500 Internal Server Error
         }
     }
 
-
-    @DeleteMapping("/student/{id}")
-    public ResponseEntity<String> removeUser(@PathVariable Long id) {
+    @DeleteMapping("/head_of_departement/{id}")
+    public ResponseEntity<String> removeHeadOfDepartement(@PathVariable Long id) {
         try {
             UserResponseDTO user = userService.getUserById(id);
             Hibernate.initialize(user.getRoleDTOList());
             userService.removeUser(id);
-            return ResponseEntity.ok("The student with ID " + id + " is deleted successfully");
+            return ResponseEntity.ok("The head of departement with ID " + id + " is deleted successfully");
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
-    @PutMapping("/student/{id}")
-    public ResponseEntity<UserResponseDTO> putStudent(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+    @PutMapping("/head_of_departement/{id}")
+    public ResponseEntity<UserResponseDTO> putHeadOfDepartement(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         try {
             UserResponseDTO updatedUser = userService.updateUser(id, userDTO);
             return ResponseEntity.ok(updatedUser);
