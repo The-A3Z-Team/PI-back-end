@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
@@ -40,6 +41,54 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.userService = userService;
+    }
+
+    public static class AuthRequest {
+        private String grantType;
+        private String username;
+        private String password;
+        private boolean withRefreshToken;
+        private String refreshToken;
+
+        public String getGrantType() {
+            return grantType;
+        }
+
+        public void setGrantType(String grantType) {
+            this.grantType = grantType;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public boolean isWithRefreshToken() {
+            return withRefreshToken;
+        }
+
+        public void setWithRefreshToken(boolean withRefreshToken) {
+            this.withRefreshToken = withRefreshToken;
+        }
+
+        public String getRefreshToken() {
+            return refreshToken;
+        }
+
+        public void setRefreshToken(String refreshToken) {
+            this.refreshToken = refreshToken;
+        }
     }
 
     public static class AuthResponse {
@@ -69,12 +118,13 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    public ResponseEntity<AuthResponse> jwtToken(
-            String grantType,
-            String username,
-            String password,
-            boolean withRefreshToken,
-            String refreshToken) throws UserNotFoundException {
+    public ResponseEntity<AuthResponse> jwtToken(@RequestBody AuthRequest authRequest) throws UserNotFoundException {
+        String grantType = authRequest.getGrantType();
+        String username = authRequest.getUsername();
+        String password = authRequest.getPassword();
+        boolean withRefreshToken = authRequest.isWithRefreshToken();
+        String refreshToken = authRequest.getRefreshToken();
+
         String subject = null;
 
         if (grantType.equals("password")) {
@@ -111,4 +161,3 @@ public class AuthController {
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 }
-

@@ -82,12 +82,12 @@ public class UsersController {
         }
     }
 
-    @PreAuthorize("hasAuthority('HEAD_OF_DEPARTEMENT') " +
+    /*@PreAuthorize("hasAuthority('HEAD_OF_DEPARTEMENT') " +
            "or hasAnyAuthority('IT_MANAGER') " +
            "or hasAuthority('DEPUTY_MANAGER') " +
            "or hasAuthority('SCHOOLING') " +
            "or hasAuthority('GENERAL_DIRECTOR') " +
-           "or hasAuthority('FINANCIAL_OFFICER')")
+           "or hasAuthority('FINANCIAL_OFFICER')")*/
     @GetMapping("/user/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         try {
@@ -104,7 +104,7 @@ public class UsersController {
             "or hasAuthority('SCHOOLING') " +
             "or hasAuthority('GENERAL_DIRECTOR') " +
             "or hasAuthority('FINANCIAL_OFFICER')")*/
-    @GetMapping("/user/username/{username}")
+    /*@GetMapping("/user/username/{username}")
     public ResponseEntity<UserResponseDTO> getUserByUsername(@PathVariable String username) {
         try {
             UserResponseDTO user = userService.getUserByUsername(username);
@@ -112,7 +112,7 @@ public class UsersController {
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-    }
+    }*/
 
     @GetMapping("/user")
     public ResponseEntity<List<UserResponseDTO>> getUsers() {
@@ -133,29 +133,6 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // Return 400 Bad Request
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Return 500 Internal Server Error
-        }
-    }
-
-
-    @PutMapping("/student/{id}")
-    public ResponseEntity<UserResponseDTO> updateStudent(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        try {
-            UserResponseDTO updatedUser = userService.updateUser(id, userDTO);
-            return ResponseEntity.ok(updatedUser);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
-    @DeleteMapping("/student/{id}")
-    public ResponseEntity<String> removeStudent(@PathVariable Long id) {
-        try {
-            UserResponseDTO user = userService.getUserById(id);
-            Hibernate.initialize(user.getRoleDTOList());
-            userService.removeUser(id);
-            return ResponseEntity.ok("The user with ID " + id + " is deleted successfully");
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
