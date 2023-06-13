@@ -40,11 +40,18 @@ public class GeneralDirectorController {
         }
     }
 
+    @GetMapping("/general_director/keyword/{keyword}")
+    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable String keyword) {
+        List<UserResponseDTO> users = userService.getUsersByKeyword(keyword,String.valueOf(ERole.GENERAL_DIRECTOR));
+        return ResponseEntity.ok(users);
+    }
+
     @PostMapping("/general_director")
     public ResponseEntity<UserResponseDTO> saveGeneralDirector(@RequestBody UserDTO userDTO) throws RoleNotFoundException {
         UserResponseDTO savedUser = userService.saveUser(userDTO, String.valueOf(ERole.GENERAL_DIRECTOR));
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
+
 
     @DeleteMapping("/general_director/{id}")
     public ResponseEntity<String> removeGeneralDirector(@PathVariable Long id) {

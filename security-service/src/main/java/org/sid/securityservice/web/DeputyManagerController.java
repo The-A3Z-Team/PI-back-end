@@ -40,6 +40,12 @@ public class DeputyManagerController {
         }
     }
 
+    @GetMapping("/deputy_manager/keyword/{keyword}")
+    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable String keyword) {
+        List<UserResponseDTO> users = userService.getUsersByKeyword(keyword,String.valueOf(ERole.DEPUTY_MANAGER));
+        return ResponseEntity.ok(users);
+    }
+
     @PostMapping("/deputy_manager")
     public ResponseEntity<UserResponseDTO> saveDeputyManager(@RequestBody UserDTO userDTO) throws RoleNotFoundException {
         UserResponseDTO savedUser = userService.saveUser(userDTO, String.valueOf(ERole.DEPUTY_MANAGER));

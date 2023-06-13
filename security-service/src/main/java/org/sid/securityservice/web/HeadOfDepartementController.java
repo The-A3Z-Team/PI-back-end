@@ -40,6 +40,12 @@ public class HeadOfDepartementController {
         }
     }
 
+    @GetMapping("/head_of_departement/keyword/{keyword}")
+    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable String keyword) {
+        List<UserResponseDTO> users = userService.getUsersByKeyword(keyword,String.valueOf(ERole.HEAD_OF_DEPARTEMENT));
+        return ResponseEntity.ok(users);
+    }
+
     @PostMapping("/head_of_departement")
     public ResponseEntity<UserResponseDTO> saveHeadOfDepartement(@RequestBody UserDTO userDTO) {
         try {

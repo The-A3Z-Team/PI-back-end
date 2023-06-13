@@ -24,4 +24,5 @@ public interface UserService {
     UserResponseDTO removeRoleFromUser(Long idUser,RoleDTO roleDTO) throws UserNotFoundException, RoleNotFoundException;
     List<NotificationResponseDTO> getNotificationsByUser(Long userId) throws UserNotFoundException;
     List<UserResponseDTO> getUsersByMajor(Long idMajor);
+    List<UserResponseDTO> getUsersByKeyword(String keyword,String role);
 }

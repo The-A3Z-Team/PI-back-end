@@ -40,6 +40,12 @@ public class FinancialOfficierController {
         }
     }
 
+    @GetMapping("/financial_officier/keyword/{keyword}")
+    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable String keyword) {
+        List<UserResponseDTO> users = userService.getUsersByKeyword(keyword,String.valueOf(ERole.FINANCIAL_OFFICIER));
+        return ResponseEntity.ok(users);
+    }
+
     @PostMapping("/financial_officier")
     public ResponseEntity<UserResponseDTO> saveFinancialOfficier(@RequestBody UserDTO userDTO) throws RoleNotFoundException {
         UserResponseDTO savedUser = userService.saveUser(userDTO, String.valueOf(ERole.FINANCIAL_OFFICIER));

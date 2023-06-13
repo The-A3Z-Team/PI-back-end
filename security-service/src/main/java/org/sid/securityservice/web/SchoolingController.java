@@ -40,6 +40,12 @@ public class SchoolingController {
         }
     }
 
+    @GetMapping("/schooling/keyword/{keyword}")
+    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable String keyword) {
+        List<UserResponseDTO> users = userService.getUsersByKeyword(keyword,String.valueOf(ERole.SCHOOLING));
+        return ResponseEntity.ok(users);
+    }
+
     @PostMapping("/schooling")
     public ResponseEntity<UserResponseDTO> saveSchooling(@RequestBody UserDTO userDTO) throws RoleNotFoundException {
         UserResponseDTO savedUser = userService.saveUser(userDTO, String.valueOf(ERole.SCHOOLING));

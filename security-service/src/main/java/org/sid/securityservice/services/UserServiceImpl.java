@@ -228,4 +228,11 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Failed to fetch notifications for user: " + user.getUsername());
         }
     }
+
+    @Override
+    public List<UserResponseDTO> getUsersByKeyword(String keyword,String role) {
+        List<User> users = userRepository.getUsersBykeywordAndRole(keyword,ERole.valueOf(role));
+        return userResponseDTOMapper.toUserResponseDTOs(users);
+    }
+
 }

@@ -40,6 +40,12 @@ public class ItManagerController {
         }
     }
 
+    @GetMapping("/it_manager/keyword/{keyword}")
+    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable String keyword) {
+        List<UserResponseDTO> users = userService.getUsersByKeyword(keyword,String.valueOf(ERole.IT_MANAGER));
+        return ResponseEntity.ok(users);
+    }
+
     @PostMapping("/it_manager")
     public ResponseEntity<UserResponseDTO> saveItManager(@RequestBody UserDTO userDTO) {
         try {

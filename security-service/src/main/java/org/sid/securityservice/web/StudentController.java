@@ -36,6 +36,12 @@ public class StudentController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/student/keyword/{keyword}")
+    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable String keyword) {
+        List<UserResponseDTO> users = userService.getUsersByKeyword(keyword,String.valueOf(ERole.STUDENT));
+        return ResponseEntity.ok(users);
+    }
+
     @GetMapping("/student/{id}")
     public ResponseEntity<UserResponseDTO> getStudentById(@PathVariable Long id) {
         try {
@@ -53,7 +59,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/student/{id}")
-    public ResponseEntity<String> removeUser(@PathVariable Long id) {
+    public ResponseEntity<String> removeStudent(@PathVariable Long id) {
         try {
             UserResponseDTO user = userService.getUserById(id);
             Hibernate.initialize(user.getRoleDTOList());
