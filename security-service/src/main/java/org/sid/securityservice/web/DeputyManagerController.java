@@ -41,19 +41,9 @@ public class DeputyManagerController {
     }
 
     @PostMapping("/deputy_manager")
-    public ResponseEntity<UserResponseDTO> saveDeputyManager(@RequestBody UserDTO userDTO) {
-        try {
-            if (userDTO.getUsername() == null || userDTO.getPassword() == null || userDTO.getEmail() == null) {
-                throw new IllegalArgumentException("Required fields are missing.");
-            }
-
-            UserResponseDTO savedUser = userService.saveUser(userDTO,String.valueOf(ERole.DEPUTY_MANAGER));
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // Return 400 Bad Request
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Return 500 Internal Server Error
-        }
+    public ResponseEntity<UserResponseDTO> saveDeputyManager(@RequestBody UserDTO userDTO) throws RoleNotFoundException {
+        UserResponseDTO savedUser = userService.saveUser(userDTO, String.valueOf(ERole.DEPUTY_MANAGER));
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     @DeleteMapping("/deputy_manager/{id}")

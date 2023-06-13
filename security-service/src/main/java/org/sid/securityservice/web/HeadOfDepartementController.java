@@ -69,13 +69,9 @@ public class HeadOfDepartementController {
     }
 
     @PutMapping("/head_of_departement/{id}")
-    public ResponseEntity<UserResponseDTO> putHeadOfDepartement(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        try {
-            UserResponseDTO updatedUser = userService.updateUser(id, userDTO);
-            return ResponseEntity.ok(updatedUser);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<UserResponseDTO> putHeadOfDepartement(@PathVariable Long id, @RequestBody UserDTO userDTO) throws RoleNotFoundException {
+        UserResponseDTO savedUser = userService.saveUser(userDTO, String.valueOf(ERole.SCHOOLING));
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     @GetMapping("/head_of_departement/{id}/notifications")

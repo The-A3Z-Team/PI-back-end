@@ -26,10 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -47,29 +44,20 @@ public class UserServiceImpl implements UserService {
     private final String notificationsUrl = "http://localhost:8888/notifications/notifications/user";
 
     @Override
-    public UserResponseDTO saveUser(UserDTO userDTO, String role) {
-        try {
-            if (userDTO.getUsername() == null || userDTO.getPassword() == null || userDTO.getEmail() == null) {
-                throw new IllegalArgumentException("Required fields are missing.");
-            }
+    public UserResponseDTO saveUser(UserDTO userDTO, String role) throws RoleNotFoundException {
+        userDTO.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
+        User user = userDTOMapper.fromUserDTO(userDTO);
 
-            userDTO.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
-            User user = userDTOMapper.fromUserDTO(userDTO);
+        Role role1 = roleRepository.findByName(ERole.valueOf(role))
+                .orElseThrow(() -> new RoleNotFoundException("Role not found: " + role));
+        Set<Role> roleSet = new HashSet<>();
+        roleSet.add(role1);
+        user.setRoles(roleSet);
 
-            Role role1 = new Role();
-            role1.setName(ERole.valueOf(role));
-            Set<Role> roleSet = new HashSet<>();
-            roleSet.add(role1);
-            user.setRoles(roleSet);
-
-            User savedUser = userRepository.save(user);
-            return userResponseDTOMapper.fromUser(savedUser);
-        } catch (IllegalArgumentException e) {
-            throw e; // Rethrow the exception to handle it in the calling method
-        } catch (Exception e) {
-            throw new RuntimeException("Error occurred while saving user.", e);
-        }
+        User savedUser = userRepository.save(user);
+        return userResponseDTOMapper.fromUser(savedUser);
     }
+
 
     @Override
     public UserResponseDTO updateUser(Long id, UserDTO userDTO) throws UserNotFoundException {

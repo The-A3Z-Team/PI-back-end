@@ -41,15 +41,9 @@ public class StudentController {
     }
 
     @PostMapping("/student")
-    public ResponseEntity<UserResponseDTO> saveStudent(@RequestBody UserDTO userDTO) {
-        try {
-            UserResponseDTO savedUser = userService.saveUser(userDTO, "STUDENT");
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<UserResponseDTO> saveStudent(@RequestBody UserDTO userDTO) throws RoleNotFoundException {
+        UserResponseDTO savedUser = userService.saveUser(userDTO, String.valueOf(ERole.STUDENT));
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     @DeleteMapping("/student/{id}")

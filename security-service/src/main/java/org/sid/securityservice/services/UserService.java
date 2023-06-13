@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    UserResponseDTO saveUser(UserDTO userDTO,String role);
+    UserResponseDTO saveUser(UserDTO userDTO,String role) throws RoleNotFoundException;
     UserResponseDTO updateUser(Long id, UserDTO userDTO) throws UserNotFoundException;
     List<UserResponseDTO> getUsers();
     UserResponseDTO getUserById(Long id) throws UserNotFoundException;

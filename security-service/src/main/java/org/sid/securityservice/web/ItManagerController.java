@@ -69,13 +69,9 @@ public class ItManagerController {
     }
 
     @PutMapping("/it_manager/{id}")
-    public ResponseEntity<UserResponseDTO> putIdManager(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        try {
-            UserResponseDTO updatedUser = userService.updateUser(id, userDTO);
-            return ResponseEntity.ok(updatedUser);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<UserResponseDTO> putIdManager(@PathVariable Long id, @RequestBody UserDTO userDTO) throws RoleNotFoundException {
+        UserResponseDTO savedUser = userService.saveUser(userDTO, String.valueOf(ERole.IT_MANAGER));
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     @GetMapping("/it_manager/{id}/notifications")
