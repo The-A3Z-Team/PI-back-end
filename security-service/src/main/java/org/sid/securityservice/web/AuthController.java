@@ -1,5 +1,8 @@
 package org.sid.securityservice.web;
 
+import org.sid.securityservice.dtos.UserResponseDTO;
+import org.sid.securityservice.exceptions.UserNotFoundException;
+import org.sid.securityservice.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,21 +32,23 @@ public class AuthController {
     private JwtDecoder jwtDecoder;
     private AuthenticationManager authenticationManager;
     private UserDetailsService userDetailsService;
+    private UserService userService;
 
-    public AuthController(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder, AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+    public AuthController(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder, AuthenticationManager authenticationManager, UserDetailsService userDetailsService, UserService userService) {
         this.jwtEncoder = jwtEncoder;
         this.jwtDecoder = jwtDecoder;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
+        this.userService = userService;
     }
 
     public static class AuthResponse {
         private String accessToken;
-        private List<String> roles;
+        private UserResponseDTO userDTO;
 
-        public AuthResponse(String accessToken, List<String> roles) {
+        public AuthResponse(String accessToken, UserResponseDTO userDTO) {
             this.accessToken = accessToken;
-            this.roles = roles;
+            this.userDTO = userDTO;
         }
 
         public String getAccessToken() {
@@ -54,12 +59,12 @@ public class AuthController {
             this.accessToken = accessToken;
         }
 
-        public List<String> getRoles() {
-            return roles;
+        public UserResponseDTO getUserDTO() {
+            return userDTO;
         }
 
-        public void setRoles(List<String> roles) {
-            this.roles = roles;
+        public void setUserDTO(UserResponseDTO userDTO) {
+            this.userDTO = userDTO;
         }
     }
 
@@ -69,19 +74,14 @@ public class AuthController {
             String username,
             String password,
             boolean withRefreshToken,
-            String refreshToken) {
+            String refreshToken) throws UserNotFoundException {
         String subject = null;
-        List<String> roles = new ArrayList<>();
 
         if (grantType.equals("password")) {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
             subject = authentication.getName();
-            roles = authentication.getAuthorities()
-                    .stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.toList());
 
         } else if (grantType.equals("refreshToken")) {
             if (refreshToken == null) {
@@ -94,11 +94,6 @@ public class AuthController {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
             subject = decodeJWT.getSubject();
-            UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
-            roles = userDetails.getAuthorities()
-                    .stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.toList());
         }
 
         Instant instant = Instant.now();
@@ -107,11 +102,13 @@ public class AuthController {
                 .issuedAt(instant)
                 .expiresAt(instant.plus(withRefreshToken ? 1 : 5, ChronoUnit.HOURS))
                 .issuer("security-service")
-                .claim("roles", roles) // Include the roles in the JWT claims
                 .build();
         String jwtAccessToken = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();
 
-        AuthResponse authResponse = new AuthResponse(jwtAccessToken, roles);
+        UserResponseDTO userDTO = userService.getUserByUsername(username);
+
+        AuthResponse authResponse = new AuthResponse(jwtAccessToken, userDTO);
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 }
+
