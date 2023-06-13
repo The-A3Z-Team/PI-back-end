@@ -29,22 +29,21 @@ public class NotificationServiceApplication {
 			notification.setDate(new Date());
 			notification.setMessage("hello world");
 			notification.setIsRead(false);
-			notification.setUserId(Long.valueOf(1));
+			notification.setUserId(Long.valueOf(5));
+			notificationController.createNotification(notification);
+			notificationController.createNotification(notification);
+			notificationController.createNotification(notification);
 			notificationController.createNotification(notification);
 
 			NotificationDTO notification2=new NotificationDTO();
-			notification.setDate(new Date());
-			notification.setMessage("hello world");
-			notification.setIsRead(false);
-			notification.setUserId(Long.valueOf(1));
+			notification2.setDate(new Date());
+			notification2.setMessage("hello world");
+			notification2.setIsRead(false);
+			notification2.setUserId(Long.valueOf(1));
 			notificationController.createNotification(notification2);
-
-			NotificationDTO notification3=new NotificationDTO();
-			notification.setDate(new Date());
-			notification.setMessage("hello world");
-			notification.setIsRead(false);
-			notification.setUserId(Long.valueOf(1));
-			notificationController.createNotification(notification3);
+			notificationController.createNotification(notification2);
+			notificationController.createNotification(notification2);
+			notificationController.createNotification(notification2);
 		};
 	}
 }

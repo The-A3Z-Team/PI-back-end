@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.hibernate.Hibernate;
 import org.sid.securityservice.dtos.UserDTO;
 import org.sid.securityservice.dtos.UserResponseDTO;
+import org.sid.securityservice.dtos.NotificationResponseDTO;
 import org.sid.securityservice.ennumeration.ERole;
 import org.sid.securityservice.exceptions.RoleNotFoundException;
 import org.sid.securityservice.exceptions.UserNotFoundException;
@@ -18,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class StudentController {
     private UserService userService;
+
     @GetMapping("/student")
     public ResponseEntity<List<UserResponseDTO>> getStudents() {
         try {
@@ -41,7 +43,7 @@ public class StudentController {
     @PostMapping("/student")
     public ResponseEntity<UserResponseDTO> saveStudent(@RequestBody UserDTO userDTO) {
         try {
-            UserResponseDTO savedUser = userService.saveUser(userDTO,"STUDENT");
+            UserResponseDTO savedUser = userService.saveUser(userDTO, "STUDENT");
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -49,7 +51,6 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 
     @DeleteMapping("/student/{id}")
     public ResponseEntity<String> removeUser(@PathVariable Long id) {
@@ -71,5 +72,11 @@ public class StudentController {
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @GetMapping("/student/{id}/notifications")
+    public ResponseEntity<List<NotificationResponseDTO>> getNotificationsByUser(@PathVariable Long id) throws UserNotFoundException {
+        List<NotificationResponseDTO> notifications = userService.getNotificationsByUser(id);
+        return ResponseEntity.ok(notifications);
     }
 }

@@ -2,6 +2,7 @@ package org.sid.securityservice.web;
 
 import lombok.AllArgsConstructor;
 import org.hibernate.Hibernate;
+import org.sid.securityservice.dtos.NotificationResponseDTO;
 import org.sid.securityservice.dtos.UserDTO;
 import org.sid.securityservice.dtos.UserResponseDTO;
 import org.sid.securityservice.ennumeration.ERole;
@@ -75,5 +76,11 @@ public class GeneralDirectorController {
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @GetMapping("/general_director/{id}/notifications")
+    public ResponseEntity<List<NotificationResponseDTO>> getNotificationsByGeneralDirector(@PathVariable Long id) throws UserNotFoundException {
+        List<NotificationResponseDTO> notifications = userService.getNotificationsByUser(id);
+        return ResponseEntity.ok(notifications);
     }
 }

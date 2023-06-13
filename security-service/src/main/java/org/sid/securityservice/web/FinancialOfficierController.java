@@ -2,6 +2,7 @@ package org.sid.securityservice.web;
 
 import lombok.AllArgsConstructor;
 import org.hibernate.Hibernate;
+import org.sid.securityservice.dtos.NotificationResponseDTO;
 import org.sid.securityservice.dtos.UserDTO;
 import org.sid.securityservice.dtos.UserResponseDTO;
 import org.sid.securityservice.ennumeration.ERole;
@@ -55,7 +56,7 @@ public class FinancialOfficierController {
         }
     }
 
-    @PutMapping("/financial_director/{id}")
+    @PutMapping("/financial_officier/{id}")
     public ResponseEntity<UserResponseDTO> putFinancialDirector(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         try {
             UserResponseDTO updatedUser = userService.updateUser(id, userDTO);
@@ -63,5 +64,11 @@ public class FinancialOfficierController {
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @GetMapping("/financial_officier/{id}/notifications")
+    public ResponseEntity<List<NotificationResponseDTO>> getNotificationsByFinancialOfficier(@PathVariable Long id) throws UserNotFoundException {
+        List<NotificationResponseDTO> notifications = userService.getNotificationsByUser(id);
+        return ResponseEntity.ok(notifications);
     }
 }

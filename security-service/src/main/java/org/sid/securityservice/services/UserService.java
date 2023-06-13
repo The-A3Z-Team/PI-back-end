@@ -1,5 +1,6 @@
 package org.sid.securityservice.services;
 
+import org.sid.securityservice.dtos.NotificationResponseDTO;
 import org.sid.securityservice.dtos.RoleDTO;
 import org.sid.securityservice.dtos.UserDTO;
 import org.sid.securityservice.dtos.UserResponseDTO;
@@ -21,4 +22,5 @@ public interface UserService {
     List<UserResponseDTO> getUsersByRole(ERole role) throws RoleNotFoundException;
     UserResponseDTO addRoleToUser(Long idUser, String roleName) throws UserNotFoundException, RoleNotFoundException;
     UserResponseDTO removeRoleFromUser(Long idUser,RoleDTO roleDTO) throws UserNotFoundException, RoleNotFoundException;
+    List<NotificationResponseDTO> getNotificationsByUser(Long userId) throws UserNotFoundException;
 }

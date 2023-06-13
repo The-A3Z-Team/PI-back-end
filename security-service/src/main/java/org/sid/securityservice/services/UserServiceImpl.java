@@ -2,6 +2,7 @@ package org.sid.securityservice.services;
 
 import lombok.AllArgsConstructor;
 import org.sid.securityservice.config.PasswordEncoding;
+import org.sid.securityservice.dtos.NotificationResponseDTO;
 import org.sid.securityservice.dtos.RoleDTO;
 import org.sid.securityservice.dtos.UserDTO;
 import org.sid.securityservice.dtos.UserResponseDTO;
@@ -16,9 +17,16 @@ import org.sid.securityservice.mappers.UserDTOMapper;
 import org.sid.securityservice.mappers.UserResponseDTOMapperImpl;
 import org.sid.securityservice.repositories.RoleRepository;
 import org.sid.securityservice.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+import javax.servlet.http.HttpServletRequest;
 
+
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +40,11 @@ public class UserServiceImpl implements UserService {
     private final UserDTOMapper userDTOMapper;
     private final UserResponseDTOMapperImpl userResponseDTOMapper;
     private final RoleMapper roleMapper;
+    @Autowired
+    private final RestTemplate restTemplate; // Inject RestTemplate or HttpClient
+    private final HttpServletRequest request;
+
+    private final String notificationsUrl = "http://localhost:8888/notifications/notifications/user";
 
     @Override
     public UserResponseDTO saveUser(UserDTO userDTO, String role) {
@@ -196,4 +209,29 @@ public class UserServiceImpl implements UserService {
         return userResponseDTOMapper.fromUser(user);
     }
 
+    @Override
+    public List<NotificationResponseDTO> getNotificationsByUser(Long id) throws UserNotFoundException {
+        UserResponseDTO user = getUserById(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", request.getHeader("Authorization")); // Set the Authorization header from the request
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(notificationsUrl+"/"+id)
+                .queryParam("userId", id);
+
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+        ResponseEntity<NotificationResponseDTO[]> response = restTemplate.exchange(
+                uriBuilder.toUriString(),
+                HttpMethod.GET,
+                entity,
+                NotificationResponseDTO[].class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return Arrays.asList(response.getBody());
+        } else {
+            throw new RuntimeException("Failed to fetch notifications for user: " + user.getUsername());
+        }
+    }
 }
