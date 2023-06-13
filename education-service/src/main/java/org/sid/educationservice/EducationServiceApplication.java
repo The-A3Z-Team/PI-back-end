@@ -2,9 +2,11 @@ package org.sid.educationservice;
 
 import org.sid.educationservice.config.RsakeysConfig;
 import org.sid.educationservice.entities.Continuing;
+import org.sid.educationservice.entities.Departement;
 import org.sid.educationservice.entities.Major;
 import org.sid.educationservice.mappers.ContinuingMapperImpl;
 import org.sid.educationservice.repositories.ContinuingRepository;
+import org.sid.educationservice.repositories.DepartementRepository;
 import org.sid.educationservice.repositories.MajorRepository;
 import org.sid.educationservice.services.ContinuingService;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +16,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @EnableEurekaClient
@@ -27,7 +30,8 @@ public class EducationServiceApplication {
 
     @Bean
     public CommandLineRunner commandLineRunner(ContinuingRepository continuingRepository,
-                                               MajorRepository majorRepository) {
+                                               MajorRepository majorRepository,
+                                               DepartementRepository departementRepository) {
         return args -> {
             Continuing continuing=new Continuing();
             continuing.setDuration(2);
@@ -37,9 +41,16 @@ public class EducationServiceApplication {
             continuing.setStart_date(new Date(9534425));
             continuingRepository.save(continuing);
 
+            Departement math_info=new Departement();
+            math_info.setName("MATH INFO");
+            math_info.setIntitule("Mathematique informatique");
+            departementRepository.save(math_info);
+
             Major major=new Major();
             major.setName("GLSID");
             major.setHeadOfDepartementId(Long.valueOf(3));
+            major.setDepartement(math_info);
+            major.setEducation(continuing);
             majorRepository.save(major);
         };
     }

@@ -17,5 +17,5 @@ public interface MajorService {
 
     void deleteMajor(Long id) throws MajorNotFoundException;
 
-    HeadOfDepartement getHeadOfDepartment(Long id);
+    List<MajorDTO> getMajorsByHeadOfDepartment(Long id);
 }

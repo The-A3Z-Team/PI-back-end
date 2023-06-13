@@ -19,9 +19,9 @@ public class Semester {
     private Long id;
     private String intitule;
 
-    @OneToOne
-    private Education education;
+    /*@ManyToOne
+    private Education education;*/
 
-    @ManyToMany
-    private List<Module> modules;
+    /*@ManyToMany
+    private List<Module> modules;*/
 }

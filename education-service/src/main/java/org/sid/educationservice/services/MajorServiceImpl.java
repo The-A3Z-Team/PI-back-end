@@ -71,9 +71,8 @@ public class MajorServiceImpl implements MajorService {
     }
 
     @Override
-    public HeadOfDepartement getHeadOfDepartment(Long id) {
-        String url = headOfDepartmentUrl + id;
-        ResponseEntity<HeadOfDepartement> response = restTemplate.exchange(url, HttpMethod.GET, null, HeadOfDepartement.class);
-        return response.getBody();
+    public List<MajorDTO> getMajorsByHeadOfDepartment(Long id) {
+        List<Major> major = majorRepository.getMajorByHeadOfDepartementId(id);
+        return majorMapper.toMajorDTOs(major);
     }
 }

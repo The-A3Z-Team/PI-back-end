@@ -56,11 +56,11 @@ public class MajorController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{id}/headOfDepartement")
-    public ResponseEntity<HeadOfDepartement> getHeadOfDepartement(@PathVariable("id") Long id) {
-        HeadOfDepartement headOfDepartement = majorService.getHeadOfDepartment(id);
-        if (headOfDepartement != null) {
-            return ResponseEntity.ok(headOfDepartement);
+    @GetMapping("/head_of_departement/{id}")
+    public ResponseEntity<List<MajorDTO>> getMajorsByHeadOfDepartment(@PathVariable("id") Long id) {
+        List<MajorDTO> majorDTOS = majorService.getMajorsByHeadOfDepartment(id);
+        if (majorDTOS != null) {
+            return ResponseEntity.ok(majorDTOS);
         } else {
             return ResponseEntity.notFound().build();
         }
