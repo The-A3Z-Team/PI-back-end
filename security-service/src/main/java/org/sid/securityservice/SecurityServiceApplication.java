@@ -83,6 +83,7 @@ public class SecurityServiceApplication {
             // La création des utilisateurs
 
             User user1 = new User();
+            user1.setIdMajor(Long.valueOf(1));
             user1.setEmail("taffah@gmail.com");
             user1.setUsername("taffah201");
             user1.setRoles(achrafRoles);

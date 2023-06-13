@@ -22,6 +22,7 @@ import javax.persistence.*;
 public class User extends Person{
     private String username;
     private String email;
+    private Long idMajor;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(  name = "user_roles",

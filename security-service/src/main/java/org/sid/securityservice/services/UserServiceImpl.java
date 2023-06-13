@@ -139,6 +139,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserResponseDTO> getUsersByMajor(Long idMajor){
+        List<User> users = userRepository.findByIdMajor(idMajor);
+        return userResponseDTOMapper.toUserResponseDTOs(users);
+    }
+
+    @Override
     public UserResponseDTO removeUser(Long idUser) throws UserNotFoundException {
         User existingUser = userRepository.findById(idUser)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + idUser));

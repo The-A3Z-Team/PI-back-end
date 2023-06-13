@@ -30,6 +30,12 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/student/major/{id_major}")
+    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable Long id_major) {
+        List<UserResponseDTO> users = userService.getUsersByMajor(id_major);
+        return ResponseEntity.ok(users);
+    }
+
     @GetMapping("/student/{id}")
     public ResponseEntity<UserResponseDTO> getStudentById(@PathVariable Long id) {
         try {
