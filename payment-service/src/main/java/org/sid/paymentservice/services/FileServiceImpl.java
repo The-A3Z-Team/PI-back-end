@@ -29,4 +29,12 @@ public class FileServiceImpl implements FileService {
         Files.copy(file.getInputStream(), Paths.get(filePath));
         return fileName1;
     }
+
+    @Override
+    public void deleteFile(String filePath) {
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+        }
+    }
 }

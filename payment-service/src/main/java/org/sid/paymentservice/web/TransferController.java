@@ -2,6 +2,7 @@ package org.sid.paymentservice.web;
 
 import lombok.AllArgsConstructor;
 import org.sid.paymentservice.ennumerations.PaymentProcess;
+import org.sid.paymentservice.entities.Cheque;
 import org.sid.paymentservice.entities.Payment;
 import org.sid.paymentservice.entities.Recue;
 import org.sid.paymentservice.entities.Transfer;
@@ -80,5 +81,11 @@ public class TransferController {
     public ResponseEntity<Transfer> validateTransfer(@PathVariable Long id, @RequestParam("isValid") Boolean isValid) {
         Transfer validatedTransfer = transferService.validateTransfer(id, isValid);
         return ResponseEntity.ok(validatedTransfer);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Transfer> createTransfer(@RequestBody Transfer transfer) {
+        Transfer savedTransfer = transferService.saveTransfer(transfer);
+        return new ResponseEntity<>(savedTransfer, HttpStatus.CREATED);
     }
 }

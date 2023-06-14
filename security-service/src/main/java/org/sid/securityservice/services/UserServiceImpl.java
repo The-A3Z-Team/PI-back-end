@@ -282,6 +282,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserResponseDTO> findAllWithoutStudentRoleSorted() {
+        List<User> users = userRepository.findAllWithoutStudentRoleSorted();
+        return userResponseDTOMapper.toUserResponseDTOs(users);
+    }
+
+    @Override
     public MajorResponseDTO getMajorOfHeadOfDepartement(Long id) throws UserNotFoundException {
         UserResponseDTO user = getUserById(id);
 

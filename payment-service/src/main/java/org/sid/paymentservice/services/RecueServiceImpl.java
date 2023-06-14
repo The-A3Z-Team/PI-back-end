@@ -28,7 +28,7 @@ public class RecueServiceImpl implements RecueService {
     @Value("${project.image}")
     private String imagePath;
 
-    public RecueServiceImpl(FileService fileService, RecueRepository recueRepository,TransferRepository transferRepository) {
+    public RecueServiceImpl(FileService fileService, RecueRepository recueRepository, TransferRepository transferRepository) {
         this.fileService = fileService;
         this.recueRepository = recueRepository;
         this.transferRepository = transferRepository;
@@ -83,10 +83,17 @@ public class RecueServiceImpl implements RecueService {
     }
 
     private void deleteRecueFile(Recue recue) {
-        String filePath = recue.getFileData();
+        String fileName = recue.getName();
+        String filePath = imagePath + File.separator + fileName;
         File file = new File(filePath);
         if (file.exists()) {
-            file.delete();
+            if (file.delete()) {
+                System.out.println("File deleted successfully: " + filePath);
+            } else {
+                System.out.println("Failed to delete the file: " + filePath);
+            }
+        } else {
+            System.out.println("File does not exist: " + filePath);
         }
     }
 
@@ -96,8 +103,12 @@ public class RecueServiceImpl implements RecueService {
     }
 
     @Override
-    public Resource readRecueById(Long id){
-        Recue recue=recueRepository.findById(id).get();
+    public Resource readRecueById(Long id) {
+        Recue recue = recueRepository.findById(id).orElse(null);
+        if (recue == null) {
+            // Handle case when recue with the provided ID doesn't exist
+            throw new IllegalArgumentException("Invalid recue ID");
+        }
         Path filePath = Paths.get(imagePath + recue.getName());
         return new FileSystemResource(filePath.toFile());
     }
@@ -128,7 +139,7 @@ public class RecueServiceImpl implements RecueService {
     }
 
     @Override
-    public Recue saveRecue(Recue recue){
+    public Recue saveRecue(Recue recue) {
         return recueRepository.save(recue);
     }
 }

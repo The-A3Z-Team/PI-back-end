@@ -32,4 +32,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
           "r.name = :roleName")
   List<User> getUsersBykeywordAndRole(String keyword, ERole roleName);
 
+  @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name <> 'STUDENT' ORDER BY " +
+          "CASE r.name " +
+          "WHEN 'GENERAL_DIRECTOR' THEN 1 " +
+          "WHEN 'DEPUTY_MANAGER' THEN 2 " +
+          "WHEN 'IT_MANAGER' THEN 3 " +
+          "WHEN 'HEAD_OF_DEPARTEMENT' THEN 4 " +
+          "WHEN 'FINANCIAL_OFFICER' THEN 5 " +
+          "WHEN 'SCHOOLING' THEN 6 " +
+          "ELSE 7 " +
+          "END")
+  List<User> findAllWithoutStudentRoleSorted();
+
 }

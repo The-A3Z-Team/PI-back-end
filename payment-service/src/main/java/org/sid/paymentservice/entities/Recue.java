@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -24,6 +21,10 @@ public class Recue {
     private String type;
     private transient MultipartFile file;
     private String fileData; // Instead of Byte[] fileData, store the file name or path as a string
+
+    @OneToOne(mappedBy = "recue")
+    private Transfer transfer;
+
 
     // Getter and Setter for the MultipartFile field
     public MultipartFile getFile() {

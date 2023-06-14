@@ -26,4 +26,5 @@ public interface UserService {
     MajorResponseDTO getMajorOfStudent(Long id) throws UserNotFoundException;
     EducationDTO getEducationOfStudent(Long id) throws UserNotFoundException;
     List<PaymentDTO> getPaymentsByUser(Long id) throws UserNotFoundException;
+    List<UserResponseDTO> findAllWithoutStudentRoleSorted();
 }
