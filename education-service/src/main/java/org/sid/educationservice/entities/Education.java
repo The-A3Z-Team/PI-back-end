@@ -23,9 +23,6 @@ public class Education {
     private String description;
     private String diploma;
 
-    /*@OneToMany(mappedBy = "education")
-    private List<Semester> semesters;
-
     @OneToMany(mappedBy = "education")
-    private List<Major> majors;*/
+    private List<Major> majors;
 }

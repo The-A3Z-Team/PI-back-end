@@ -25,4 +25,11 @@ public class UserDTO {
     private String email;
     private String password;
     private String role;
+    //Link between Student and (Major,Education,Head of departement)
+    private Long idMajorOfStudent;
+    private Long idEducationOfStudent;
+    private Long idHeadOfDepartementManagerOfStudent;
+
+    //Link between Head of departement and (Major)
+    private Long idMajorOfHeadOfDepartement;
 }

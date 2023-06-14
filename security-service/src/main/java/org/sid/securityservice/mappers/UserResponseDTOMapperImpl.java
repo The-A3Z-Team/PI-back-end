@@ -30,6 +30,10 @@ public class UserResponseDTOMapperImpl implements UserResponseDTOMapper {
         userResponseDTO.setCni(user.getCni());
         userResponseDTO.setUsername(user.getUsername());
         userResponseDTO.setEmail(user.getEmail());
+        userResponseDTO.setIdMajorOfStudent(user.getIdMajorOfStudent());
+        userResponseDTO.setIdEducationOfStudent(user.getIdEducationOfStudent());
+        userResponseDTO.setIdHeadOfDepartementManagerOfStudent(user.getIdHeadOfDepartementManagerOfStudent());
+        userResponseDTO.setIdMajorOfHeadOfDepartement(user.getIdMajorOfHeadOfDepartement());
         userResponseDTO.setRoleDTOList(roleMapper.toRoleDTOs(user.getRoles()));
         return userResponseDTO;
     }
@@ -49,6 +53,10 @@ public class UserResponseDTOMapperImpl implements UserResponseDTOMapper {
         user.setCni(userResponseDTO.getCni());
         user.setUsername(userResponseDTO.getUsername());
         user.setEmail(userResponseDTO.getEmail());
+        user.setIdMajorOfStudent(userResponseDTO.getIdMajorOfStudent());
+        user.setIdEducationOfStudent(userResponseDTO.getIdEducationOfStudent());
+        user.setIdHeadOfDepartementManagerOfStudent(userResponseDTO.getIdHeadOfDepartementManagerOfStudent());
+        user.setIdMajorOfHeadOfDepartement(userResponseDTO.getIdMajorOfHeadOfDepartement());
         user.setRoles(roleMapper.toRoles(userResponseDTO.getRoleDTOList()));
         return user;
     }

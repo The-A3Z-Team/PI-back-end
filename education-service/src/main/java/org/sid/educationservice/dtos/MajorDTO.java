@@ -12,7 +12,8 @@ import org.sid.educationservice.entities.Education;
 public class MajorDTO {
     private Long id;
     private String name;
-    private Long headOfDepartementId;
+    private Long headOfDepartment;
+
     private Departement departement;
     private Education education;
 }

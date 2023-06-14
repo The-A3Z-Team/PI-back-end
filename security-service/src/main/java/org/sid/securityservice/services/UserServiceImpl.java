@@ -2,10 +2,7 @@ package org.sid.securityservice.services;
 
 import lombok.AllArgsConstructor;
 import org.sid.securityservice.config.PasswordEncoding;
-import org.sid.securityservice.dtos.NotificationResponseDTO;
-import org.sid.securityservice.dtos.RoleDTO;
-import org.sid.securityservice.dtos.UserDTO;
-import org.sid.securityservice.dtos.UserResponseDTO;
+import org.sid.securityservice.dtos.*;
 import org.sid.securityservice.ennumeration.ERole;
 import org.sid.securityservice.entities.Role;
 import org.sid.securityservice.entities.User;
@@ -42,6 +39,8 @@ public class UserServiceImpl implements UserService {
     private final HttpServletRequest request;
 
     private final String notificationsUrl = "http://localhost:8888/notifications/notifications/user";
+    private final String major_url = "http://localhost:8888/educations/major";
+    private final String education_url = "http://localhost:8888/educations/continuing";
 
     @Override
     public UserResponseDTO saveUser(UserDTO userDTO, String role) throws RoleNotFoundException {
@@ -118,6 +117,26 @@ public class UserServiceImpl implements UserService {
             existingUser.setPassword(new PasswordEncoding().getEncodedPassword(userDTO.getPassword()));
         } else {
             existingUser.setPassword(existingUser.getPassword());
+        }
+        if (userDTO.getIdMajorOfStudent() != null) {
+            existingUser.setIdMajorOfStudent(userDTO.getIdMajorOfStudent());
+        } else {
+            existingUser.setIdMajorOfStudent(existingUser.getIdMajorOfStudent());
+        }
+        if (userDTO.getIdEducationOfStudent() != null) {
+            existingUser.setIdEducationOfStudent(userDTO.getIdEducationOfStudent());
+        } else {
+            existingUser.setIdEducationOfStudent(existingUser.getIdEducationOfStudent());
+        }
+        if (userDTO.getIdHeadOfDepartementManagerOfStudent() != null) {
+            existingUser.setIdHeadOfDepartementManagerOfStudent(userDTO.getIdHeadOfDepartementManagerOfStudent());
+        } else {
+            existingUser.setIdHeadOfDepartementManagerOfStudent(existingUser.getIdHeadOfDepartementManagerOfStudent());
+        }
+        if (userDTO.getIdMajorOfHeadOfDepartement() != null) {
+            existingUser.setIdMajorOfHeadOfDepartement(userDTO.getIdMajorOfHeadOfDepartement());
+        } else {
+            existingUser.setIdMajorOfHeadOfDepartement(existingUser.getIdMajorOfHeadOfDepartement());
         }
 
         User updatedUser = userRepository.save(existingUser);
@@ -235,4 +254,81 @@ public class UserServiceImpl implements UserService {
         return userResponseDTOMapper.toUserResponseDTOs(users);
     }
 
+    @Override
+    public MajorResponseDTO getMajorOfHeadOfDepartement(Long id) throws UserNotFoundException {
+        UserResponseDTO user = getUserById(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", request.getHeader("Authorization")); // Set the Authorization header from the request
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(major_url + "/" + user.getIdMajorOfHeadOfDepartement())
+                .queryParam("id", id);
+
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+        ResponseEntity<MajorResponseDTO> response = restTemplate.exchange(
+                uriBuilder.toUriString(),
+                HttpMethod.GET,
+                entity,
+                MajorResponseDTO.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            throw new RuntimeException("Failed to fetch major for head of department: " + user.getUsername());
+        }
+    }
+
+    @Override
+    public MajorResponseDTO getMajorOfStudent(Long id) throws UserNotFoundException {
+        UserResponseDTO user = getUserById(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", request.getHeader("Authorization")); // Set the Authorization header from the request
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(major_url + "/" + user.getIdMajorOfStudent())
+                .queryParam("id", id);
+
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+        ResponseEntity<MajorResponseDTO> response = restTemplate.exchange(
+                uriBuilder.toUriString(),
+                HttpMethod.GET,
+                entity,
+                MajorResponseDTO.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            throw new RuntimeException("Failed to fetch major for student: " + user.getUsername());
+        }
+    }
+
+    public EducationDTO getEducationOfStudent(Long id) throws UserNotFoundException{
+        UserResponseDTO user = getUserById(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", request.getHeader("Authorization")); // Set the Authorization header from the request
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(education_url + "/" + user.getIdEducationOfStudent())
+                .queryParam("id", id);
+        System.out.println(education_url);
+
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+        ResponseEntity<EducationDTO> response = restTemplate.exchange(
+                uriBuilder.toUriString(),
+                HttpMethod.GET,
+                entity,
+                EducationDTO.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            throw new RuntimeException("Failed to fetch education for student: " + user.getUsername());
+        }
+    }
 }

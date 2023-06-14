@@ -2,6 +2,7 @@ package org.sid.securityservice.web;
 
 import lombok.AllArgsConstructor;
 import org.hibernate.Hibernate;
+import org.sid.securityservice.dtos.MajorResponseDTO;
 import org.sid.securityservice.dtos.NotificationResponseDTO;
 import org.sid.securityservice.dtos.UserDTO;
 import org.sid.securityservice.dtos.UserResponseDTO;
@@ -44,6 +45,12 @@ public class HeadOfDepartementController {
     public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable String keyword) {
         List<UserResponseDTO> users = userService.getUsersByKeyword(keyword,String.valueOf(ERole.HEAD_OF_DEPARTEMENT));
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/head_of_departement/{id}/major")
+    public ResponseEntity<MajorResponseDTO> getMajorByHeadOfDepartement(@PathVariable Long id) throws UserNotFoundException {
+        MajorResponseDTO majorResponseDTO = userService.getMajorOfHeadOfDepartement(id);
+        return ResponseEntity.ok(majorResponseDTO);
     }
 
     @PostMapping("/head_of_departement")

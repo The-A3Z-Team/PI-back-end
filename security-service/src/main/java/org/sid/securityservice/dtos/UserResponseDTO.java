@@ -27,6 +27,15 @@ public class UserResponseDTO {
     private String error;
     Set<RoleDTO> roleDTOList;
 
+    //Link between Student and (Major,Education,Head of departement)
+    private Long idMajorOfStudent;
+    private Long idEducationOfStudent;
+    private Long idHeadOfDepartementManagerOfStudent;
+
+    //Link between Head of departement and (Major)
+    private Long idMajorOfHeadOfDepartement;
+
+
     public UserResponseDTO(String error) {
         this.error=error;
     }

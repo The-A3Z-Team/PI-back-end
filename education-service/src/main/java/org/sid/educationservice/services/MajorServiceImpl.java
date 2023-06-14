@@ -1,14 +1,10 @@
 package org.sid.educationservice.services;
 
-import org.sid.educationservice.dtos.HeadOfDepartement;
 import org.sid.educationservice.dtos.MajorDTO;
 import org.sid.educationservice.entities.Major;
 import org.sid.educationservice.exceptions.MajorNotFoundException;
 import org.sid.educationservice.mappers.MajorMapperImpl;
 import org.sid.educationservice.repositories.MajorRepository;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,17 +13,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class MajorServiceImpl implements MajorService {
-    private MajorRepository majorRepository;
-    private MajorMapperImpl majorMapper;
-    private RestTemplate restTemplate;
+    private final MajorRepository majorRepository;
+    private final MajorMapperImpl majorMapper;
 
-    @Value("${headOfDepartmentUrl}")
-    private String headOfDepartmentUrl;
-
-    public MajorServiceImpl(MajorRepository majorRepository, MajorMapperImpl majorMapper, RestTemplate restTemplate) {
+    public MajorServiceImpl(MajorRepository majorRepository, MajorMapperImpl majorMapper) {
         this.majorRepository = majorRepository;
         this.majorMapper = majorMapper;
-        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -68,11 +59,5 @@ public class MajorServiceImpl implements MajorService {
         Major major = majorRepository.findById(id)
                 .orElseThrow(() -> new MajorNotFoundException("Major not found with ID: " + id));
         majorRepository.delete(major);
-    }
-
-    @Override
-    public List<MajorDTO> getMajorsByHeadOfDepartment(Long id) {
-        List<Major> major = majorRepository.getMajorByHeadOfDepartementId(id);
-        return majorMapper.toMajorDTOs(major);
     }
 }

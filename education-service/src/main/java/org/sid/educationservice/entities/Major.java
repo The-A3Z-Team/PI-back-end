@@ -17,11 +17,12 @@ public class Major {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Long headOfDepartementId;
+    private Long headOfDepartment;
+    private Long studentId;
 
-    @OneToOne
+    @ManyToOne
     private Education education;
 
-    @OneToOne
+    @ManyToOne
     private Departement departement;
 }

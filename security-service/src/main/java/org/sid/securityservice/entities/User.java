@@ -23,8 +23,18 @@ import javax.persistence.*;
 public class User extends Person{
     private String username;
     private String email;
+    private String password = /* This is the default password {1234} */ new PasswordEncoding().getEncodedPassword("1234");
+
+    //Link any user with the major
     private Long idMajor;
-    private String password = new PasswordEncoding().getEncodedPassword("1234");
+
+    //Link between Student and (Major,Education,Head of departement)
+    private Long idMajorOfStudent;
+    private Long idEducationOfStudent;
+    private Long idHeadOfDepartementManagerOfStudent;
+
+    //Link between Head of departement and (Major)
+    private Long idMajorOfHeadOfDepartement;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(  name = "user_roles",

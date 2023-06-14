@@ -2,9 +2,7 @@ package org.sid.securityservice.web;
 
 import lombok.AllArgsConstructor;
 import org.hibernate.Hibernate;
-import org.sid.securityservice.dtos.UserDTO;
-import org.sid.securityservice.dtos.UserResponseDTO;
-import org.sid.securityservice.dtos.NotificationResponseDTO;
+import org.sid.securityservice.dtos.*;
 import org.sid.securityservice.ennumeration.ERole;
 import org.sid.securityservice.exceptions.RoleNotFoundException;
 import org.sid.securityservice.exceptions.UserNotFoundException;
@@ -30,17 +28,29 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/student/major/{id_major}")
-    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable Long id_major) {
-        List<UserResponseDTO> users = userService.getUsersByMajor(id_major);
-        return ResponseEntity.ok(users);
+    @GetMapping("/student/{id_student}/major")
+    public ResponseEntity<MajorResponseDTO> getMajorByStudent(@PathVariable Long id_student) throws UserNotFoundException {
+        MajorResponseDTO major= userService.getMajorOfStudent(id_student);
+        return ResponseEntity.ok(major);
+    }
+
+    @GetMapping("/student/{id_student}/education")
+    public ResponseEntity<EducationDTO> getEducationOfStudent(@PathVariable Long id_student) throws UserNotFoundException {
+        EducationDTO education= userService.getEducationOfStudent(id_student);
+        return ResponseEntity.ok(education);
     }
 
     @GetMapping("/student/keyword/{keyword}")
-    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable String keyword) {
+    public ResponseEntity<List<UserResponseDTO>> getStudentsByKeyword(@PathVariable String keyword) {
         List<UserResponseDTO> users = userService.getUsersByKeyword(keyword,String.valueOf(ERole.STUDENT));
         return ResponseEntity.ok(users);
     }
+
+    /*@GetMapping("/student/{id}/major")
+    public ResponseEntity<MajorResponseDTO> getMajorByStudent(@PathVariable Long id) throws UserNotFoundException {
+        MajorResponseDTO majorResponseDTO = userService.getMajorByStudent(id);
+        return ResponseEntity.ok(majorResponseDTO);
+    }*/
 
     @GetMapping("/student/{id}")
     public ResponseEntity<UserResponseDTO> getStudentById(@PathVariable Long id) {

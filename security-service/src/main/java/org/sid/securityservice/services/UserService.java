@@ -1,9 +1,6 @@
 package org.sid.securityservice.services;
 
-import org.sid.securityservice.dtos.NotificationResponseDTO;
-import org.sid.securityservice.dtos.RoleDTO;
-import org.sid.securityservice.dtos.UserDTO;
-import org.sid.securityservice.dtos.UserResponseDTO;
+import org.sid.securityservice.dtos.*;
 import org.sid.securityservice.ennumeration.ERole;
 import org.sid.securityservice.exceptions.RoleNotFoundException;
 import org.sid.securityservice.exceptions.UserNotFoundException;
@@ -25,4 +22,7 @@ public interface UserService {
     List<NotificationResponseDTO> getNotificationsByUser(Long userId) throws UserNotFoundException;
     List<UserResponseDTO> getUsersByMajor(Long idMajor);
     List<UserResponseDTO> getUsersByKeyword(String keyword,String role);
+    MajorResponseDTO getMajorOfHeadOfDepartement(Long id) throws UserNotFoundException;
+    MajorResponseDTO getMajorOfStudent(Long id) throws UserNotFoundException;
+    EducationDTO getEducationOfStudent(Long id) throws UserNotFoundException;
 }

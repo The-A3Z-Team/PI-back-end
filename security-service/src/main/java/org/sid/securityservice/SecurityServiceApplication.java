@@ -37,148 +37,182 @@ public class SecurityServiceApplication {
     }
 
     @Bean
-    CommandLineRunner start(
-                            RoleRepository roleRepository,
-                            UserRepository userRepository){
+    CommandLineRunner start(RoleRepository roleRepository, UserRepository userRepository) {
         return args -> {
-            // La création des roles*/
+            // Create roles
+            Role studentRole = new Role(null, ERole.STUDENT);
+            Role hodRole = new Role(null, ERole.HEAD_OF_DEPARTEMENT);
+            Role itManagerRole = new Role(null, ERole.IT_MANAGER);
+            Role financialOfficerRole = new Role(null, ERole.FINANCIAL_OFFICIER);
+            Role generalDirectorRole = new Role(null, ERole.GENERAL_DIRECTOR);
+            Role deputyManagerRole = new Role(null, ERole.DEPUTY_MANAGER);
 
-            Role role1 = new Role(null, ERole.STUDENT);
-            Role role2 = new Role(null, ERole.FINANCIAL_OFFICIER);
-            Role role3 = new Role(null, ERole.HEAD_OF_DEPARTEMENT);
-            Role role4 = new Role(null, ERole.SCHOOLING);
-            Role role5 = new Role(null, ERole.DEPUTY_MANAGER);
-            Role role6 = new Role(null, ERole.IT_MANAGER);
-            Role role7 = new Role(null, ERole.GENERAL_DIRECTOR);
+            roleRepository.save(studentRole);
+            roleRepository.save(hodRole);
+            roleRepository.save(itManagerRole);
+            roleRepository.save(financialOfficerRole);
+            roleRepository.save(generalDirectorRole);
+            roleRepository.save(deputyManagerRole);
 
-            roleRepository.save(role1);
-            roleRepository.save(role2);
-            roleRepository.save(role3);
-            roleRepository.save(role4);
-            roleRepository.save(role5);
-            roleRepository.save(role6);
-            roleRepository.save(role7);
+            // Students
+            User student1 = new User();
+            student1.setEmail("student1@gmail.com");
+            student1.setUsername("student1");
+            student1.setRoles(Set.of(studentRole));
+            student1.setAdresse("CASABLANCA");
+            student1.setCni("BJ111111");
+            student1.setGender(Gender.MALE);
+            student1.setFirstName("Student1");
+            student1.setLastName("Lastname1");
+            student1.setCne("R111111");
+            student1.setDateNaissance(new Date(2000, 1, 1));
+            student1.setPassword(new PasswordEncoding().getEncodedPassword("student1@"));
+            student1.setIdMajorOfStudent(3L);
+            student1.setIdEducationOfStudent(1L);
+            student1.setIdHeadOfDepartementManagerOfStudent(4L);
 
-            Set<Role> achrafRoles = new HashSet<>();
-            achrafRoles.add(role1);
+            User student2 = new User();
+            student2.setEmail("student2@gmail.com");
+            student2.setUsername("student2");
+            student2.setRoles(Set.of(studentRole));
+            student2.setAdresse("CASABLANCA");
+            student2.setCni("BJ222222");
+            student2.setGender(Gender.FEMALE);
+            student2.setFirstName("Student2");
+            student2.setLastName("Lastname2");
+            student2.setCne("R222222");
+            student2.setDateNaissance(new Date(2000, 2, 2));
+            student2.setPassword(new PasswordEncoding().getEncodedPassword("student2@"));
+            student2.setIdMajorOfStudent(1L);
+            student2.setIdEducationOfStudent(1L);
+            student2.setIdHeadOfDepartementManagerOfStudent(4L);
 
-            Set<Role> abirRoles = new HashSet<>();
-            abirRoles.add(role2);
+            User student3 = new User();
+            student3.setEmail("student3@gmail.com");
+            student3.setUsername("student3");
+            student3.setRoles(Set.of(studentRole));
+            student3.setAdresse("CASABLANCA");
+            student3.setCni("BJ333333");
+            student3.setGender(Gender.MALE);
+            student3.setFirstName("Student3");
+            student3.setLastName("Lastname3");
+            student3.setCne("R333333");
+            student3.setDateNaissance(new Date(2000, 3, 3));
+            student3.setPassword(new PasswordEncoding().getEncodedPassword("student3@"));
+            student3.setIdMajorOfStudent(1L);
+            student3.setIdEducationOfStudent(1L);
+            student3.setIdHeadOfDepartementManagerOfStudent(4L);
 
-            Set<Role> abdelmalekRoles = new HashSet<>();
-            abdelmalekRoles.add(role3);
+            // Heads of Department
+            User hod1 = new User();
+            hod1.setEmail("hod1@gmail.com");
+            hod1.setUsername("hod1");
+            hod1.setRoles(Set.of(hodRole));
+            hod1.setAdresse("CASABLANCA");
+            hod1.setCni("BJ444444");
+            hod1.setGender(Gender.FEMALE);
+            hod1.setFirstName("HOD1");
+            hod1.setLastName("Lastname1");
+            hod1.setCne("R444444");
+            hod1.setDateNaissance(new Date(1980, 1, 1));
+            hod1.setPassword(new PasswordEncoding().getEncodedPassword("hod1@"));
+            hod1.setIdMajorOfHeadOfDepartement(1L);
 
-            Set<Role> salahRoles = new HashSet<>();
-            salahRoles.add(role4);
+            User hod2 = new User();
+            hod2.setEmail("hod2@gmail.com");
+            hod2.setUsername("hod2");
+            hod2.setRoles(Set.of(hodRole));
+            hod2.setAdresse("CASABLANCA");
+            hod2.setCni("BJ555555");
+            hod2.setGender(Gender.MALE);
+            hod2.setFirstName("HOD2");
+            hod2.setLastName("Lastname2");
+            hod2.setCne("R555555");
+            hod2.setDateNaissance(new Date(1980, 2, 2));
+            hod2.setPassword(new PasswordEncoding().getEncodedPassword("hod2@"));
+            hod2.setIdMajorOfHeadOfDepartement(1L);
 
-            Set<Role> zakiaRoles = new HashSet<>();
-            zakiaRoles.add(role5);
+            User hod3 = new User();
+            hod3.setEmail("hod3@gmail.com");
+            hod3.setUsername("hod3");
+            hod3.setRoles(Set.of(hodRole));
+            hod3.setAdresse("CASABLANCA");
+            hod3.setCni("BJ666666");
+            hod3.setGender(Gender.FEMALE);
+            hod3.setFirstName("HOD3");
+            hod3.setLastName("Lastname3");
+            hod3.setCne("R666666");
+            hod3.setDateNaissance(new Date(1980, 3, 3));
+            hod3.setPassword(new PasswordEncoding().getEncodedPassword("hod3@"));
+            hod3.setIdMajorOfHeadOfDepartement(1L);
 
-            Set<Role> itRoles = new HashSet<>();
-            itRoles.add(role6);
+            // IT Manager
+            User itManager = new User();
+            itManager.setEmail("itmanager@gmail.com");
+            itManager.setUsername("itmanager");
+            itManager.setRoles(Set.of(itManagerRole));
+            itManager.setAdresse("CASABLANCA");
+            itManager.setCni("BJ777777");
+            itManager.setGender(Gender.MALE);
+            itManager.setFirstName("IT");
+            itManager.setLastName("Manager");
+            itManager.setCne("R777777");
+            itManager.setDateNaissance(new Date(1990, 5, 5));
+            itManager.setPassword(new PasswordEncoding().getEncodedPassword("itmanager@"));
 
-            Set<Role> adgdirectorRoles = new HashSet<>();
-            adgdirectorRoles.add(role7);
+            // Official Manager
+            User officialManager = new User();
+            officialManager.setEmail("officialmanager@gmail.com");
+            officialManager.setUsername("officialmanager");
+            officialManager.setRoles(Set.of(financialOfficerRole));
+            officialManager.setAdresse("CASABLANCA");
+            officialManager.setCni("BJ888888");
+            officialManager.setGender(Gender.FEMALE);
+            officialManager.setFirstName("Official");
+            officialManager.setLastName("Manager");
+            officialManager.setCne("R888888");
+            officialManager.setDateNaissance(new Date(1985, 4, 4));
+            officialManager.setPassword(new PasswordEncoding().getEncodedPassword("officialmanager@"));
 
-            // La création des utilisateurs
+            // General Director
+            User generalDirector = new User();
+            generalDirector.setEmail("generaldirector@gmail.com");
+            generalDirector.setUsername("generaldirector");
+            generalDirector.setRoles(Set.of(generalDirectorRole));
+            generalDirector.setAdresse("CASABLANCA");
+            generalDirector.setCni("BJ999999");
+            generalDirector.setGender(Gender.MALE);
+            generalDirector.setFirstName("General");
+            generalDirector.setLastName("Director");
+            generalDirector.setCne("R999999");
+            generalDirector.setDateNaissance(new Date(1975, 6, 6));
+            generalDirector.setPassword(new PasswordEncoding().getEncodedPassword("generaldirector@"));
 
-            User user1 = new User();
-            user1.setIdMajor(Long.valueOf(1));
-            user1.setEmail("taffah@gmail.com");
-            user1.setUsername("taffah201");
-            user1.setRoles(achrafRoles);
-            user1.setAdresse("CASABLANCA");
-            user1.setCni("BJ473674");
-            user1.setGender(Gender.MALE);
-            user1.setFirstName("Achraf");
-            user1.setLastName("TAFFAH");
-            user1.setCne("R130419706");
-            user1.setDateNaissance(new Date(2001,9,7));
-            user1.setPassword(new PasswordEncoding().getEncodedPassword("achraf1234@"));
+            // Deputy Manager
+            User deputyManager = new User();
+            deputyManager.setEmail("deputymanager@gmail.com");
+            deputyManager.setUsername("deputymanager");
+            deputyManager.setRoles(Set.of(deputyManagerRole));
+            deputyManager.setAdresse("CASABLANCA");
+            deputyManager.setCni("BJ101010");
+            deputyManager.setGender(Gender.FEMALE);
+            deputyManager.setFirstName("Deputy");
+            deputyManager.setLastName("Manager");
+            deputyManager.setCne("R101010");
+            deputyManager.setDateNaissance(new Date(1995, 7, 7));
+            deputyManager.setPassword(new PasswordEncoding().getEncodedPassword("deputymanager@"));
 
-            User user2 = new User();
-            user2.setEmail("abir@gmail.com");
-            user2.setUsername("abir1234");
-            user2.setRoles(abirRoles);
-            user2.setAdresse("CASABLANCA");
-            user2.setCni("BJ98744");
-            user2.setGender(Gender.FEMALE);
-            user2.setFirstName("Abir");
-            user2.setLastName("Laarousi");
-            user2.setCne("R147777");
-            user2.setDateNaissance(new Date(2001,10,7));
-            user2.setPassword(new PasswordEncoding().getEncodedPassword("abir@"));
-
-            User user3 = new User();
-            user3.setEmail("abdelmalek@gmail.com");
-            user3.setUsername("abdelmalek1234");
-            user3.setRoles(abdelmalekRoles);
-            user3.setAdresse("CASABLANCA");
-            user3.setCni("BJ98744");
-            user3.setGender(Gender.MALE);
-            user3.setFirstName("abdelmalek");
-            user3.setLastName("ennani");
-            user3.setCne("R777999");
-            user3.setDateNaissance(new Date(2000,10,7));
-            user3.setPassword(new PasswordEncoding().getEncodedPassword("abdelmalek@"));
-
-            User user4 = new User();
-            user4.setEmail("salah@gmail.com");
-            user4.setUsername("salah1234");
-            user4.setRoles(salahRoles);
-            user4.setAdresse("CASABLANCA");
-            user4.setCni("BJ98744");
-            user4.setGender(Gender.MALE);
-            user4.setFirstName("salah");
-            user4.setLastName("lkouli");
-            user4.setCne("R888999");
-            user4.setDateNaissance(new Date(2000,10,7));
-            user4.setPassword(new PasswordEncoding().getEncodedPassword("salah@@"));
-
-            User user5 = new User();
-            user5.setEmail("zakia@gmail.com");
-            user5.setUsername("zakia1234");
-            user5.setRoles(zakiaRoles);
-            user5.setAdresse("CASABLANCA");
-            user5.setCni("BJ98744");
-            user5.setGender(Gender.FEMALE);
-            user5.setFirstName("zakia");
-            user5.setLastName("regoug");
-            user5.setCne("R412458");
-            user5.setDateNaissance(new Date(2002,10,7));
-            user5.setPassword(new PasswordEncoding().getEncodedPassword("zakia@@"));
-
-            User user6 = new User();
-            user6.setEmail("it@gmail.com");
-            user6.setUsername("it");
-            user6.setRoles(itRoles);
-            user6.setAdresse("CASABLANCA");
-            user6.setCni("BJ98744");
-            user6.setGender(Gender.FEMALE);
-            user6.setFirstName("it");
-            user6.setLastName("it");
-            user6.setDateNaissance(new Date(1980,10,7));
-            user6.setPassword(new PasswordEncoding().getEncodedPassword("it1234@@"));
-
-            User user7 = new User();
-            user7.setEmail("adgdirector@gmail.com");
-            user7.setUsername("adgdirector1234");
-            user7.setRoles(adgdirectorRoles);
-            user7.setAdresse("CASABLANCA");
-            user7.setCni("BJ741852");
-            user7.setGender(Gender.FEMALE);
-            user7.setFirstName("adgdirector");
-            user7.setLastName("adgdirector");
-            user7.setDateNaissance(new Date(1977,10,7));
-            user7.setPassword(new PasswordEncoding().getEncodedPassword("adgdirector@@"));
-
-            userRepository.save(user1);
-            userRepository.save(user2);
-            userRepository.save(user3);
-            userRepository.save(user4);
-            userRepository.save(user5);
-            userRepository.save(user6);
-            userRepository.save(user7);
+            userRepository.save(student1);
+            userRepository.save(student2);
+            userRepository.save(student3);
+            userRepository.save(hod1);
+            userRepository.save(hod2);
+            userRepository.save(hod3);
+            userRepository.save(itManager);
+            userRepository.save(officialManager);
+            userRepository.save(generalDirector);
+            userRepository.save(deputyManager);
         };
     }
 }
+

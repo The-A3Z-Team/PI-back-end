@@ -3,9 +3,11 @@ package org.sid.educationservice.services;
 import org.sid.educationservice.dtos.HeadOfDepartement;
 import org.sid.educationservice.dtos.MajorDTO;
 import org.sid.educationservice.exceptions.MajorNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface MajorService {
     MajorDTO saveMajor(MajorDTO majorDTO);
 
@@ -17,5 +19,4 @@ public interface MajorService {
 
     void deleteMajor(Long id) throws MajorNotFoundException;
 
-    List<MajorDTO> getMajorsByHeadOfDepartment(Long id);
 }
