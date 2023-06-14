@@ -38,6 +38,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public Payment getPaymentById(Long idPayment){
+        return paymentRepository.getPaymentById(idPayment);
+    }
+
+    @Override
     public List<Payment> getPayments(){
         return paymentRepository.findAll();
     }

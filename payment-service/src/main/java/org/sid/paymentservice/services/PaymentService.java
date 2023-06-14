@@ -12,4 +12,5 @@ public interface PaymentService {
     List<Payment> getPaymentsByIdContinuingEducation(Long idContinuingEducation);
     List<Payment> getPaymentsByPaymentYear(int year);
     List<Payment> getPayments();
+    Payment getPaymentById(Long idPayment);
 }

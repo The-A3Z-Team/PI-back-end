@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PaymentRepository extends JpaRepository<Payment,Long> {
+    Payment getPaymentById(Long idPayment);
     List<Payment> getPaymentsByIdStudent(Long idStudent);
     List<Payment> getPaymentsByIdContinuingEducation(Long idContinuingEducation);
 
