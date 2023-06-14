@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Boolean existsByEmail(String email);
   User getUserByEmail(String email);
   List<User> findByRoles_Name(ERole roleName);
-  List<User> findByIdMajor(Long idMajor);
+  List<User> findByIdMajorOfStudent(Long idMajor);
 
   @Query("SELECT u FROM User u JOIN u.roles r " +
           "WHERE (u.firstName LIKE %:keyword% OR " +

@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseDTO> getUsersByMajor(Long idMajor){
-        List<User> users = userRepository.findByIdMajor(idMajor);
+        List<User> users = userRepository.findByIdMajorOfStudent(idMajor);
         return userResponseDTOMapper.toUserResponseDTOs(users);
     }
 

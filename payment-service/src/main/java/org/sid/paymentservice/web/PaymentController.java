@@ -31,4 +31,16 @@ public class PaymentController {
         return ResponseEntity.ok(payments);
     }
 
+    @GetMapping("/year/{year}/payments")
+    public ResponseEntity<List<Payment>> getPaymentsByPaymentYear(@PathVariable("year") int year) {
+        List<Payment> payments = paymentService.getPaymentsByPaymentYear(year);
+        return ResponseEntity.ok(payments);
+    }
+
+    @GetMapping("/payments")
+    public ResponseEntity<List<Payment>> getPayments() {
+        List<Payment> payments = paymentService.getPayments();
+        return ResponseEntity.ok(payments);
+    }
+
 }

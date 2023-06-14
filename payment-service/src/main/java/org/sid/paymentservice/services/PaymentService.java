@@ -10,4 +10,6 @@ public interface PaymentService {
     Float calculateTotalMontantByStudentId(Long idStudent);
     List<Payment> getPaymentsByIdStudent(Long idStudent);
     List<Payment> getPaymentsByIdContinuingEducation(Long idContinuingEducation);
+    List<Payment> getPaymentsByPaymentYear(int year);
+    List<Payment> getPayments();
 }

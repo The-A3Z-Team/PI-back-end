@@ -13,4 +13,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Long> {
 
     @Query("SELECT SUM(p.montant) FROM Payment p WHERE p.idStudent = :idStudent")
     Float calculateTotalMontantByStudentId(@Param("idStudent") Long idStudent);
+
+    @Query("SELECT p FROM Payment p WHERE YEAR(p.date) = :year")
+    List<Payment> getPaymentsByPaymentYear(@Param("year") int year);
 }

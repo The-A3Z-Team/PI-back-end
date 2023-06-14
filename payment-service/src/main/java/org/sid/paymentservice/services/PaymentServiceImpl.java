@@ -32,4 +32,14 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentRepository.getPaymentsByIdContinuingEducation(idContinuingEducation);
     }
 
+    @Override
+    public List<Payment> getPaymentsByPaymentYear(int year){
+        return paymentRepository.getPaymentsByPaymentYear(year);
+    }
+
+    @Override
+    public List<Payment> getPayments(){
+        return paymentRepository.findAll();
+    }
+
 }

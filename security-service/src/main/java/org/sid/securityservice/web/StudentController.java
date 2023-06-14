@@ -46,6 +46,12 @@ public class StudentController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/student/major/{id}")
+    public ResponseEntity<List<UserResponseDTO>> getStudentsByMajor(@PathVariable Long id) {
+        List<UserResponseDTO> users = userService.getUsersByMajor(id);
+        return ResponseEntity.ok(users);
+    }
+
     /*@GetMapping("/student/{id}/major")
     public ResponseEntity<MajorResponseDTO> getMajorByStudent(@PathVariable Long id) throws UserNotFoundException {
         MajorResponseDTO majorResponseDTO = userService.getMajorByStudent(id);
