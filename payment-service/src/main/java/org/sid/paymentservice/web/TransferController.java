@@ -52,8 +52,6 @@ public class TransferController {
         }
     }
 
-    @PostMapping
-
     @PutMapping("/{id}")
     public ResponseEntity<Transfer> updateTransfer(@PathVariable Long id, @RequestBody Transfer transfer) {
         Transfer updatedTransfer = transferService.updateTransfer(id, transfer);

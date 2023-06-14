@@ -25,7 +25,7 @@ public class PaymentController {
         return ResponseEntity.ok(payments);
     }
 
-    @GetMapping("/continuing_education/{educationId}/payments")
+    @GetMapping("/education/{educationId}/payments")
     public ResponseEntity<List<Payment>> getPaymentsByIdContinuingEducation(@PathVariable("educationId") Long educationId) {
         List<Payment> payments = paymentService.getPaymentsByIdContinuingEducation(educationId);
         return ResponseEntity.ok(payments);

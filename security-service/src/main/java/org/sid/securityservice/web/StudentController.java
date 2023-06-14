@@ -101,4 +101,10 @@ public class StudentController {
         List<NotificationResponseDTO> notifications = userService.getNotificationsByUser(id);
         return ResponseEntity.ok(notifications);
     }
+
+    @GetMapping("/student/{id}/payments")
+    public ResponseEntity<List<PaymentDTO>> getPaymentsByUser(@PathVariable Long id) throws UserNotFoundException {
+        List<PaymentDTO> paymentDTOS = userService.getPaymentsByUser(id);
+        return ResponseEntity.ok(paymentDTOS);
+    }
 }

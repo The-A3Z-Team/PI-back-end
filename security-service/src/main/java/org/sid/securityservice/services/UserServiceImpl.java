@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
     private final String notificationsUrl = "http://localhost:8888/notifications/notifications/user";
     private final String major_url = "http://localhost:8888/educations/major";
     private final String education_url = "http://localhost:8888/educations/continuing";
+    private final String payment_url = "http://localhost:8888/payments";
 
     @Override
     public UserResponseDTO saveUser(UserDTO userDTO, String role) throws RoleNotFoundException {
@@ -220,6 +221,32 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return userResponseDTOMapper.fromUser(user);
+    }
+
+    @Override
+    public List<PaymentDTO> getPaymentsByUser(Long idStudent) throws UserNotFoundException {
+        UserResponseDTO user = getUserById(idStudent);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", request.getHeader("Authorization")); // Set the Authorization header from the request
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(payment_url+"/student/"+idStudent+"/payments")
+                .queryParam("idStudent", idStudent);
+
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+        ResponseEntity<PaymentDTO[]> response = restTemplate.exchange(
+                uriBuilder.toUriString(),
+                HttpMethod.GET,
+                entity,
+                PaymentDTO[].class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return Arrays.asList(response.getBody());
+        } else {
+            throw new RuntimeException("Failed to fetch notifications for user: " + user.getUsername());
+        }
     }
 
     @Override
