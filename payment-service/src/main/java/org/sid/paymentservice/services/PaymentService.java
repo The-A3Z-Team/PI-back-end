@@ -9,7 +9,7 @@ import java.util.List;
 public interface PaymentService {
     Float calculateTotalMontantByStudentId(Long idStudent);
     List<Payment> getPaymentsByIdStudent(Long idStudent);
-    List<Payment> getPaymentsByIdContinuingEducation(Long idContinuingEducation);
+    List<Payment> getPaymentsByIdContinuingEducationAndDateYear(Long idContinuingEducation,int year);
     List<Payment> getPaymentsByPaymentYear(int year);
     List<Payment> getPayments();
     Payment getPaymentById(Long idPayment);

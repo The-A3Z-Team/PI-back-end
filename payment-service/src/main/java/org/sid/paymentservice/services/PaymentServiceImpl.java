@@ -28,8 +28,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> getPaymentsByIdContinuingEducation(Long idContinuingEducation) {
-        return paymentRepository.getPaymentsByIdContinuingEducation(idContinuingEducation);
+    public List<Payment> getPaymentsByIdContinuingEducationAndDateYear(Long idContinuingEducation,int year) {
+        return paymentRepository.getPaymentsByIdContinuingEducationAndDateYear(idContinuingEducation,year);
     }
 
     @Override

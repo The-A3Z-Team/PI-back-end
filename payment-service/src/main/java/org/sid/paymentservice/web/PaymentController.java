@@ -25,9 +25,9 @@ public class PaymentController {
         return ResponseEntity.ok(payments);
     }
 
-    @GetMapping("/education/{educationId}/payments")
-    public ResponseEntity<List<Payment>> getPaymentsByIdContinuingEducation(@PathVariable("educationId") Long educationId) {
-        List<Payment> payments = paymentService.getPaymentsByIdContinuingEducation(educationId);
+    @GetMapping("/education/{educationId}/payments/{year}")
+    public ResponseEntity<List<Payment>> getPaymentsByIdContinuingEducation(@PathVariable("educationId") Long educationId,@PathVariable("year") int year) {
+        List<Payment> payments = paymentService.getPaymentsByIdContinuingEducationAndDateYear(educationId,year);
         return ResponseEntity.ok(payments);
     }
 
