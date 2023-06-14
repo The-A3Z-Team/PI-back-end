@@ -13,4 +13,5 @@ public interface CashService {
     Cash getCashById(Long id);
     void deleteCash(Long id);
     Cash validateCash(Long id,Boolean isvalide);
+    Float calculateTotalMontantByStudentId(Long idStudent);
 }

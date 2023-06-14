@@ -5,7 +5,6 @@ import org.sid.paymentservice.entities.Cash;
 import org.sid.paymentservice.services.CashService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +35,7 @@ public class CashController {
     }
 
     //@PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Cash> createCash(@RequestBody Cash cash) {
         Cash savedCash = cashService.saveCash(cash);
         return new ResponseEntity<>(savedCash, HttpStatus.CREATED);
@@ -66,4 +65,5 @@ public class CashController {
         Cash updatedCash = cashService.validateCash(id, cash.getIsValid());
         return new ResponseEntity<>(updatedCash, HttpStatus.OK);
     }
+
 }

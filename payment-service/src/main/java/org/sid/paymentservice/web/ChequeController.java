@@ -35,7 +35,7 @@ public class ChequeController {
     }
 
     //@PreAuthorize("hasAuthority('RESPONSABLE_FINANCIERE') or hasAuthority('STUDENT')")
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Cheque> createCheque(@RequestBody Cheque cheque) {
         Cheque savedcheque = chequeService.saveCheque(cheque);
         return new ResponseEntity<>(savedcheque, HttpStatus.CREATED);

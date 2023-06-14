@@ -126,4 +126,9 @@ public class RecueServiceImpl implements RecueService {
             return null;
         }
     }
+
+    @Override
+    public Recue saveRecue(Recue recue){
+        return recueRepository.save(recue);
+    }
 }

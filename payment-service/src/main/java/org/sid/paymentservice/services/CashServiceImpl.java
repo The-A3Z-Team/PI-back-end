@@ -16,6 +16,7 @@ public class CashServiceImpl implements CashService{
 
     @Override
     public Cash saveCash(Cash cash) {
+        cash.setDate(new Date());
         return cashRepository.save(cash);
     }
 
@@ -28,7 +29,7 @@ public class CashServiceImpl implements CashService{
         existingCash.setMontant(cash.getMontant());
         existingCash.setDate(new Date());
         existingCash.setPaymentProcess(cash.getPaymentProcess());
-        existingCash.setStudentEmail(cash.getStudentEmail());
+        existingCash.setIdStudent(cash.getIdStudent());
 
         existingCash.setMontant(cash.getMontant());
 
@@ -67,4 +68,8 @@ public class CashServiceImpl implements CashService{
         return updatedCash;
     }
 
+    @Override
+    public Float calculateTotalMontantByStudentId(Long idStudent) {
+        return cashRepository.calculateTotalMontantByStudentId(idStudent);
+    }
 }

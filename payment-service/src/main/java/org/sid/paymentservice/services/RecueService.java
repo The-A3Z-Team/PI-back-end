@@ -14,5 +14,6 @@ public interface RecueService {
     String uploadRecue(Long id_transfer,MultipartFile image) throws IOException;
     List<Recue> readRecues();
     Resource readRecueById(Long id);
-    public Resource readRecueByTransferId(Long transferId);
+    Resource readRecueByTransferId(Long transferId);
+    Recue saveRecue(Recue recue); // Add this method
 }

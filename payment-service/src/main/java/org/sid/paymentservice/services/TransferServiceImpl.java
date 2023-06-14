@@ -18,6 +18,7 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public Transfer saveTransfer(Transfer transfer) {
+        transfer.setDate(new Date());
         return transferRepository.save(transfer);
     }
 
@@ -30,7 +31,7 @@ public class TransferServiceImpl implements TransferService {
         existingTransfer.setMontant(transfer.getMontant());
         existingTransfer.setDate(new Date());
         existingTransfer.setPaymentProcess(transfer.getPaymentProcess());
-        existingTransfer.setStudentEmail(transfer.getStudentEmail());
+        existingTransfer.setIdStudent(transfer.getIdStudent());
 
         existingTransfer.setMontant(transfer.getMontant());
 

@@ -21,7 +21,9 @@ public class Payment {
     private Long id;
     private Date date;
     private float montant;
-    private String studentEmail;
+    private Long idStudent;
+    private Long idContinuingEducation;
+
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(20) DEFAULT 'NORMAL'")

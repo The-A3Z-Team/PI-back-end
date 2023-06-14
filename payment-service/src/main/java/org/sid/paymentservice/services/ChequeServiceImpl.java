@@ -16,6 +16,7 @@ public class ChequeServiceImpl implements ChequeService{
 
     @Override
     public Cheque saveCheque(Cheque cheque) {
+        cheque.setDate(new Date());
         return chequeRepository.save(cheque);
     }
 
@@ -28,7 +29,7 @@ public class ChequeServiceImpl implements ChequeService{
         existingcheque.setMontant(cheque.getMontant());
         existingcheque.setDate(new Date());
         existingcheque.setPaymentProcess(cheque.getPaymentProcess());
-        existingcheque.setStudentEmail(cheque.getStudentEmail());
+        existingcheque.setIdStudent(cheque.getIdStudent());
 
 
         Cheque updatedCheque = chequeRepository.save(existingcheque);

@@ -32,22 +32,25 @@ public class PaymentServiceApplication {
 			Transfer transfer=new Transfer();
 			transfer.setDate(new Date());
 			transfer.setMontant(8945);
-			transfer.setStudentEmail("taffah@gmail.com");
+			transfer.setIdStudent(Long.valueOf(1));
+			transfer.setIdContinuingEducation(Long.valueOf(1));
 			transfer.setPaymentProcess(PaymentProcess.NORMAL);
 			transferService.saveTransfer(transfer);
 
 			Cash cash=new Cash();
 			cash.setDate(new Date());
-			cash.setMontant(98745);
-			cash.setStudentEmail("abir@gmail.com");
-			cash.setPaymentProcess(PaymentProcess.TRAITE_YEAR);
+			cash.setMontant(897546);
+			cash.setIdStudent(Long.valueOf(1));
+			cash.setIdContinuingEducation(Long.valueOf(1));
+			cash.setPaymentProcess(PaymentProcess.NORMAL);
 			cashService.saveCash(cash);
 
 			Cheque cheque=new Cheque();
 			cheque.setDate(new Date());
 			cheque.setMontant(8745);
-			cheque.setStudentEmail("salah@gmail.com");
-			cheque.setPaymentProcess(PaymentProcess.TRAITE_YEAR);
+			cheque.setIdStudent(Long.valueOf(1));
+			cheque.setIdContinuingEducation(Long.valueOf(1));
+			cheque.setPaymentProcess(PaymentProcess.NORMAL);
 			chequeService.saveCheque(cheque);
 		};
 	}
