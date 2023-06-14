@@ -44,7 +44,7 @@ public class PaymentController {
     }
 
     @GetMapping("/payments/{paymentId}")
-    public ResponseEntity<Payment> getPaymentsByPaymentYear(@PathVariable("paymentId") Long paymentId) {
+    public ResponseEntity<Payment> getPaymentById(@PathVariable("paymentId") Long paymentId) {
         Payment payment = paymentService.getPaymentById(paymentId);
         return ResponseEntity.ok(payment);
     }

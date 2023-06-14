@@ -52,51 +52,7 @@ public class TransferController {
         }
     }
 
-    @PostMapping("")
-    public ResponseEntity<Transfer> saveTransferWithRecue(MultipartHttpServletRequest request) throws IOException {
-        MultipartFile image = request.getFile("image");
-        Payment payment = extractPaymentFromRequest(request);
-
-        Transfer transfer = new Transfer();
-        transfer.setIsWithTransfer(true);
-
-        Recue recue = new Recue();
-        try{
-
-        } catch (Error e){
-            System.out.println();
-        }
-        recue.setName(image.getOriginalFilename());
-        recue = recueService.saveRecue(recue);
-        String filename = recueService.uploadRecue(recue.getId(), image);
-        recue.setName(filename);
-
-        transfer.setRecue(recue);
-
-        transfer.setMontant(payment.getMontant());
-        transfer.setIdStudent(payment.getIdStudent());
-        transfer.setPaymentProcess(payment.getPaymentProcess());
-        transfer.setIdContinuingEducation(payment.getIdContinuingEducation());
-
-        transfer.setDate(new Date());
-
-        Transfer savedTransfer = transferService.saveTransfer(transfer);
-
-        return ResponseEntity.ok(savedTransfer);
-    }
-
-
-
-    private Payment extractPaymentFromRequest(MultipartHttpServletRequest request) {
-        Payment payment = new Payment();
-        payment.setMontant(Float.parseFloat(request.getParameter("montant")));
-        payment.setIdStudent(Long.parseLong(request.getParameter("idStudent")));
-        payment.setIdContinuingEducation(Long.parseLong(request.getParameter("idContinuingEducation")));
-        payment.setPaymentProcess(PaymentProcess.valueOf(request.getParameter("paymentProcess")));
-        payment.setDate(new Date());
-        // Extract other properties as needed
-        return payment;
-    }
+    @PostMapping
 
     @PutMapping("/{id}")
     public ResponseEntity<Transfer> updateTransfer(@PathVariable Long id, @RequestBody Transfer transfer) {
