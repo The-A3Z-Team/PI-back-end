@@ -8,5 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface MajorRepository extends JpaRepository<Major,Long> {
+public interface MajorRepository extends JpaRepository<Major, Long> {
+    List<Major> getMajorByHeadOfDepartment(Long id);
 }

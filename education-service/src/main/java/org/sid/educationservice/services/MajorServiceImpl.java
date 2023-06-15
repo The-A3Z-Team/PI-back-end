@@ -53,6 +53,11 @@ public class MajorServiceImpl implements MajorService {
                 .orElseThrow(() -> new MajorNotFoundException("Major not found with ID: " + id));
         return majorMapper.fromMajor(major);
     }
+    @Override
+    public List<MajorDTO> getMajorByHeadOfDepartment(Long id) {
+        List<Major> major = majorRepository.getMajorByHeadOfDepartment(id);
+        return majorMapper.toMajorDTOs(major);
+    }
 
     @Override
     public void deleteMajor(Long id) throws MajorNotFoundException {
