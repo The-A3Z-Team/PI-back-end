@@ -16,5 +16,4 @@ public class Transfer extends Payment {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "recue_id")
     private Recue recue;
-
 }

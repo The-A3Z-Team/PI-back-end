@@ -1,4 +1,4 @@
-package org.sid.paymentservice.test_upload.entity;
+package org.sid.paymentservice.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,21 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 @Entity
-@Table(name = "ImageData")
+@Table(name = "FILE_DATA")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ImageData {
+public class FileData {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String type;
-    @Lob
-    @Column(name = "imagedata",length = 1000)
-    private byte[] imageData;
+    private String filePath;
 }

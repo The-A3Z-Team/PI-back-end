@@ -8,25 +8,26 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "RECUE")
+@Table(name = "IMAGE")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 
-public class Recue {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
 
-    @OneToOne
-    private Transfer transfer;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id")
-    private Image image;
+    private String name;
+    private String type;
+
+    @Lob
+    @Column(name = "image_data")
+    private byte[] imageData;
+
+    @OneToOne(mappedBy = "image")
+    private Recue recue;
 
     // Constructors, getters, and setters
 }
-
-

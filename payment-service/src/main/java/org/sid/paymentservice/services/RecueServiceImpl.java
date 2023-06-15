@@ -68,10 +68,13 @@ public class RecueServiceImpl implements RecueService {
 
         Files.copy(image.getInputStream(), Paths.get(filePath));
 
-        Recue recue = Recue.builder()
-                .name(fileName)
-                .type(image.getContentType())
-                .fileData(filePath)
+        Recue recue = new Recue();
+        recue.setName(fileName);
+       /* recue.set*/
+                Recue.builder()
+                /*.name(fileName)
+                .ty(image.getContentType())
+                .fileData(filePath)*/
                 .build();
 
         Recue savedRecue = recueRepository.save(recue);

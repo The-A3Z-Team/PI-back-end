@@ -1,91 +1,154 @@
 package org.sid.paymentservice.web;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.sid.paymentservice.dtos.TransferDTO;
 import org.sid.paymentservice.ennumerations.PaymentProcess;
-import org.sid.paymentservice.entities.Cheque;
-import org.sid.paymentservice.entities.Payment;
+import org.sid.paymentservice.entities.Cash;
+import org.sid.paymentservice.entities.Image;
 import org.sid.paymentservice.entities.Recue;
 import org.sid.paymentservice.entities.Transfer;
-import org.sid.paymentservice.services.RecueService;
+import org.sid.paymentservice.repositories.RecueRepository;
+import org.sid.paymentservice.repositories.TransferRepository;
+import org.sid.paymentservice.services.StorageService;
 import org.sid.paymentservice.services.TransferService;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/transfer")
 @CrossOrigin("*")
 @AllArgsConstructor
 public class TransferController {
+    @Autowired
     private TransferService transferService;
-    private RecueService recueService;
 
-    @GetMapping("/recue/{transferId}")
-    public ResponseEntity<Resource> getRecueByTransferId(@PathVariable Long transferId) {
-        Resource resource = recueService.readRecueByTransferId(transferId);
+    @Autowired
+    private StorageService storageService;
 
-        if (resource != null && resource.exists()) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG);
-            return ResponseEntity.ok().headers(headers).body(resource);
+    @Autowired
+    private RecueRepository recueRepository;
+
+    @Autowired
+    private TransferRepository transferRepository;
+
+    @Transactional
+    @PostMapping()
+    public ResponseEntity<String> makeTransferPayment(@RequestParam("montant") Float montant,
+                                                      @RequestParam("idStudent") Long idStudent,
+                                                      @RequestParam("idContinuingEducation") Long idContinuingEducation,
+                                                      @RequestParam("paymentProcess") String paymentProcess,
+                                                      @RequestParam("recueImage") MultipartFile recueImage) {
+        try {
+            // Save Recue
+            Recue recue = new Recue();
+            Recue savedRecue = recueRepository.save(recue);
+
+            // Upload Recue Image
+            String recueUploadResult = storageService.uploadImage(recueImage, savedRecue.getId());
+            if (!recueUploadResult.equals("File uploaded successfully")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Recue image upload failed");
+            }
+
+            // Create Transfer and associate it with the Recue
+            Transfer transfer = new Transfer();
+            transfer.setDate(new Date());
+            transfer.setIdStudent(idStudent);
+            transfer.setIdContinuingEducation(idContinuingEducation);
+            transfer.setPaymentProcess(PaymentProcess.valueOf(paymentProcess));
+            transfer.setMontant(montant);
+            transfer.setRecue(savedRecue);
+            Transfer savedTransfer = transferRepository.save(transfer);
+
+            // Update the Recue with the correct Transfer ID
+            savedRecue.setTransfer(savedTransfer);
+            recueRepository.save(savedRecue);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Payment successful");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during payment");
+        }
+    }
+
+
+    @GetMapping("/{transferId}/recue")
+    public ResponseEntity<?> getRecueByTransferId(@PathVariable Long transferId) {
+        Optional<Recue> optionalRecue = recueRepository.getRecueByTransferId(transferId);
+        if (optionalRecue.isPresent()) {
+            Recue recue = optionalRecue.get();
+            Image image = recue.getImage();
+
+            // Build the response object with recue information and image path
+            RecueInfoResponse recueInfo = new RecueInfoResponse();
+            recueInfo.setId(recue.getId());
+            recueInfo.setName(recue.getName());
+            recueInfo.setImagePath(getRecueImagePath(recue.getImage().getName()));
+
+            return ResponseEntity.status(HttpStatus.OK).body(recueInfo);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recue not found");
+        }
+    }
+
+    private String getRecueImagePath(String recueImageName) {
+        return System.getProperty("user.dir")+"\\uploads" + "\\" + recueImageName;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    private static class RecueInfoResponse {
+        private Long id;
+        private String name;
+        private String imagePath;
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<TransferDTO>> getAllCashs() {
+        List<TransferDTO> transfers = transferService.getTransfers();
+        return ResponseEntity.ok(transfers);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TransferDTO> getTransferById(@PathVariable Long id) {
+        TransferDTO transfer = transferService.getTransferById(id);
+
+        if (transfer != null) {
+            return ResponseEntity.ok(transfer);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PostMapping("/recue/{id_transfer}")
-    public ResponseEntity<String> uploadRecue(@PathVariable Long id_transfer, @RequestParam("image") MultipartFile image) {
-        try {
-            String filename = recueService.uploadRecue(id_transfer, image);
-            return ResponseEntity.ok().body(filename);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Image upload failed");
+    @PutMapping("/{id}")
+    public ResponseEntity<TransferDTO> updateTransfer(@PathVariable Long id, @RequestBody Transfer transfer) {
+        TransferDTO updatedTransfer = transferService.updateTransfer(id, transfer);
+        if (updatedTransfer != null) {
+            return new ResponseEntity<>(updatedTransfer, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Transfer> updateTransfer(@PathVariable Long id, @RequestBody Transfer transfer) {
-        Transfer updatedTransfer = transferService.updateTransfer(id, transfer);
-        return ResponseEntity.ok(updatedTransfer);
-    }
-
-    @GetMapping("")
-    public ResponseEntity<List<Transfer>> getTransfers() {
-        List<Transfer> transfers = transferService.getTransfers();
-        return ResponseEntity.ok(transfers);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Transfer> getTransferById(@PathVariable Long id) {
-        Transfer transfer = transferService.getTransferById(id);
-        return ResponseEntity.ok(transfer);
-    }
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTransfer(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> deleteTransfer(@PathVariable Long id) {
         transferService.deleteTransfer(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/{id}/validate")
-    public ResponseEntity<Transfer> validateTransfer(@PathVariable Long id, @RequestParam("isValid") Boolean isValid) {
-        Transfer validatedTransfer = transferService.validateTransfer(id, isValid);
-        return ResponseEntity.ok(validatedTransfer);
-    }
-
-    @PostMapping("")
-    public ResponseEntity<Transfer> createTransfer(@RequestBody Transfer transfer) {
-        Transfer savedTransfer = transferService.saveTransfer(transfer);
-        return new ResponseEntity<>(savedTransfer, HttpStatus.CREATED);
+    @PutMapping("/validate/{id}")
+    public ResponseEntity<TransferDTO> validateTransfer(@PathVariable Long id, @RequestBody Transfer transfer) {
+        TransferDTO updatedTransfer = transferService.validateTransfer(id, transfer.getIsValid());
+        return new ResponseEntity<>(updatedTransfer, HttpStatus.OK);
     }
 }

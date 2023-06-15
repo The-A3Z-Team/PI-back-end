@@ -1,7 +1,9 @@
 package org.sid.paymentservice.services;
 
 import lombok.AllArgsConstructor;
+import org.sid.paymentservice.dtos.TransferDTO;
 import org.sid.paymentservice.entities.Transfer;
+import org.sid.paymentservice.mappers.TransferMapper;
 import org.sid.paymentservice.repositories.TransferRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,15 +17,16 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TransferServiceImpl implements TransferService {
     private TransferRepository transferRepository;
+    private TransferMapper transferMapper;
 
     @Override
-    public Transfer saveTransfer(Transfer transfer) {
+    public TransferDTO saveTransfer(Transfer transfer) {
         transfer.setDate(new Date());
-        return transferRepository.save(transfer);
+        return transferMapper.toTransferDTO(transferRepository.save(transfer));
     }
 
     @Override
-    public Transfer updateTransfer(Long id, Transfer transfer) {
+    public TransferDTO updateTransfer(Long id, Transfer transfer) {
         Optional<Transfer> optionalTransfer = transferRepository.findById(id);
 
         Transfer existingTransfer = optionalTransfer.get();
@@ -37,17 +40,17 @@ public class TransferServiceImpl implements TransferService {
 
         Transfer updatedTransfer = transferRepository.save(existingTransfer);
 
-        return updatedTransfer;
+        return transferMapper.toTransferDTO(updatedTransfer);
     }
 
     @Override
-    public List<Transfer> getTransfers() {
-        return transferRepository.findAll();
+    public List<TransferDTO> getTransfers() {
+        return transferMapper.toTransferDTOs(transferRepository.findAll());
     }
 
     @Override
-    public Transfer getTransferById(Long id) {
-        return transferRepository.findById(id).get();
+    public TransferDTO getTransferById(Long id) {
+        return transferMapper.toTransferDTO(transferRepository.findById(id).get());
     }
 
     @Override
@@ -58,11 +61,11 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public Transfer validateTransfer(Long id, Boolean isvalide) {
+    public TransferDTO validateTransfer(Long id, Boolean isvalide) {
         Optional<Transfer> optionalTransfer = transferRepository.findById(id);
         Transfer existingTransfer = optionalTransfer.get();
         existingTransfer.setIsValid(isvalide);
         Transfer updatedTransfer = transferRepository.save(existingTransfer);
-        return updatedTransfer;
+        return transferMapper.toTransferDTO(updatedTransfer);
     }
 }

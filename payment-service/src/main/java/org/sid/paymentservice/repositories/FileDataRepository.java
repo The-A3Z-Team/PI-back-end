@@ -1,6 +1,7 @@
-package org.sid.paymentservice.test_upload.respository;
+package org.sid.paymentservice.repositories;
 
-import org.sid.paymentservice.test_upload.entity.FileData;
+
+import org.sid.paymentservice.entities.FileData;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package org.sid.paymentservice.test_upload.util;
+package org.sid.paymentservice.util;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;
