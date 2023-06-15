@@ -19,6 +19,7 @@ public class TransferMapperImpl implements TransferMapper{
         transferDTO.setMontant(transfer.getMontant());
         transferDTO.setIdStudent(transfer.getIdStudent());
         transferDTO.setIdContinuingEducation(transfer.getIdContinuingEducation());
+        transferDTO.setIsValid(transfer.getIsValid());
         return transferDTO;
     }
 

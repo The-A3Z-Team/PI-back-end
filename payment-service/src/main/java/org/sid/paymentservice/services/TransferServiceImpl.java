@@ -62,6 +62,7 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public TransferDTO validateTransfer(Long id, Boolean isvalide) {
+        System.out.println(isvalide);
         Optional<Transfer> optionalTransfer = transferRepository.findById(id);
         Transfer existingTransfer = optionalTransfer.get();
         existingTransfer.setIsValid(isvalide);

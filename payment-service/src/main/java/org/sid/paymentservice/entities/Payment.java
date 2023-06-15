@@ -24,7 +24,6 @@ public class Payment {
     private Long idStudent;
     private Long idContinuingEducation;
 
-
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(20) DEFAULT 'NORMAL'")
     private PaymentProcess paymentProcess;

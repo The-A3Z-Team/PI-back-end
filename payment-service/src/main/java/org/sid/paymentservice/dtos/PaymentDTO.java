@@ -15,5 +15,8 @@ public class PaymentDTO {
     private float montant;
     private Long idStudent;
     private Long idContinuingEducation;
-    private Boolean isValid=false;
+    private Boolean isValid;
+    private Boolean isWithCash;
+    private Boolean isWithCheque;
+    private Boolean isWithTransfer;
 }

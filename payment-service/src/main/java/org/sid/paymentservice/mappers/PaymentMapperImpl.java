@@ -1,7 +1,10 @@
 package org.sid.paymentservice.mappers;
 
 import org.sid.paymentservice.dtos.PaymentDTO;
+import org.sid.paymentservice.entities.Cash;
+import org.sid.paymentservice.entities.Cheque;
 import org.sid.paymentservice.entities.Payment;
+import org.sid.paymentservice.entities.Transfer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +21,23 @@ public class PaymentMapperImpl implements PaymentMapper {
         paymentDTO.setMontant(payment.getMontant());
         paymentDTO.setIdStudent(payment.getIdStudent());
         paymentDTO.setIdContinuingEducation(payment.getIdContinuingEducation());
+        paymentDTO.setIsValid(payment.getIsValid());
+
+        if (payment instanceof Cheque) {
+            paymentDTO.setIsWithCheque(true);
+        }
+
+        if (payment instanceof Cash) {
+            paymentDTO.setIsWithCash(true);
+        }
+
+        if (payment instanceof Transfer) {
+            paymentDTO.setIsWithTransfer(true);
+        }
+
         return paymentDTO;
     }
+
 
     @Override
     public List<PaymentDTO> toPaymentDTOs(List<Payment> payments) {
