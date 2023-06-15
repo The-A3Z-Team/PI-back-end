@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Continuing extends Education{
     private Boolean isContinue;
-    private Long education_price;
+    private double education_price;
 
     @JsonIgnore
     @OneToMany(mappedBy = "continuing")

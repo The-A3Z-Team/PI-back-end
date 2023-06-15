@@ -31,6 +31,7 @@ public class ContinuingServiceImpl implements ContinuingService {
         existingContinuing.setEducation_price(continuingDTO.getEducation_price());
         existingContinuing.setDiploma(continuingDTO.getDiploma());
         existingContinuing.setDuration(continuingDTO.getDuration());
+        existingContinuing.setEducation_price(continuingDTO.getEducation_price());
 
         Continuing updatedContinuing = continuingRepository.save(existingContinuing);
         return continuingMapper.fromContinuing(updatedContinuing);

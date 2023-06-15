@@ -364,4 +364,23 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Failed to fetch education for student: " + user.getUsername());
         }
     }
+
+    public Map<Double, Double> getPaymentStateOfStudent(Long idStudent) throws UserNotFoundException {
+        List<PaymentDTO> paymentDTOS = getPaymentsByUser(idStudent);
+        EducationDTO educationDTO = getEducationOfStudent(idStudent);
+        Double educationPrice = educationDTO.getEducation_price();
+        Map map=new HashMap<>();
+        map.put("payments sum",calculatePaymentsSolde(paymentDTOS));
+        map.put("continuing education price",educationDTO.getEducation_price());
+        return new HashMap<>(map);
+    }
+
+    private Double calculatePaymentsSolde(List<PaymentDTO> payments) {
+        double paymentsSolde = 0.00;
+        for (PaymentDTO payment : payments) {
+            paymentsSolde += payment.getMontant();
+        }
+
+        return paymentsSolde;
+    }
 }

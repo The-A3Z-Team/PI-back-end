@@ -41,6 +41,7 @@ public class EducationServiceApplication {
             continuing1.setDescription("BDCC education");
             continuing1.setDiploma("BDCC master");
             continuing1.setStart_date(new Date(9534425));
+            continuing1.setEducation_price(64784.54);
             continuingRepository.save(continuing1);
 
             // Continuing Education 2
@@ -50,6 +51,7 @@ public class EducationServiceApplication {
             continuing2.setDescription("AI education");
             continuing2.setDiploma("AI master");
             continuing2.setStart_date(new Date(9764425));
+            continuing1.setEducation_price(88888);
             continuingRepository.save(continuing2);
 
             // Department 1

@@ -31,7 +31,7 @@ public class PaymentServiceApplication {
 		return args -> {
 			Transfer transfer=new Transfer();
 			transfer.setDate(new Date(2006 - 1900, 6, 8)); // July 8th, 2006
-			transfer.setMontant(8945);
+			transfer.setMontant(700);
 			transfer.setIdStudent(Long.valueOf(1));
 			transfer.setIdContinuingEducation(Long.valueOf(1));
 			transfer.setPaymentProcess(PaymentProcess.NORMAL);
@@ -39,7 +39,7 @@ public class PaymentServiceApplication {
 
 			Cash cash=new Cash();
 			cash.setDate(new Date(2008 - 1900, 8, 7)); // September 7th, 2008
-			cash.setMontant(897546);
+			cash.setMontant(700);
 			cash.setIdStudent(Long.valueOf(1));
 			cash.setIdContinuingEducation(Long.valueOf(1));
 			cash.setPaymentProcess(PaymentProcess.NORMAL);
@@ -47,7 +47,7 @@ public class PaymentServiceApplication {
 
 			Cheque cheque=new Cheque();
 			cheque.setDate(new Date(2011 - 1900, 6, 8)); // July 8th, 2011
-			cheque.setMontant(8745);
+			cheque.setMontant(700);
 			cheque.setIdStudent(Long.valueOf(1));
 			cheque.setIdContinuingEducation(Long.valueOf(1));
 			cheque.setPaymentProcess(PaymentProcess.NORMAL);

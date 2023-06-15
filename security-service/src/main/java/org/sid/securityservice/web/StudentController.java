@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -106,5 +107,10 @@ public class StudentController {
     public ResponseEntity<List<PaymentDTO>> getPaymentsByUser(@PathVariable Long id) throws UserNotFoundException {
         List<PaymentDTO> paymentDTOS = userService.getPaymentsByUser(id);
         return ResponseEntity.ok(paymentDTOS);
+    }
+
+    @GetMapping("/student/{idStudent}/payment_status")
+    public Map<Double, Double> getPaymentStateOfStudent(@PathVariable Long idStudent) throws UserNotFoundException {
+        return userService.getPaymentStateOfStudent(idStudent);
     }
 }

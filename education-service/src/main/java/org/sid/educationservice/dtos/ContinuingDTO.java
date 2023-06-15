@@ -15,5 +15,5 @@ public class ContinuingDTO {
     private int duration;
     private String description;
     private String diploma;
-    private Long education_price;
+    private double education_price;
 }

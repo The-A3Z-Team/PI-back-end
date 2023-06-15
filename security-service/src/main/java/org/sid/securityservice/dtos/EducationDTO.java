@@ -15,4 +15,5 @@ public class EducationDTO {
     private int duration;
     private String description;
     private String diploma;
+    private double education_price;
 }

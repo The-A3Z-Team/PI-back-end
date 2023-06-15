@@ -7,6 +7,7 @@ import org.sid.securityservice.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface UserService {
@@ -27,4 +28,5 @@ public interface UserService {
     EducationDTO getEducationOfStudent(Long id) throws UserNotFoundException;
     List<PaymentDTO> getPaymentsByUser(Long id) throws UserNotFoundException;
     List<UserResponseDTO> findAllWithoutStudentRoleSorted();
+    Map<Double, Double> getPaymentStateOfStudent(Long idStudent) throws UserNotFoundException;
 }
