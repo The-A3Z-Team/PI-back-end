@@ -4,7 +4,6 @@ import org.sid.securityservice.dtos.UserDTO;
 import org.sid.securityservice.entities.User;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class UserDTOMapperImpl implements UserDTOMapper {
     @Override
@@ -23,6 +22,11 @@ public class UserDTOMapperImpl implements UserDTOMapper {
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
+        userDTO.setRole(String.valueOf(user.getRoles().stream().findFirst().orElse(null).getName()));
+        userDTO.setIdMajorOfStudent(user.getIdMajorOfStudent());
+        userDTO.setIdEducationOfStudent(user.getIdEducationOfStudent());
+        userDTO.setIdHeadOfDepartementManagerOfStudent(user.getIdHeadOfDepartementManagerOfStudent());
+        userDTO.setIdMajorOfHeadOfDepartement(user.getIdMajorOfHeadOfDepartement());
         return userDTO;
     }
 
@@ -42,6 +46,10 @@ public class UserDTOMapperImpl implements UserDTOMapper {
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
+        user.setIdMajorOfStudent(userDTO.getIdMajorOfStudent());
+        user.setIdEducationOfStudent(userDTO.getIdEducationOfStudent());
+        user.setIdHeadOfDepartementManagerOfStudent(userDTO.getIdHeadOfDepartementManagerOfStudent());
+        user.setIdMajorOfHeadOfDepartement(userDTO.getIdMajorOfHeadOfDepartement());
         return user;
     }
 }

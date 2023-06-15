@@ -70,7 +70,7 @@ public class StudentController {
 
     @PostMapping("/student")
     public ResponseEntity<UserResponseDTO> saveStudent(@RequestBody UserDTO userDTO) throws RoleNotFoundException {
-        UserResponseDTO savedUser = userService.saveUser(userDTO, String.valueOf(ERole.STUDENT));
+        UserResponseDTO savedUser = userService.saveUser(userDTO, "STUDENT");
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
