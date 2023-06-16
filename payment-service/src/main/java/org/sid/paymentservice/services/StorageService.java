@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
@@ -60,6 +61,11 @@ public class StorageService {
             return image.getImageData();
         }
         return null;
+    }
+
+    public byte[] getImageData(String imageName) throws IOException {
+        Path imagePath = Paths.get("uploads", imageName); // Assuming the images are stored in the "uploads" directory
+        return Files.readAllBytes(imagePath);
     }
 
     // Other methods...

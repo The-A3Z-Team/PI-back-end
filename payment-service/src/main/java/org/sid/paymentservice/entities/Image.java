@@ -21,6 +21,7 @@ public class Image {
 
     private String name;
     private String type;
+    private String imagePath;
 
     @Lob
     @Column(name = "image_data")

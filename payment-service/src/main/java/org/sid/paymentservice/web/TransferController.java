@@ -14,7 +14,9 @@ import org.sid.paymentservice.repositories.TransferRepository;
 import org.sid.paymentservice.services.StorageService;
 import org.sid.paymentservice.services.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -151,4 +153,27 @@ public class TransferController {
         TransferDTO updatedTransfer = transferService.validateTransfer(id, transfer.getIsValid());
         return new ResponseEntity<>(updatedTransfer, HttpStatus.OK);
     }
+
+    @GetMapping("/{transferId}/recue/image")
+    public ResponseEntity<byte[]> getRecueImageByTransferId(@PathVariable Long transferId) {
+        Optional<Recue> optionalRecue = recueRepository.getRecueByTransferId(transferId);
+        if (optionalRecue.isPresent()) {
+            Recue recue = optionalRecue.get();
+            Image image = recue.getImage();
+
+            try {
+                byte[] imageData = storageService.getImageData(image.getName()); // Pass the image name
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.IMAGE_PNG); // Set the appropriate content type
+
+                return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
 }
